@@ -114,6 +114,7 @@ model Order {
   approvals       Approval[]
   productionQueue ProductionQueue[]
   history         OrderHistory[]
+  customizations  Customization[]
 }
 
 model OrderItem {
@@ -156,4 +157,17 @@ model OrderHistory {
   status    OrderStatus
   changedAt DateTime   @default(now())
   changedBy String?
+}
+
+model Customization {
+  id             String   @id @default(uuid())
+  orderId        String
+  order          Order    @relation(fields: [orderId], references: [id])
+  filename       String
+  originalPath   String   @db.VarChar(500)
+  thumbnailPath  String   @db.VarChar(500)
+  compressedPath String   @db.VarChar(500)
+  comment        String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 }

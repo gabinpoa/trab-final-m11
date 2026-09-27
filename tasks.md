@@ -54,6 +54,17 @@
 - ✅ Implementar compensação em caso de falha
 - ✅ Implementar transações de banco de dados
 
+#### Fase 8: Upload de Personalizações
+- ✅ Implementar middleware de upload com Multer
+- ✅ Implementar validação de MIME type real
+- ✅ Implementar validação de tamanho (máx 10MB)
+- ✅ Implementar validação de resolução (300dpi)
+- ✅ Implementar sanitização de paths
+- ✅ Implementar estrutura hierárquica de storage
+- ✅ Implementar geração de thumbnails
+- ✅ Implementar compressão de imagens
+- ✅ Implementar middleware de autenticação para arquivos
+
 ### ⏳ Em Progresso
 - Nenhuma fase em progresso
 

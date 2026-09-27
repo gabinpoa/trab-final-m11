@@ -14,8 +14,8 @@ Este projeto é uma aplicação monolítica modular desenvolvida em Node.js com 
 - ✅ **Saga de Pedidos**: Orquestração transacional com compensação automática
 - ✅ **Integrações Externas**: ViaCEP (frete) e BrasilAPI (feriados) com circuit breaker
 - ✅ **Gerenciamento de Fotos**: Upload, validação e serving público
+- ✅ **Upload de Personalizações**: Validação de MIME type, tamanho, resolução, thumbnails e compressão
 - ✅ **Operacional**: Health check, graceful shutdown, logging estruturado
-- 🚧 **Upload de Personalizações**: Em desenvolvimento
 - 🚧 **Fluxo de Aprovação**: Em desenvolvimento
 - 🚧 **Produção e Rastreamento**: Em desenvolvimento
 - 🚧 **Frontend**: Em desenvolvimento
@@ -206,7 +206,7 @@ Em caso de falha em qualquer passo:
 | Fase 5 | Integrações Externas | ✅ Concluída |
 | Fase 6 | Domínio de Pedidos - Parte 1 | ✅ Concluída |
 | Fase 7 | Domínio de Pedidos - Parte 2 (Saga) | ✅ Concluída |
-| Fase 8 | Upload de Personalizações | 🚧 Pendente |
+| Fase 8 | Upload de Personalizações | ✅ Concluída |
 | Fase 9 | Fluxo de Aprovação | 🚧 Pendente |
 | Fase 10 | Domínio de Produção | 🚧 Pendente |
 | Fase 11 | Geração de QR Code | 🚧 Pendente |
@@ -242,6 +242,13 @@ Em caso de falha em qualquer passo:
 - `GET /orders/my` - Pedidos do usuário atual
 - `GET /orders/:id` - Detalhes do pedido
 - `PATCH /orders/:id/status` - Atualizar status (admin)
+
+### Personalizações
+- `POST /customizations/:orderId` - Upload de personalização
+- `GET /customizations/:id` - Detalhes da personalização
+- `GET /customizations/order/:orderId` - Personalizações do pedido
+- `DELETE /customizations/:id` - Deletar personalização
+- `GET /uploads/customizations/:orderId/{type}/{filename}` - Servir arquivo (autenticado)
 
 ### Documentação
 - `GET /api-docs` - Swagger UI
