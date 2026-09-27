@@ -290,36 +290,54 @@ Cada agente tem convenções específicas detalhadas em seus respectivos arquivo
 ## Fluxo de Trabalho sem Acesso Direto ao GitHub
 
 ### Contexto
-Quando não há acesso direto ao GitHub/GitLab na máquina de desenvolvimento, usar processo de transferência manual.
+Quando não há acesso direto ao GitHub/GitLab na máquina de desenvolvimento, usar processo de merge local sequencial.
 
-### Processo Adaptado
+### Processo Adaptado: Merge Local Sequencial
 
 #### Na Máquina de Desenvolvimento (Devin)
-1. **Trabalhar em branches locais** seguindo o padrão SDD
+1. **Cada agente trabalha em branch específica** seguindo padrão SDD
 2. **Fazer commits locais** com mensagens descritivas
-3. **Manter branches separadas** por agente/fase
-4. **NÃO fazer push** (sem acesso direto)
+3. **Quando agente terminar**: fazer merge local (branch → master)
+4. **Próximo agente trabalha** no master atualizado
+5. **Repetir para todos os agentes** seguindo ordem SDD
+6. **Apenas uma transferência no final** para GitHub
 
-#### Transferência para Outra Máquina
+#### Exemplo de Fluxo Completo
+```bash
+# 1. PO trabalha
+git checkout -b spec/fotos-produtos
+# PO faz commits...
+# PO termina: merge local
+git checkout master
+git merge spec/fotos-produtos
+git branch -d spec/fotos-produtos
+
+# 2. Architect trabalha (no master atualizado)
+git checkout -b arch/fotos-produtos
+# Architect faz commits...
+# Architect termina: merge local
+git checkout master
+git merge arch/fotos-produtos
+git branch -d arch/fotos-produtos
+
+# 3. Repetir para DevOps, Dev, QA...
+
+# 4. Transferência final
+# Zipar repositório → transferir → push master
+```
+
+#### Transferência Final para GitHub
 1. **Zipar repositório completo** (incluindo .git)
 2. **Transferir para máquina com acesso GitHub**
-3. **Descompactar e verificar branches**
-4. **Fazer push das branches** para GitHub
-
-#### Na Máquina com Acesso GitHub
-1. **Criar Pull Requests** para cada branch
-2. **Fazer merge** seguindo ordem do SDD
-3. **Resolver conflitos** se necessário
-4. **Pull atualizações** do master
-
-#### Retorno para Máquina de Desenvolvimento
-1. **Zipar repositório atualizado** (com merges)
-2. **Transferir de volta** para máquina Devin
-3. **Descompactar e continuar trabalho
+3. **Descompactar**
+4. **Push do master atualizado**:
+```bash
+git push origin master
+```
 
 ### Coordenação de Branches
-- Manter `BRANCH_STATUS.md` atualizado com status das branches
-- Seguir ordem SDD para merge: spec → arch → ops → backend → test
-- Consultar `MERGE_PROCESS.md` para instruções detalhadas de merge manual
+- Manter `BRANCH_STATUS.md` atualizado com progresso dos agentes
+- Seguir ordem SDD para merge local: spec → arch → ops → backend → test
+- Consultar `MERGE_PROCESS.md` para instruções detalhadas de merge local sequencial
 
 Consulte os arquivos específicos para detalhes de cada papel.

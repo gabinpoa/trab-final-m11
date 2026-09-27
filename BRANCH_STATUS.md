@@ -1,12 +1,16 @@
-# Status das Branches
+# Status dos Agentes e Progresso
 
-## Branches Pendentes de Merge
-- Nenhuma branch pendente de merge
+## Progresso Atual do Ciclo SDD
+- **PO**: ✅ Concluído (limpeza de escopo já está no master)
+- **Architect**: ⏳ Pronto para iniciar (se necessário)
+- **DevOps**: ⏳ Pronto para iniciar (se necessário)
+- **Dev**: ⏳ Pronto para iniciar (se necessário)
+- **QA**: ⏳ Pronto para iniciar (se necessário)
 
-## Branches em Desenvolvimento
-- Nenhuma branch em desenvolvimento ativo
+## Branches Ativas
+- Nenhuma branch ativa no momento
 
-## Histórico de Merges Recentes
+## Histórico de Merges Locais Recentes
 - [x] feat(agents): add DevOps agent and refine agent scopes (master)
 - [x] chore(project): remove duplicate IDE folders (master)
 - [x] chore(git): update .gitignore to exclude duplicate IDE folders (master)
@@ -14,11 +18,12 @@
 - [x] refactor(arch): remove DevOps scope from architectural plan (master)
 
 ## Próximos Passos
-1. Iniciar trabalho do Architect em nova branch (se necessário)
-2. Iniciar trabalho do DevOps em nova branch
-3. Continuar ciclo SDD
+1. Iniciar trabalho do próximo agente (se necessário)
+2. Seguir fluxo de merge local sequencial
+3. Ao completar ciclo SDD, transferir e fazer push
 
 ## Notas
-- Branch `spec/remover-conteudo-tecnico-escopo-po` foi analisada e está alinhada com master
-- Os commits de limpeza de escopo já estão no master
-- Sistema está pronto para continuar com novos trabalhos seguindo o fluxo adaptado
+- Sistema configurado para merge local sequencial
+- Cada agente trabalha em branch específica, merge local, próximo agente continua no master atualizado
+- Apenas uma transferência no final do ciclo completo
+- Consultar MERGE_PROCESS.md para instruções detalhadas

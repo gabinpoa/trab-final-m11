@@ -84,21 +84,21 @@ Atua no ciclo após o Arquiteto e antes do Desenvolvedor:
 ### Processo de Branch e Commit
 1. **Criar branch específica** seguindo padrão: `ops/nome-da-feature`
 2. **Fazer commits locais** com mensagens descritivas seguindo conventional commits
-3. **Manter branch ativa** até que seja transferida e mergeada
+3. **Manter branch ativa** até que o usuário faça merge local
 4. **NÃO tentar fazer push** (sem acesso direto ao GitHub)
 
-### Quando Solicitar Merge
+### Quando Solicitar Merge Local
 - Após completar trabalho na branch
-- Informar ao usuário que branch está pronta para transferência
-- Aguardar instruções para processo de zip/transferência
-- Continuar trabalho em master ou nova branch após retorno
+- Informar ao usuário que branch está pronta para merge local
+- Aguardar instruções para merge local (branch → master)
+- Continuar trabalho em master ou nova branch após merge
 
 ### Coordenação com Outros Agentes
-- Verificar se branches anteriores (spec/*, arch/*) foram mergeadas antes de começar
+- Verificar se está trabalhando no master atualizado (após merges do PO e Architect)
 - Basear trabalho na versão mais recente do master
 - Informar sobre dependências de branches do PO e Architect
 
-**Para processo de merge manual, consulte MERGE_PROCESS.md**
+**Para processo de merge local sequencial, consulte MERGE_PROCESS.md**
 
 ## Referência
 Para detalhes completos do ciclo SDD e responsabilidades de todos os agentes, consulte `SDD_CYCLE.md`.

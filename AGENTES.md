@@ -73,17 +73,17 @@ Basta clonar o repositório e usar os arquivos `.md` na raiz para iniciar conver
 
 ## Fluxo de Trabalho Adaptado
 
-### Sem Acesso Direto ao GitHub
-1. **Agentes trabalham em branches locais**
-2. **Fazem commits locais** com mensagens descritivas
-3. **Informam quando branch está pronta**
-4. **Usuário faz transferência manual** para máquina com GitHub
-5. **Cria PRs e faz merge** seguindo ordem SDD
-6. **Retorna repositório atualizado** para continuar trabalho
+### Sem Acesso Direto ao GitHub (Merge Local Sequencial)
+1. **Cada agente trabalha em branch específica**
+2. **Faz commits locais** com mensagens descritivas
+3. **Quando termina**: usuário faz merge local (branch → master)
+4. **Próximo agente trabalha** no master atualizado
+5. **Repete ciclo** para todos os agentes (PO → Architect → DevOps → Dev → QA)
+6. **No final**: transfere repositório UMA vez e faz push
 
 ### Coordenação
-- Manter branches separadas por agente
-- Seguir ordem do SDD para merge
-- Resolver conflitos durante processo de transferência
+- Seguir ordem SDD para merge local sequencial
+- Cada agente trabalha no master atualizado pelo anterior
+- Apenas uma transferência no final do ciclo completo
 - Consultar `MERGE_PROCESS.md` para instruções detalhadas
-- Manter `BRANCH_STATUS.md` atualizado com status das branches
+- Manter `BRANCH_STATUS.md` atualizado com progresso dos agentes
