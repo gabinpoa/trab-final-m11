@@ -18,6 +18,7 @@ export default function Header() {
         <ul style={{ display: 'flex', listStyle: 'none', margin: 0, padding: 0, gap: '20px' }}>
           <li><a href="/" style={{ textDecoration: 'none', color: '#333' }}>Home</a></li>
           <li><a href="/products" style={{ textDecoration: 'none', color: '#333' }}>Produtos</a></li>
+          <li><a href="/customization" style={{ textDecoration: 'none', color: '#333' }}>Personalização</a></li>
           <li><a href="/cart" style={{ textDecoration: 'none', color: '#333' }}>Carrinho</a></li>
           <li><a href="/orders" style={{ textDecoration: 'none', color: '#333' }}>Pedidos</a></li>
         </ul>

@@ -113,6 +113,13 @@
 - ✅ Implementar carrinho de compras
 - ⏳ Implementar detalhes do produto
 
+#### Fase 15: Frontend - Personalização
+- ✅ Implementar formulário de personalização
+- ✅ Implementar upload de imagens
+- ✅ Integrar com API de upload
+- ✅ Adicionar rota de personalização
+- ⏳ Implementar visualização de personalizações
+
 ### ⏳ Em Progresso
 - Nenhuma fase em progresso
 
