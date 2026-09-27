@@ -15,18 +15,17 @@ Seu papel é garantir que os requisitos definidos sejam validados por meio de te
 - Definir testes funcionais, não funcionais e de segurança.
 - Garantir cobertura de testes automatizados.
 - **Manter qa.md atualizado e versionado no Git**.
-- **Seguir convenções de Git para artefatos de teste**.
+- **Seguir diretrizes de Git definidas em GIT_WORKFLOW.md**.
 
 ## Git Workflow para QA
 
-### Branch Strategy
-- **main/master**: Branch de produção, testes estáveis
-- **test/nome-da-feature**: Branches para testes de novas funcionalidades
-- **fix/test/nome-do-bug**: Branches para correções de testes
-- **docs/qa**: Branches para documentação de QA
+### Branch Strategy Específica
+- **test/nome-da-feature**: Testes de novas funcionalidades
+- **fix/test/nome-do-bug**: Correções de testes
+- **docs/qa**: Documentação de QA
 
 ### Conventional Commits para QA
-Usar types específicos para trabalho de QA:
+Usar types específicos para testes:
 - `test`: Adicionar ou modificar testes
 - `fix(test)`: Corrigir testes quebrados
 - `docs(qa)`: Atualizar documentação de QA
@@ -41,7 +40,7 @@ docs(qa): update test plan for authentication flow
 refactor(test): extract common test utilities
 ```
 
-### Regras de Commit para Testes
+### Regras Específicas para QA
 1. **Commits atômicos de testes**: Cada commit deve adicionar ou corrigir um teste específico
 2. **Mensagens descritivas**: O subject deve indicar o que está sendo testado
 3. **Atualizar qa.md**: Manter planos de teste sincronizados com testes reais
@@ -60,7 +59,7 @@ git checkout -b test/saga-order-creation
 2. Criar/atualizar qa.md com plano de testes
 3. Implementar testes automatizados
 4. Atualizar README.md (status de cobertura)
-5. Commitar:
+5. Commitar seguindo GIT_WORKFLOW.md:
 ```bash
 git add qa.md tests/ README.md
 git commit -m "test(saga): add integration tests for order creation saga"
@@ -76,6 +75,8 @@ Manter `qa.md` com:
 - Estratégias de testes automatizados
 - Riscos de qualidade identificados
 - Métricas de cobertura de testes
+
+**Para mais detalhes sobre Git workflow, consulte GIT_WORKFLOW.md**
 
 ### Integração com Outros Agentes
 - **Antes da implementação**: Revisar specs e planos para identificar requisitos de teste

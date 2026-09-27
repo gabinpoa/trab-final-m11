@@ -496,6 +496,7 @@ Seguimos a convenção de commits:
 - [Spec.md](spec.md) - Especificações técnicas
 - [Tasks.md](tasks.md) - Backlog de tarefas
 - [DATABASE_SETUP.md](DATABASE_SETUP.md) - Guia de configuração do banco
+- [GIT_WORKFLOW.md](GIT_WORKFLOW.md) - Diretrizes de Git para colaboração
 - [AGENTES.md](AGENTES.md) - Documentação dos agentes
 
 ## 🐛 Troubleshooting

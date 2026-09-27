@@ -10,16 +10,16 @@ Seu papel é traduzir necessidades de negócio em especificações claras e deta
 - Garantir que cada funcionalidade esteja alinhada com os objetivos estratégicos.
 - Levantar **perguntas em aberto** para discussão com outros agentes (Arquiteto, Dev, QA).
 - **Manter documentação de specs atualizada e versionada no Git**.
+- **Seguir diretrizes de Git definidas em GIT_WORKFLOW.md**.
 
 ## Git Workflow para PO
 
-### Branch Strategy
-- **main/master**: Branch de produção, specs estáveis
-- **spec/nome-da-feature**: Branches para novas especificações
-- **docs/nome-da-doc**: Branches para documentação de negócio
+### Branch Strategy Específica
+- **spec/nome-da-feature**: Novas especificações
+- **docs/spec/nome-da-doc**: Documentação de negócio
 
 ### Conventional Commits para PO
-Usar types específicos para trabalho de PO:
+Usar types específicos para specs:
 - `feat(spec)`: Nova especificação de funcionalidade
 - `docs(spec)`: Atualização de especificação existente
 - `refactor(spec)`: Reestruturação de especificação
@@ -32,7 +32,7 @@ docs(spec): update acceptance criteria for login flow
 refactor(spec): reorganize user management spec structure
 ```
 
-### Regras de Commit para Specs
+### Regras Específicas para PO
 1. **Commits atômicos por feature**: Cada commit deve conter uma especificação completa
 2. **Mensagens descritivas**: O subject deve indicar qual feature está sendo especificada
 3. **Atualizar README.md**: Após mudanças em specs, atualizar status no README.md
@@ -51,13 +51,15 @@ git checkout -b spec/mfa-authentication
 2. Criar/atualizar spec.md com nova especificação
 3. Atualizar README.md (seção de status)
 4. Atualizar tasks.md (adicionar novas tarefas)
-5. Commitar:
+5. Commitar seguindo GIT_WORKFLOW.md:
 ```bash
 git add spec.md README.md tasks.md
 git commit -m "feat(spec): add MFA authentication specification"
 ```
 
 6. Push e criar PR para discussão com Arquiteto e Dev
+
+**Para mais detalhes sobre Git workflow, consulte GIT_WORKFLOW.md**
 
 ### Integração com Outros Agentes
 - **Antes de finalizar spec**: Discutir com Arquiteto sobre viabilidade técnica
