@@ -15,8 +15,40 @@ export const logger = pino({
       }
     : undefined,
   serializers: {
-    error: pino.stdSerializers.err,
+    err: pino.stdSerializers.err,
+  },
+  // Base context para logs estruturados (requisito do DevOps)
+  baseData: {
+    env: process.env.NODE_ENV || 'development',
   },
 });
+
+// Middleware para adicionar request ID ao contexto (requisito do DevOps)
+export const requestLogger = (req: any, res: any, next: any) => {
+  const requestId = (req.headers['x-request-id'] as string) || Math.random().toString(36).substring(7);
+  req.requestId = requestId;
+  
+  logger.info({
+    requestId,
+    method: req.method,
+    url: req.url,
+    ip: req.ip,
+  }, 'Incoming request');
+  
+  // Log de resposta
+  const originalSend = res.send;
+  res.send = function (data) {
+    res.send = originalSend;
+    logger.info({
+      requestId,
+      method: req.method,
+      url: req.url,
+      statusCode: res.statusCode,
+    }, 'Request completed');
+    originalSend.call(this, data);
+  };
+  
+  next();
+};
 
 export default logger;

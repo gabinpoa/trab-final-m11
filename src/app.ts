@@ -1,6 +1,7 @@
 import express, { Application } from 'express';
 import { config } from './shared/config/env';
 import logger from './shared/utils/logger';
+import prisma from './shared/config/database';
 import authRoutes from './domains/auth/routes';
 import inventoryRoutes from './domains/inventory/routes';
 import catalogRoutes from './domains/catalog/routes';
@@ -26,9 +27,27 @@ app.use('/materials', inventoryRoutes);
 app.use('/products', catalogRoutes);
 app.use('/orders', orderRoutes);
 
-// Health check
-app.get('/health', (_req, res) => {
-  res.json({ status: 'ok', timestamp: new Date().toISOString() });
+// Health check (requisito do DevOps para monitoramento)
+app.get('/health', async (_req, res) => {
+  try {
+    // Verificar conexão com banco de dados
+    await prisma.$queryRaw`SELECT 1`;
+    
+    res.json({
+      status: 'ok',
+      timestamp: new Date().toISOString(),
+      database: 'connected',
+      uptime: process.uptime(),
+    });
+  } catch (error) {
+    logger.error({ error }, 'Health check failed');
+    res.status(503).json({
+      status: 'degraded',
+      timestamp: new Date().toISOString(),
+      database: 'disconnected',
+      uptime: process.uptime(),
+    });
+  }
 });
 
 // 404 handler

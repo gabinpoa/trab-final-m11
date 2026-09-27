@@ -64,6 +64,26 @@
 - Fase 11: Geração de QR Code
 - Fases 12-18: Frontend
 - Fase 19: Testes e QA
+- Fase 20: DevOps e Produção
+
+## Notas sobre o Ciclo SDD
+
+O projeto segue o ciclo Spec Driven Development (SDD) atualizado:
+1. **Product Owner (PO)** → `spec.md` (requisitos de negócio)
+2. **Arquiteto** → `plan.md` (decisões técnicas e tecnologias)
+3. **DevOps** → `devops.md` (infraestrutura de deploy, CI/CD, monitoramento)
+4. **Desenvolvedor (Dev)** → `tasks.md` (implementação de código)
+5. **QA** → `qa.md` (planos de teste)
+
+Para detalhes completos do ciclo SDD e responsabilidades, consulte `SDD_CYCLE.md`.
+
+**Nota para Dev**: Ao implementar, considere as restrições operacionais definidas em `devops.md` (ex: storage limitado a 100MB, app sleep após 15min, cache local sem Redis).
+- Fase 8: Upload de Personalizações
+- Fase 9: Fluxo de Aprovação
+- Fase 10: Domínio de Produção
+- Fase 11: Geração de QR Code
+- Fases 12-18: Frontend
+- Fase 19: Testes e QA
 
 ## Backlog
 
