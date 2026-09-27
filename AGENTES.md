@@ -70,3 +70,20 @@ Cada agente tem responsabilidades claras e limites de escopo definidos em `SDD_C
 ## Para Colegas
 
 Basta clonar o repositório e usar os arquivos `.md` na raiz para iniciar conversas com cada agente. Consulte `SDD_CYCLE.md` para entender o ciclo completo e responsabilidades.
+
+## Fluxo de Trabalho Adaptado
+
+### Sem Acesso Direto ao GitHub
+1. **Agentes trabalham em branches locais**
+2. **Fazem commits locais** com mensagens descritivas
+3. **Informam quando branch está pronta**
+4. **Usuário faz transferência manual** para máquina com GitHub
+5. **Cria PRs e faz merge** seguindo ordem SDD
+6. **Retorna repositório atualizado** para continuar trabalho
+
+### Coordenação
+- Manter branches separadas por agente
+- Seguir ordem do SDD para merge
+- Resolver conflitos durante processo de transferência
+- Consultar `MERGE_PROCESS.md` para instruções detalhadas
+- Manter `BRANCH_STATUS.md` atualizado com status das branches

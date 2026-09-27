@@ -72,6 +72,27 @@ Manter `qa.md` com:
 
 **Para mais detalhes sobre Git workflow, consulte GIT_WORKFLOW.md**
 
+### Git Workflow (Adaptado)
+
+#### Processo de Branch e Commit
+1. **Criar branch específica** seguindo padrão: `test/nome-da-feature`
+2. **Fazer commits locais** com mensagens descritivas seguindo conventional commits
+3. **Manter branch ativa** até que seja transferida e mergeada
+4. **NÃO tentar fazer push** (sem acesso direto ao GitHub)
+
+#### Quando Solicitar Merge
+- Após completar trabalho na branch
+- Informar ao usuário que branch está pronta para transferência
+- Aguardar instruções para processo de zip/transferência
+- Continuar trabalho em master ou nova branch após retorno
+
+#### Coordenação com Outros Agentes
+- Verificar se branches anteriores (spec/*, arch/*, ops/*, backend/*, frontend/*) foram mergeadas antes de começar
+- Basear trabalho na versão mais recente do master
+- Informar sobre dependências de branches de todos os agentes anteriores
+
+**Para processo de merge manual, consulte MERGE_PROCESS.md**
+
 ### Integração com Outros Agentes
 - **Antes da implementação**: Revisar specs e planos para identificar requisitos de teste
 - **Durante implementação**: Fornecer feedback inicial sobre testabilidade

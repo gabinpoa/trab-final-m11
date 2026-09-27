@@ -287,4 +287,39 @@ Cada agente tem convenções específicas detalhadas em seus respectivos arquivo
 - **Dev-agent.md**: Convenções para implementação (feat, fix, refactor)
 - **QA-agent.md**: Convenções para testes (test, fix(test), docs(qa))
 
+## Fluxo de Trabalho sem Acesso Direto ao GitHub
+
+### Contexto
+Quando não há acesso direto ao GitHub/GitLab na máquina de desenvolvimento, usar processo de transferência manual.
+
+### Processo Adaptado
+
+#### Na Máquina de Desenvolvimento (Devin)
+1. **Trabalhar em branches locais** seguindo o padrão SDD
+2. **Fazer commits locais** com mensagens descritivas
+3. **Manter branches separadas** por agente/fase
+4. **NÃO fazer push** (sem acesso direto)
+
+#### Transferência para Outra Máquina
+1. **Zipar repositório completo** (incluindo .git)
+2. **Transferir para máquina com acesso GitHub**
+3. **Descompactar e verificar branches**
+4. **Fazer push das branches** para GitHub
+
+#### Na Máquina com Acesso GitHub
+1. **Criar Pull Requests** para cada branch
+2. **Fazer merge** seguindo ordem do SDD
+3. **Resolver conflitos** se necessário
+4. **Pull atualizações** do master
+
+#### Retorno para Máquina de Desenvolvimento
+1. **Zipar repositório atualizado** (com merges)
+2. **Transferir de volta** para máquina Devin
+3. **Descompactar e continuar trabalho
+
+### Coordenação de Branches
+- Manter `BRANCH_STATUS.md` atualizado com status das branches
+- Seguir ordem SDD para merge: spec → arch → ops → backend → test
+- Consultar `MERGE_PROCESS.md` para instruções detalhadas de merge manual
+
 Consulte os arquivos específicos para detalhes de cada papel.

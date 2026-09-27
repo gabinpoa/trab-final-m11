@@ -98,6 +98,27 @@ Implementar Saga Pattern com orquestração e compensação automática.
 
 **Para mais detalhes sobre Git workflow, consulte GIT_WORKFLOW.md**
 
+### Git Workflow (Adaptado)
+
+#### Processo de Branch e Commit
+1. **Criar branch específica** seguindo padrão: `arch/nome-da-feature`
+2. **Fazer commits locais** com mensagens descritivas seguindo conventional commits
+3. **Manter branch ativa** até que seja transferida e mergeada
+4. **NÃO tentar fazer push** (sem acesso direto ao GitHub)
+
+#### Quando Solicitar Merge
+- Após completar trabalho na branch
+- Informar ao usuário que branch está pronta para transferência
+- Aguardar instruções para processo de zip/transferência
+- Continuar trabalho em master ou nova branch após retorno
+
+#### Coordenação com Outros Agentes
+- Verificar se branches anteriores (spec/*) foram mergeadas antes de começar
+- Basear trabalho na versão mais recente do master
+- Informar sobre dependências de branches do PO
+
+**Para processo de merge manual, consulte MERGE_PROCESS.md**
+
 ### Integração com Outros Agentes
 - **Antes de decidir**: Discutir com PO sobre impacto no negócio
 - **Durante implementação**: Orientar Dev sobre padrões e boas práticas
