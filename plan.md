@@ -30,9 +30,9 @@ Implementar uma plataforma monolítica modular para gestão de pedidos de produt
 - **Strategy Pattern**: Cálculo de prazos dinâmicos baseado em diferentes fatores
 
 ### Segurança
-- **JWT**: Tokens com expiração de 1 hora, refresh token opcional
-- **RBAC**: Middleware de autorização baseado em roles (Admin/User)
-- **Idempotência**: Header obrigatório com armazenamento em cache Redis ou memória
+- **Autenticação**: Sistema de autenticação com tokens de expiração de 1 hora
+- **Autorização**: Middleware de autorização baseado em roles (Admin/User)
+- **Prevenção de Duplicação**: Header obrigatório com armazenamento em cache Redis ou memória
 - **Validação de Upload**: Verificação de MIME type real, não apenas extensão
 - **Sanitização de Paths**: Prevenção de path traversal em uploads
 
