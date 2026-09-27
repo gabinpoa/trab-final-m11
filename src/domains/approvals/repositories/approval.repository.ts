@@ -6,6 +6,7 @@ export class ApprovalRepository {
     orderId: string;
     status: ApprovalStatus;
     approvedBy?: string;
+    approvedAt?: Date;
     rejectionReason?: string;
   }): Promise<Approval> {
     return prisma.approval.create({
