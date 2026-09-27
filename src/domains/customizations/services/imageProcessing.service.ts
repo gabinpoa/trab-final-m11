@@ -46,7 +46,7 @@ export class ImageProcessingService {
       }
 
       // Comprimir baseado no formato
-      if (metadata.format === 'jpeg' || metadata.format === 'jpg') {
+      if (metadata.format === 'jpeg') {
         await sharp(imagePath)
           .jpeg({ quality })
           .toFile(outputPath);
@@ -71,7 +71,7 @@ export class ImageProcessingService {
    * Obter metadados de uma imagem
    * @param imagePath Caminho da imagem
    */
-  static async getImageMetadata(imagePath: string): Promise<sharp.Metadata> {
+  static async getImageMetadata(imagePath: string): Promise<any> {
     try {
       return await sharp(imagePath).metadata();
     } catch (error) {
