@@ -290,7 +290,7 @@ npm run format           # Formata código com Prettier
 
 ## 🔧 Configuração de Banco de Dados
 
-### Usando Podman/Docker
+### Opção 1: Usando Podman/Docker (Recomendado)
 
 ```bash
 # Iniciar containers
@@ -306,15 +306,167 @@ podman-compose logs -f
 podman-compose down
 ```
 
-### Banco de Dados Local
+### Opção 2: Usando Docker
 
-Se preferir usar PostgreSQL localmente:
+Se você tiver Docker em vez de Podman:
 
-1. Instale PostgreSQL 14+
-2. Crie o banco `ecommerce`
-3. Configure `DATABASE_URL` no `.env`
-4. Rode `npx prisma db push`
-5. Rode `npm run prisma:seed`
+```bash
+# Iniciar containers
+docker-compose up -d
+
+# Verificar status
+docker-compose ps
+
+# Ver logs
+docker-compose logs -f
+
+# Parar containers
+docker-compose down
+```
+
+### Opção 3: PostgreSQL Local (Sem Containers)
+
+Se você não tiver Podman ou Docker instalado, pode usar PostgreSQL localmente:
+
+#### Windows
+
+1. **Instale PostgreSQL**
+   - Baixe o instalador em https://www.postgresql.org/download/windows/
+   - Execute o instalador e siga as instruções
+   - Anote a senha que você definir para o usuário `postgres`
+
+2. **Crie o banco de dados**
+   ```bash
+   # Abra o SQL Shell (psql) do PostgreSQL
+   # Entre com a senha do usuário postgres
+   CREATE DATABASE ecommerce;
+   \q
+   ```
+
+3. **Configure o .env**
+   ```env
+   DATABASE_URL="postgresql://postgres:SUA_SENHA@localhost:5432/ecommerce?schema=public"
+   ```
+
+4. **Sincronize o schema**
+   ```bash
+   npm run prisma:generate
+   npx prisma db push
+   ```
+
+5. **Popule com dados iniciais**
+   ```bash
+   npm run prisma:seed
+   ```
+
+#### macOS
+
+1. **Instale PostgreSQL via Homebrew**
+   ```bash
+   brew install postgresql@14
+   brew services start postgresql@14
+   ```
+
+2. **Crie o banco de dados**
+   ```bash
+   createdb ecommerce
+   ```
+
+3. **Configure o .env**
+   ```env
+   DATABASE_URL="postgresql://$(whoami)@localhost:5432/ecommerce?schema=public"
+   ```
+
+4. **Sincronize o schema**
+   ```bash
+   npm run prisma:generate
+   npx prisma db push
+   ```
+
+5. **Popule com dados iniciais**
+   ```bash
+   npm run prisma:seed
+   ```
+
+#### Linux (Ubuntu/Debian)
+
+1. **Instale PostgreSQL**
+   ```bash
+   sudo apt update
+   sudo apt install postgresql postgresql-contrib
+   sudo systemctl start postgresql
+   ```
+
+2. **Crie o banco de dados**
+   ```bash
+   sudo -u postgres createdb ecommerce
+   ```
+
+3. **Configure o .env**
+   ```env
+   DATABASE_URL="postgresql://postgres@localhost:5432/ecommerce?schema=public"
+   ```
+
+4. **Sincronize o schema**
+   ```bash
+   npm run prisma:generate
+   npx prisma db push
+   ```
+
+5. **Popule com dados iniciais**
+   ```bash
+   npm run prisma:seed
+   ```
+
+### Opção 4: Serviço Gerenciado de Banco de Dados
+
+Para produção ou desenvolvimento sem gerenciar o banco localmente, você pode usar serviços gerenciados:
+
+- **Supabase** (gratuito para desenvolvimento)
+- **Neon** (PostgreSQL serverless)
+- **Railway** (PostgreSQL gerenciado)
+- **AWS RDS** (produção)
+
+**Exemplo com Supabase:**
+1. Crie uma conta em https://supabase.com
+2. Crie um novo projeto
+3. Copie a connection string do dashboard
+4. Configure no `.env`:
+   ```env
+   DATABASE_URL="postgresql://postgres:[password]@db.[project-id].supabase.co:5432/postgres"
+   ```
+5. Sincronize o schema:
+   ```bash
+   npm run prisma:generate
+   npx prisma db push
+   ```
+
+### Redis (Opcional)
+
+O Redis é opcional para cache e idempotência. O sistema funciona sem ele, mas perde essas funcionalidades.
+
+#### Com Podman/Docker
+Já está configurado no `docker-compose.yml`
+
+#### Localmente
+```bash
+# Windows
+# Baixe e instale de https://redis.io/download
+
+# macOS
+brew install redis
+brew services start redis
+
+# Linux
+sudo apt install redis-server
+sudo systemctl start redis
+```
+
+Configure no `.env`:
+```env
+REDIS_HOST=localhost
+REDIS_PORT=6379
+```
 
 Para mais detalhes, veja [DATABASE_SETUP.md](DATABASE_SETUP.md)
 
