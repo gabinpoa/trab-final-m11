@@ -50,11 +50,14 @@ export const validateOrderId = (req: Request, res: Response, next: NextFunction)
     return;
   }
 
+  // Tratar caso onde orderId pode ser array
+  const orderIdStr = Array.isArray(orderId) ? orderId[0] : orderId;
+
   try {
     // Verificar se o order ID contém path traversal
-    const normalized = path.normalize(orderId);
+    const normalized = path.normalize(orderIdStr);
     
-    if (normalized !== orderId) {
+    if (normalized !== orderIdStr) {
       res.status(400).json({
         message: 'Invalid order ID. Path traversal is not allowed.',
       });
@@ -63,7 +66,7 @@ export const validateOrderId = (req: Request, res: Response, next: NextFunction)
 
     // Verificar se o order ID contém caracteres perigosos
     const dangerousChars = ['..', '/', '\\', '\0'];
-    const hasDangerousChars = dangerousChars.some(char => orderId.includes(char));
+    const hasDangerousChars = dangerousChars.some(char => orderIdStr.includes(char));
     
     if (hasDangerousChars) {
       res.status(400).json({

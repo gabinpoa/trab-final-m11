@@ -34,7 +34,7 @@ const validateMimeType = (filePath: string, declaredMime: string): boolean => {
 };
 
 // Função para validar resolução de imagem (mínimo 300dpi)
-const validateImageResolution = async (filePath: string): Promise<boolean> => {
+const validateImageResolutionInternal = async (filePath: string): Promise<boolean> => {
   try {
     const metadata = await sharp(filePath).metadata();
     
@@ -97,7 +97,7 @@ export const validateImageResolution = async (req: Request, res: Response, next:
   }
 
   try {
-    const isValid = await validateImageResolution(file.path);
+    const isValid = await validateImageResolutionInternal(file.path);
     
     if (!isValid) {
       // Remover arquivo com resolução insuficiente

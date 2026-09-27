@@ -8,6 +8,11 @@ import { sanitizeFilename } from '../middlewares/sanitization.middleware';
 import { validateOrderId } from '../middlewares/sanitization.middleware';
 import logger from '../../../shared/utils/logger';
 
+// Interface para Request com requestId
+interface CustomRequest extends Request {
+  requestId?: string;
+}
+
 export class CustomizationController {
   private service: CustomizationService;
 
@@ -25,14 +30,15 @@ export class CustomizationController {
     validateFileSize,
     validateMimeTypeReal,
     validateImageResolution,
-    async (req: Request, res: Response) => {
+    async (req: CustomRequest, res: Response): Promise<void> => {
       try {
         const file = req.file as Express.Multer.File;
         
         if (!file) {
-          return res.status(400).json({
+          res.status(400).json({
             message: 'No file uploaded',
           });
+          return;
         }
 
         const { orderId } = req.params;
@@ -75,9 +81,10 @@ export class CustomizationController {
 
         if (error instanceof Error) {
           if (error.message === 'Order not found') {
-            return res.status(404).json({
+            res.status(404).json({
               message: 'Order not found',
             });
+            return;
           }
         }
 
@@ -92,16 +99,17 @@ export class CustomizationController {
   /**
    * Buscar personalização por ID
    */
-  findById = async (req: Request, res: Response) => {
+  findById = async (req: CustomRequest, res: Response): Promise<void> => {
     try {
       const { id } = req.params;
 
       const customization = await this.service.findById(id);
 
       if (!customization) {
-        return res.status(404).json({
+        res.status(404).json({
           message: 'Customization not found',
         });
+        return;
       }
 
       res.json(customization);
@@ -120,7 +128,7 @@ export class CustomizationController {
   /**
    * Buscar personalizações por pedido
    */
-  findByOrderId = async (req: Request, res: Response) => {
+  findByOrderId = async (req: CustomRequest, res: Response): Promise<void> => {
     try {
       const { orderId } = req.params;
 
@@ -142,7 +150,7 @@ export class CustomizationController {
   /**
    * Deletar personalização
    */
-  delete = async (req: Request, res: Response) => {
+  delete = async (req: CustomRequest, res: Response): Promise<void> => {
     try {
       const { id } = req.params;
 
@@ -157,9 +165,10 @@ export class CustomizationController {
 
       if (error instanceof Error) {
         if (error.message === 'Customization not found') {
-          return res.status(404).json({
+          res.status(404).json({
             message: 'Customization not found',
           });
+          return;
         }
       }
 
