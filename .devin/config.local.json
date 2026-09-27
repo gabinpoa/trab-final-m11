@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Exec(podman-compose up)",
+      "Exec(podman-compose ps)",
+      "Exec(npm test)",
+      "Exec(podman logs)"
+    ]
+  }
+}

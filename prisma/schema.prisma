@@ -1,0 +1,159 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Enums
+enum OrderStatus {
+  pending
+  approved
+  in_production
+  shipped
+  delivered
+  cancelled
+}
+
+enum ProductionStage {
+  pending
+  printing
+  cutting
+  assembly
+  quality_check
+  packaging
+  shipped
+}
+
+enum ApprovalStatus {
+  pending
+  approved
+  rejected
+}
+
+// Models
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  name      String
+  roleId    String
+  role      Role     @relation(fields: [roleId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  orders    Order[]
+}
+
+model Role {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  permissions String[]
+  users       User[]
+}
+
+model Category {
+  id        String    @id @default(uuid())
+  name      String    @unique
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  products  Product[]
+}
+
+model Product {
+  id          String    @id @default(uuid())
+  name        String
+  description String?
+  price       Decimal
+  complexity  Int       @default(1)
+  imageUrl    String    @db.VarChar(500)
+  categoryId  String
+  category    Category  @relation(fields: [categoryId], references: [id])
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  orderItems  OrderItem[]
+}
+
+model Material {
+  id                 String              @id @default(uuid())
+  name               String
+  quantity           Int
+  minLevel           Int                 @default(20)
+  version            Int                 @default(0)
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+  reservations       MaterialReservation[]
+}
+
+model MaterialReservation {
+  id         String   @id @default(uuid())
+  materialId String
+  material   Material @relation(fields: [materialId], references: [id])
+  orderId    String
+  order      Order    @relation(fields: [orderId], references: [id])
+  quantity   Int
+  createdAt  DateTime @default(now())
+}
+
+model Order {
+  id              String              @id @default(uuid())
+  userId          String
+  user            User                @relation(fields: [userId], references: [id])
+  status          OrderStatus         @default(pending)
+  total           Decimal
+  freight         Decimal?
+  deliveryDate    DateTime?
+  createdAt       DateTime            @default(now())
+  updatedAt       DateTime            @updatedAt
+  items           OrderItem[]
+  reservations    MaterialReservation[]
+  approvals       Approval[]
+  productionQueue ProductionQueue[]
+  history         OrderHistory[]
+}
+
+model OrderItem {
+  id        String  @id @default(uuid())
+  orderId   String
+  order     Order   @relation(fields: [orderId], references: [id])
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+  quantity  Int
+  price     Decimal
+}
+
+model Approval {
+  id              String         @id @default(uuid())
+  orderId         String
+  order           Order          @relation(fields: [orderId], references: [id])
+  status          ApprovalStatus @default(pending)
+  approvedBy      String?
+  approvedAt      DateTime?
+  rejectionReason String?
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+}
+
+model ProductionQueue {
+  id         String         @id @default(uuid())
+  orderId    String
+  order      Order          @relation(fields: [orderId], references: [id])
+  stage      ProductionStage @default(pending)
+  startedAt  DateTime?
+  completedAt DateTime?
+  createdAt  DateTime       @default(now())
+  updatedAt  DateTime       @updatedAt
+}
+
+model OrderHistory {
+  id        String     @id @default(uuid())
+  orderId   String
+  order     Order      @relation(fields: [orderId], references: [id])
+  status    OrderStatus
+  changedAt DateTime   @default(now())
+  changedBy String?
+}
