@@ -120,6 +120,13 @@
 - ✅ Adicionar rota de personalização
 - ⏳ Implementar visualização de personalizações
 
+#### Fase 16: Frontend - Pedidos
+- ✅ Implementar listagem de pedidos
+- ✅ Implementar detalhes do pedido
+- ✅ Implementar geração de QR Code
+- ✅ Integrar com API de pedidos
+- ⏳ Implementar criação de pedido
+
 ### ⏳ Em Progresso
 - Nenhuma fase em progresso
 
