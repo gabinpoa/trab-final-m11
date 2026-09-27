@@ -7,6 +7,7 @@ import ProductsPage from './pages/ProductsPage';
 import CartPage from './pages/CartPage';
 import OrdersPage from './pages/OrdersPage';
 import CustomizationPage from './pages/CustomizationPage';
+import TrackingPage from './pages/TrackingPage';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
@@ -29,6 +30,7 @@ function App() {
         <Route path="/cart" element={<ProtectedRoute><CartPage /></ProtectedRoute>} />
         <Route path="/orders" element={<ProtectedRoute><OrdersPage /></ProtectedRoute>} />
         <Route path="/customization" element={<ProtectedRoute><CustomizationPage /></ProtectedRoute>} />
+        <Route path="/tracking" element={<TrackingPage />} />
       </Routes>
     </BrowserRouter>
   );

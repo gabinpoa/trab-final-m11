@@ -127,6 +127,13 @@
 - ✅ Integrar com API de pedidos
 - ⏳ Implementar criação de pedido
 
+#### Fase 17: Frontend - Rastreamento
+- ✅ Implementar página de rastreamento público
+- ✅ Integrar com API de rastreamento
+- ✅ Mostrar informações completas do pedido
+- ✅ Mostrar histórico de alterações
+- ✅ Adicionar rota pública de rastreamento
+
 ### ⏳ Em Progresso
 - Nenhuma fase em progresso
 
