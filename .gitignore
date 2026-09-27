@@ -47,3 +47,4 @@ prisma/migrations/
 # Temporary files
 tmp/
 temp/
+zip-git-files.bat
