@@ -5,10 +5,10 @@
 - **Architect**: ✅ Concluído (alinhou terminologia de segurança, merge local realizado)
 - **DevOps**: ⏳ Pronto para iniciar (se necessário)
 - **Dev**: ✅ Concluído (implementou Fase 8: Upload de Personalizações, merge local realizado)
-- **QA**: 🔄 Em progresso (implementando testes para Fase 8: Upload de Personalizações)
+- **QA**: ✅ Concluído (implementou testes para Fase 8: Upload de Personalizações, branch pronta para merge local)
 
 ## Branches Ativas
-- **test/customizations-upload**: QA implementando testes para upload de personalizações
+- **test/customizations-upload**: QA implementou testes para upload de personalizações (61/61 testes passando)
 
 ## Histórico de Merges Locais Recentes
 - [x] refactor(git): change to sequential local merge strategy for GitHub-less workflow (master)
@@ -21,11 +21,10 @@
 - [x] feat(customizations): implement upload of customizations (Fase 8) (master)
 
 ## Próximos Passos
-1. QA completar testes para Fase 8
-2. QA fazer merge local (test/customizations-upload → master)
-3. Avaliar necessidade de DevOps (se necessário)
-4. Seguir fluxo de merge local sequencial
-5. Ao completar ciclo SDD, transferir e fazer push
+1. QA fazer merge local (test/customizations-upload → master)
+2. Avaliar necessidade de DevOps (se necessário)
+3. Seguir fluxo de merge local sequencial
+4. Ao completar ciclo SDD, transferir e fazer push
 
 ## Notas
 - Sistema configurado para merge local sequencial
