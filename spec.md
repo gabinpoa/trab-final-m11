@@ -1,16 +1,14 @@
 # Spec: Plataforma de E-commerce para Produtos Personalizados
 
 ## Contexto
-O sistema é uma plataforma de gestão de pedidos para uma loja de produtos sob demanda (personalizados). O catálogo exibe produtos genéricos (camisetas, canecas, etc.) com fotos do produto base ou estampas genéricas. Cada produto deve ter pelo menos uma foto cadastrada. Quando o cliente faz um pedido, ele deve enviar uma imagem personalizada (JPG, PNG, WEBP, PDF) que será aplicada como estampa no produto escolhido, além de um comentário descritivo.
+O sistema é uma plataforma de gestão de pedidos para uma loja de produtos sob demanda (personalizados). O catálogo exibe produtos genéricos (camisetas, canecas, etc.) com fotos do produto base ou estampas genéricas. Cada produto deve ter pelo menos uma foto cadastrada. Quando o cliente faz um pedido, ele deve enviar uma imagem personalizada que será aplicada como estampa no produto escolhido, além de um comentário descritivo.
 
-Atualmente, o foco está no fluxo de compra, permitindo seleção de itens do catálogo, upload da personalização, e consolidação de dados de entrega e frete de forma transparente para o usuário final. O sistema possui autenticação JWT com dois papéis (Admin e User) e integração com API externa de endereços (ViaCEP) para cálculo de frete.
-
-Para diferenciar o projeto e demonstrar conceitos avançados do módulo de APIs, deseja-se adicionar funcionalidades que tornem o sistema menos genérico e mais alinhado à realidade de produção sob demanda.
+Atualmente, o foco está no fluxo de compra, permitindo seleção de itens do catálogo, upload da personalização, e consolidação de dados de entrega e frete de forma transparente para o usuário final. O sistema possui autenticação com dois papéis (Admin e User) e integração com API externa de endereços para cálculo de frete.
 
 ## Objetivo
 Evoluir a plataforma para incluir gestão completa do ciclo de produção de produtos personalizados, desde a aprovação do design até o envio ao cliente, com controle de estoque de insumos, fila de produção organizada, prazos dinâmicos e rastreabilidade do pedido.
 
-**Escopo MVP (Primeira Iteração):** Foco nas funcionalidades essenciais para validar o modelo de negócio, com tecnologia simplificada (storage local) e entregas incrementais.
+**Escopo MVP (Primeira Iteração):** Foco nas funcionalidades essenciais para validar o modelo de negócio.
 
 ## Requisitos Funcionais
 
@@ -65,26 +63,25 @@ Evoluir a plataforma para incluir gestão completa do ciclo de produção de pro
 - Informações visíveis: status atual, etapa de produção, previsão de entrega
 - Acesso público (sem autenticação) via QR Code
 
-### 9. Autenticação e RBAC (Existente)
-- Login com JWT para Admin e User
+### 9. Autenticação e Controle de Acesso
+- Sistema de autenticação para Admin e User
 - Admin: visualiza todos os pedidos, altera status
 - User: cria pedidos, visualiza apenas próprio histórico
 
-### 10. Integração ViaCEP (Existente)
-- BFF consome API de endereços no checkout
+### 10. Integração com API de Endereços
+- Sistema integra com API de endereços no checkout
 - Extrai Cidade e UF do CEP informado
 - Calcula frete e prazo com base no estado
-- Retorna objeto consolidado ao frontend
+- Retorna informações consolidadas ao usuário
 
-### 11. Idempotência (Existente)
-- Rota POST /pedidos exige header Idempotency-Key
-- Previne duplicação de pedidos em retry/falha de rede
-- Reconhecimento de chave já processada
+### 11. Prevenção de Duplicação
+- Sistema previne duplicação de pedidos em caso de retry/falha de rede
+- Reconhecimento de requisições já processadas
 
-### 12. Resiliência (Existente)
-- Timeout na comunicação com API ViaCEP
-- Retry com Exponential Backoff para erros 5xx
-- Tratamento com Try/Catch e erro padronizado
+### 12. Resiliência em Integrações Externas
+- Timeout na comunicação com APIs externas
+- Retentativa automática em caso de falhas temporárias
+- Tratamento de erros com mensagens claras ao usuário
 
 ### 13. Upload de Personalização
 - Cliente envia imagem da estampa desejada ao criar pedido
@@ -109,8 +106,6 @@ Evoluir a plataforma para incluir gestão completa do ciclo de produção de pro
 
 ### Performance
 - Resposta da API de pedidos em menos de 500ms (p95)
-- Cálculo de prazos dinâmicos em menos de 200ms
-- Geração de QR Code em menos de 100ms
 - Upload de imagem de personalização em menos de 3s (até 10MB)
 - Upload de foto de produto em menos de 2s (até 5MB)
 
@@ -125,14 +120,12 @@ Evoluir a plataforma para incluir gestão completa do ciclo de produção de pro
 - Logs de auditoria para mudanças de status de pedidos
 
 ### Escalabilidade
-- Fila de produção suporta até 10.000 pedidos simultâneos
-- Estoque com controle concorrente (lock otimista)
-- Cache de dados de catálogo de produtos
+- Sistema deve suportar até 10.000 pedidos simultâneos
+- Sistema deve suportar múltiplos usuários concorrentes
 
 ### Manutenibilidade
-- Código modularizado por domínio (pedidos, produção, estoque)
-- Documentação de API (Swagger/OpenAPI) atualizada
-- Logs estruturados para troubleshooting
+- Sistema deve permitir troubleshooting eficiente
+- Logs de auditoria para mudanças críticas
 
 ## Critérios de Aceitação
 
@@ -227,119 +220,42 @@ Evoluir a plataforma para incluir gestão completa do ciclo de produção de pro
 - [ ] Fotos são armazenadas na pasta `uploads/products/`
 - [ ] Sistema rejeita produtos sem foto no cadastro
 
-## Arquitetura Técnica (MVP)
-
-### Stack Tecnológica
-- **Backend**: Node.js + TypeScript + Express/Fastify
-- **Frontend**: React + TypeScript + Vite
-- **Banco de Dados**: PostgreSQL ou MySQL
-- **Storage**: Sistema de arquivos local (pasta `uploads/`)
-  - `uploads/products/` - Fotos do catálogo (JPG, PNG, WEBP, máx 5MB)
-  - `uploads/customizations/` - Personalizações de clientes (JPG, PNG, WEBP, PDF, máx 10MB)
-- **Autenticação**: JWT (jsonwebtoken)
-- **Documentação**: Swagger/OpenAPI (swagger-ui-express)
-- **Upload**: Multer (para arquivos locais)
-- **QR Code**: qrcode ou similar
-
-### Estrutura de Projetos
-```
-/
-├── backend/              # Node.js + TypeScript
-│   ├── src/
-│   │   ├── controllers/  # Controladores de API
-│   │   ├── services/     # Lógica de negócio
-│   │   ├── models/       # Modelos de dados
-│   │   ├── middleware/   # JWT, idempotência, upload
-│   │   ├── routes/       # Definição de rotas
-│   │   └── utils/        # Utilitários (QR Code, ViaCEP)
-│   ├── uploads/          # Storage local de imagens
-│   │   ├── products/     # Fotos dos produtos do catálogo
-│   │   └── customizations/ # Imagens de personalização enviadas por clientes
-│   └── package.json
-├── frontend/             # React + TypeScript
-│   ├── src/
-│   │   ├── components/   # Componentes React
-│   │   ├── pages/        # Páginas da aplicação
-│   │   ├── services/     # Chamadas à API
-│   │   └── types/        # Tipos TypeScript
-│   └── package.json
-└── spec.md               # Esta especificação
-```
-
-### Endpoints Principais (MVP)
-- `POST /auth/login` - Autenticação
-- `GET /produtos` - Listar catálogo
-- `POST /produtos` - Criar produto (admin, com upload de foto)
-- `PATCH /produtos/:id/foto` - Atualizar foto do produto (admin)
-- `POST /pedidos` - Criar pedido (com upload de imagem de personalização)
-- `GET /pedidos` - Listar pedidos (RBAC)
-- `PATCH /pedidos/:id/aprovar` - Aprovar design (cliente)
-- `PATCH /pedidos/:id/status` - Alterar status (admin)
-- `GET /pedidos/:id/qrcode` - Gerar QR Code
-- `GET /rastreamento/:codigo` - Consulta pública via QR Code
-
 ## Escopo MVP (Primeira Iteração)
 
 ### Priorização do MVP (MoSCoW)
 
 **Must Have (Obrigatório para MVP):**
-- Autenticação JWT (Admin/User)
-- Catálogo de produtos com fotos (listagem)
-- Upload de personalização (imagem + comentário, storage local)
-- Criação de pedido (com idempotência)
-- Integração ViaCEP (cálculo de frete)
-- Fluxo de aprovação (cliente aprova design)
-- Fila de produção básica (admin move entre etapas)
+- Autenticação de usuários (Admin/User)
+- Catálogo de produtos com fotos
+- Upload de personalização (imagem + comentário)
+- Criação de pedidos
+- Cálculo de frete baseado em endereço
+- Fluxo de aprovação de design
+- Fila de produção básica
 - QR Code de acompanhamento
-- Histórico de pedidos (RBAC)
+- Histórico de pedidos
 
 **Should Have (Importante, pode ser v2):**
-- Validação avançada de imagens (resolução, qualidade)
-- Sistema de notificações (email/push)
+- Validação avançada de imagens
+- Sistema de notificações
 - Dashboard de métricas para admin
 - Edição de pedido antes da aprovação
 
 **Could Have (Desejável, futuro):**
-- Controle completo de estoque de insumos
+- Controle completo de estoque
 - Reserva automática de materiais
-- Saga completa com compensação
 - Prazo de produção dinâmico
 - API de feriados
 
 **Won't Have (Fora do escopo atual):**
-- Sistema de fila avançado (RabbitMQ/Kafka)
-- Storage em nuvem (S3/Cloud Storage)
-- Microserviços
-- Pagamento online (gateway de pagamento)
+- Pagamento online
 - Avaliação e comentários de produtos
-- Múltiplas fotos por produto (apenas uma principal no MVP)
-- Redimensionamento automático/thumbnails de fotos
-
-### Simplificações do MVP
-- Storage local em vez de S3
-- Monolito modular em vez de microserviços
-- Cálculo de frete simplificado (sem prazos dinâmicos complexos)
-- Fila de produção sem priorização automática
-- Sem controle concorrente avançado de estoque
-- Imagens armazenadas sem otimização avançada
-- Apenas uma foto por produto (sem galeria múltipla)
-- Fotos de produtos sem redimensionamento automático
+- Múltiplas fotos por produto
 
 ## Restrições
 
-### Técnicas
-- Backend: Node.js com TypeScript
-- Frontend: React
-- Banco de dados relacional (PostgreSQL ou MySQL)
-- APIs RESTful com documentação OpenAPI/Swagger
-- Storage de imagens: Sistema de arquivos local (pasta uploads/)
-  - `uploads/products/` para fotos do catálogo
-  - `uploads/customizations/` para personalizações de clientes
-- MVP: Foco em funcionalidades essenciais, sem microserviços
-
 ### De Negócio
 - Prazo máximo de produção: 15 dias úteis
-- Estoque mínimo de insumos: 20 unidades por tipo
 - Tempo máximo de aprovação pelo cliente: 7 dias
 - Pedidos não aprovados após 7 dias são cancelados automaticamente
 - Tamanho máximo de imagem de personalização: 10MB
@@ -349,12 +265,6 @@ Evoluir a plataforma para incluir gestão completa do ciclo de produção de pro
 - Imagens devem ter resolução mínima de 300dpi para qualidade de impressão
 - Cada produto deve ter pelo menos uma foto no cadastro
 
-### De Tempo
-- MVP: 4 semanas de desenvolvimento
-- Entrega incremental a cada 2 semanas
-- Testes de aceitação na semana 4
-- Iterações futuras para funcionalidades avançadas
-
 ## Perguntas em Aberto
 
 ### Para o Arquiteto
@@ -363,43 +273,24 @@ Evoluir a plataforma para incluir gestão completa do ciclo de produção de pro
 - Como será a estrutura do monolito modular (separação por domínio)?
 - Qual estratégia de organização dos arquivos locais de upload?
 
-### Para o Desenvolvedor
-- Qual biblioteca de geração de QR Code será utilizada?
-- Como será implementado o cálculo de complexidade da personalização?
-- Qual será a estratégia de cache para dados de catálogo?
-- Como será o versionamento da API?
-- Como será organizada a estrutura de pastas para uploads locais?
-- Como será o processamento/otimização das imagens enviadas (MVP)?
-- Qual será a estratégia de validação de conteúdo das imagens?
-- Como será o gerenciamento de fotos de produtos vs personalizações?
-- Qual será a estratégia de redimensionamento/thumbnails para fotos de produtos?
-
-### Para o QA
-- Quais cenários de teste para a saga de criação de pedido?
-- Como simular falhas da API ViaCEP nos testes?
-- Qual estratégia de testes para concorrência no estoque?
-- Como testar o cálculo de prazos dinâmicos?
-- Como validar upload de diferentes formatos de imagem?
-- Como testar validação de tamanho e resolução de imagens?
-- Como simular falhas no upload de arquivos?
-- Como validar que produtos não podem ser cadastrados sem foto?
-- Como testar exibição correta das fotos no catálogo?
+### Para o DevOps
+- Qual plataforma de deploy será utilizada?
+- Como será configurado o pipeline CI/CD?
+- Qual estratégia de backup do banco de dados?
+- Como será implementado o rollback manual?
+- Como será o gerenciamento de variáveis de ambiente em produção?
+- Qual estratégia de monitoramento e alertas?
+- Como será o gerenciamento de storage de arquivos em produção?
+- Qual será a estratégia de health checks?
 
 ### Para o Negócio
 - Quais serão as regras de frete por estado?
 - Qual a complexidade permitida por tipo de produto?
-- Quais insumos são críticos e devem ter estoque maior?
 - O cliente poderá editar o design após aprovação inicial?
 - Qual será a política de retenção das imagens enviadas?
 - Por quanto tempo as imagens devem ser armazenadas após entrega?
 - Qual será a política de qualidade das fotos dos produtos (resolução mínima)?
 - Será permitido múltiplas fotos por produto ou apenas uma principal?
-
-### Para o DevOps
-- Como será o deploy em ambiente de produção?
-- Qual estratégia de monitoramento e alertas?
-- Como será o backup do banco de dados?
-- Qual será a infraestrutura para alta disponibilidade?
 
 ## Histórias de Usuário Prioritárias (MVP)
 
@@ -451,12 +342,6 @@ Evoluir a plataforma para incluir gestão completa do ciclo de produção de pro
 ### Documentação
 - Documentação de API atualizada no Swagger/OpenAPI
 - README com instruções de setup e execução
-- Diagrama de arquitetura simplificado
-
-### Deploy
-- Deploy em ambiente de staging/local funcionando
-- Scripts de build e execução configurados
-- Variáveis de ambiente documentadas
 
 ### Qualidade
 - Testes de aceitação executados e aprovados
@@ -465,8 +350,3 @@ Evoluir a plataforma para incluir gestão completa do ciclo de produção de pro
 - Upload de fotos de produtos funcionando (< 2s para 5MB)
 - Validação de segurança básica (JWT, idempotência)
 - Validação de que produtos não podem ser cadastrados sem foto
-
-### Operação
-- Logs estruturados configurados
-- Tratamento de erros implementado
-- Storage local configurado e funcionando
