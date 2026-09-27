@@ -15,8 +15,8 @@ Este projeto é uma aplicação monolítica modular desenvolvida em Node.js com 
 - ✅ **Integrações Externas**: ViaCEP (frete) e BrasilAPI (feriados) com circuit breaker
 - ✅ **Gerenciamento de Fotos**: Upload, validação e serving público
 - ✅ **Upload de Personalizações**: Validação de MIME type, tamanho, resolução, thumbnails e compressão
+- ✅ **Fluxo de Aprovação**: Aprovação/rejeição de pedidos com histórico de alterações
 - ✅ **Operacional**: Health check, graceful shutdown, logging estruturado
-- 🚧 **Fluxo de Aprovação**: Em desenvolvimento
 - 🚧 **Produção e Rastreamento**: Em desenvolvimento
 - 🚧 **Frontend**: Em desenvolvimento
 
@@ -207,7 +207,7 @@ Em caso de falha em qualquer passo:
 | Fase 6 | Domínio de Pedidos - Parte 1 | ✅ Concluída |
 | Fase 7 | Domínio de Pedidos - Parte 2 (Saga) | ✅ Concluída |
 | Fase 8 | Upload de Personalizações | ✅ Concluída |
-| Fase 9 | Fluxo de Aprovação | 🚧 Pendente |
+| Fase 9 | Fluxo de Aprovação | ✅ Concluída |
 | Fase 10 | Domínio de Produção | 🚧 Pendente |
 | Fase 11 | Geração de QR Code | 🚧 Pendente |
 | Fases 12-18 | Frontend | 🚧 Pendente |
@@ -249,6 +249,13 @@ Em caso de falha em qualquer passo:
 - `GET /customizations/order/:orderId` - Personalizações do pedido
 - `DELETE /customizations/:id` - Deletar personalização
 - `GET /uploads/customizations/:orderId/{type}/{filename}` - Servir arquivo (autenticado)
+
+### Aprovações
+- `POST /approvals/:id/approve` - Aprovar pedido
+- `POST /approvals/:id/reject` - Rejeitar pedido
+- `GET /approvals/:id` - Detalhes da aprovação
+- `GET /approvals/order/:orderId` - Aprovações do pedido
+- `GET /approvals/history/:orderId` - Histórico de alterações do pedido
 
 ### Documentação
 - `GET /api-docs` - Swagger UI

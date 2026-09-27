@@ -65,11 +65,17 @@
 - ✅ Implementar compressão de imagens
 - ✅ Implementar middleware de autenticação para arquivos
 
+#### Fase 9: Fluxo de Aprovação
+- ✅ Implementar schema de aprovações (já existia no Prisma)
+- ✅ Implementar endpoints de aprovação/rejeição
+- ✅ Implementar histórico de alterações
+- ✅ Implementar registro automático de status
+- ⏳ Implementar notificações de status (WebSocket ou polling) - MVP pode usar polling simples
+
 ### ⏳ Em Progresso
 - Nenhuma fase em progresso
 
 ### 📋 Pendente
-- Fase 8: Upload de Personalizações
 - Fase 9: Fluxo de Aprovação
 - Fase 10: Domínio de Produção
 - Fase 11: Geração de QR Code

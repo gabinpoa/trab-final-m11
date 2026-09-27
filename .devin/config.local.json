@@ -4,7 +4,8 @@
       "Exec(podman-compose up)",
       "Exec(podman-compose ps)",
       "Exec(npm test)",
-      "Exec(podman logs)"
+      "Exec(podman logs)",
+      "Exec(git log)"
     ]
   }
 }
