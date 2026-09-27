@@ -8,6 +8,7 @@ import catalogRoutes from './domains/catalog/routes';
 import orderRoutes from './domains/orders/routes';
 import customizationRoutes from './domains/customizations/routes';
 import approvalRoutes from './domains/approvals/routes';
+import productionRoutes from './domains/production/routes';
 import path from 'path';
 
 const app: Application = express();
@@ -30,6 +31,7 @@ app.use('/products', catalogRoutes);
 app.use('/orders', orderRoutes);
 app.use('/customizations', customizationRoutes);
 app.use('/approvals', approvalRoutes);
+app.use('/production', productionRoutes);
 
 // Health check (requisito do DevOps para monitoramento)
 app.get('/health', async (_req, res) => {

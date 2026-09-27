@@ -16,8 +16,9 @@ Este projeto é uma aplicação monolítica modular desenvolvida em Node.js com 
 - ✅ **Gerenciamento de Fotos**: Upload, validação e serving público
 - ✅ **Upload de Personalizações**: Validação de MIME type, tamanho, resolução, thumbnails e compressão
 - ✅ **Fluxo de Aprovação**: Aprovação/rejeição de pedidos com histórico de alterações
+- ✅ **Domínio de Produção**: Fila de produção com etapas de manufatura e cálculo de tempo estimado
 - ✅ **Operacional**: Health check, graceful shutdown, logging estruturado
-- 🚧 **Produção e Rastreamento**: Em desenvolvimento
+- 🚧 **Geração de QR Code**: Em desenvolvimento
 - 🚧 **Frontend**: Em desenvolvimento
 
 ## 🛠️ Tecnologias
@@ -208,7 +209,7 @@ Em caso de falha em qualquer passo:
 | Fase 7 | Domínio de Pedidos - Parte 2 (Saga) | ✅ Concluída |
 | Fase 8 | Upload de Personalizações | ✅ Concluída |
 | Fase 9 | Fluxo de Aprovação | ✅ Concluída |
-| Fase 10 | Domínio de Produção | 🚧 Pendente |
+| Fase 10 | Domínio de Produção | ✅ Concluída |
 | Fase 11 | Geração de QR Code | 🚧 Pendente |
 | Fases 12-18 | Frontend | 🚧 Pendente |
 | Fase 19 | Testes e QA | 🚧 Pendente |
@@ -256,6 +257,14 @@ Em caso de falha em qualquer passo:
 - `GET /approvals/:id` - Detalhes da aprovação
 - `GET /approvals/order/:orderId` - Aprovações do pedido
 - `GET /approvals/history/:orderId` - Histórico de alterações do pedido
+
+### Produção
+- `POST /production/queue` - Criar entrada na fila de produção (admin)
+- `GET /production/queue` - Buscar toda a fila de produção (admin)
+- `GET /production/queue/:id` - Buscar fila de produção por ID (admin)
+- `GET /production/queue/stage/:stage` - Buscar fila por etapa (admin)
+- `PUT /production/queue/:id/stage` - Atualizar etapa de produção (admin)
+- `GET /production/queue/:id/estimated-time` - Calcular tempo estimado (admin)
 
 ### Documentação
 - `GET /api-docs` - Swagger UI

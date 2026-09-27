@@ -72,11 +72,20 @@
 - ✅ Implementar registro automático de status
 - ⏳ Implementar notificações de status (WebSocket ou polling) - MVP pode usar polling simples
 
+#### Fase 10: Domínio de Produção
+- ✅ Implementar schema de fila de produção (já existia no Prisma)
+- ✅ Implementar Repository Pattern para produção
+- ✅ Implementar Service Layer para produção
+- ✅ Implementar endpoints de gestão de fila
+- ✅ Implementar atualização de etapas de manufatura
+- ✅ Implementar validação de transições de estado
+- ✅ Implementar cálculo de tempo estimado
+- ⏳ Implementar bloqueio de edição após aprovação (pode ser implementado no frontend)
+
 ### ⏳ Em Progresso
 - Nenhuma fase em progresso
 
 ### 📋 Pendente
-- Fase 9: Fluxo de Aprovação
 - Fase 10: Domínio de Produção
 - Fase 11: Geração de QR Code
 - Fases 12-18: Frontend
