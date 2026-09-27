@@ -97,7 +97,15 @@
 - ✅ Configurar Axios para HTTP client
 - ⏳ Configurar React Hook Form + Zod
 - ⏳ Configurar biblioteca de UI (shadcn/ui)
-- ⏳ Configurar rotas com React Router
+- ✅ Configurar rotas com React Router
+
+#### Fase 13: Frontend - Autenticação
+- ✅ Implementar tela de login melhorada
+- ✅ Implementar tela de registro
+- ✅ Implementar componente Header com navegação
+- ✅ Integrar páginas com Header
+- ✅ Adicionar rota de registro
+- ⏳ Implementar contexto de autenticação
 
 ### ⏳ Em Progresso
 - Nenhuma fase em progresso
