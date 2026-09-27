@@ -82,11 +82,19 @@
 - ✅ Implementar cálculo de tempo estimado
 - ⏳ Implementar bloqueio de edição após aprovação (pode ser implementado no frontend)
 
+#### Fase 11: Geração de QR Code
+- ✅ Implementar biblioteca de geração de QR Code (qrcode)
+- ✅ Implementar endpoint de geração por pedido
+- ✅ Implementar armazenamento de QR Codes
+- ✅ Implementar cache em memória para evitar regeneração
+- ✅ Implementar URL de rastreamento
+- ✅ Implementar página de rastreamento (endpoint público)
+- ✅ Adicionar campo trackingCode ao schema Order
+
 ### ⏳ Em Progresso
 - Nenhuma fase em progresso
 
 ### 📋 Pendente
-- Fase 10: Domínio de Produção
 - Fase 11: Geração de QR Code
 - Fases 12-18: Frontend
 - Fase 19: Testes e QA

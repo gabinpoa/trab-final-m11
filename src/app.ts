@@ -9,6 +9,7 @@ import orderRoutes from './domains/orders/routes';
 import customizationRoutes from './domains/customizations/routes';
 import approvalRoutes from './domains/approvals/routes';
 import productionRoutes from './domains/production/routes';
+import qrcodeRoutes from './domains/qrcode/routes';
 import path from 'path';
 
 const app: Application = express();
@@ -32,6 +33,7 @@ app.use('/orders', orderRoutes);
 app.use('/customizations', customizationRoutes);
 app.use('/approvals', approvalRoutes);
 app.use('/production', productionRoutes);
+app.use('/qrcode', qrcodeRoutes);
 
 // Health check (requisito do DevOps para monitoramento)
 app.get('/health', async (_req, res) => {

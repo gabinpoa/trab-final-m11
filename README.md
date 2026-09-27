@@ -17,8 +17,8 @@ Este projeto é uma aplicação monolítica modular desenvolvida em Node.js com 
 - ✅ **Upload de Personalizações**: Validação de MIME type, tamanho, resolução, thumbnails e compressão
 - ✅ **Fluxo de Aprovação**: Aprovação/rejeição de pedidos com histórico de alterações
 - ✅ **Domínio de Produção**: Fila de produção com etapas de manufatura e cálculo de tempo estimado
+- ✅ **Geração de QR Code**: QR Codes para rastreamento com cache e página pública
 - ✅ **Operacional**: Health check, graceful shutdown, logging estruturado
-- 🚧 **Geração de QR Code**: Em desenvolvimento
 - 🚧 **Frontend**: Em desenvolvimento
 
 ## 🛠️ Tecnologias
@@ -210,7 +210,7 @@ Em caso de falha em qualquer passo:
 | Fase 8 | Upload de Personalizações | ✅ Concluída |
 | Fase 9 | Fluxo de Aprovação | ✅ Concluída |
 | Fase 10 | Domínio de Produção | ✅ Concluída |
-| Fase 11 | Geração de QR Code | 🚧 Pendente |
+| Fase 11 | Geração de QR Code | ✅ Concluída |
 | Fases 12-18 | Frontend | 🚧 Pendente |
 | Fase 19 | Testes e QA | 🚧 Pendente |
 | Fase 20 | DevOps e Produção | 🚧 Pendente |
@@ -265,6 +265,11 @@ Em caso de falha em qualquer passo:
 - `GET /production/queue/stage/:stage` - Buscar fila por etapa (admin)
 - `PUT /production/queue/:id/stage` - Atualizar etapa de produção (admin)
 - `GET /production/queue/:id/estimated-time` - Calcular tempo estimado (admin)
+
+### QR Code e Rastreamento
+- `GET /qrcode/orders/:id` - Gerar QR Code para pedido (autenticado)
+- `GET /qrcode/rastreamento/:code` - Buscar informações de rastreamento (público)
+- `GET /uploads/qrcodes/:id.png` - Servir imagem do QR Code (público)
 
 ### Documentação
 - `GET /api-docs` - Swagger UI

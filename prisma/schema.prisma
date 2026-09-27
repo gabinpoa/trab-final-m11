@@ -107,6 +107,7 @@ model Order {
   total           Decimal
   freight         Decimal?
   deliveryDate    DateTime?
+  trackingCode    String?             @unique
   createdAt       DateTime            @default(now())
   updatedAt       DateTime            @updatedAt
   items           OrderItem[]
