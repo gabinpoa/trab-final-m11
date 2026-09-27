@@ -14,6 +14,7 @@ Este projeto é uma aplicação monolítica modular desenvolvida em Node.js com 
 - ✅ **Saga de Pedidos**: Orquestração transacional com compensação automática
 - ✅ **Integrações Externas**: ViaCEP (frete) e BrasilAPI (feriados) com circuit breaker
 - ✅ **Gerenciamento de Fotos**: Upload, validação e serving público
+- ✅ **Operacional**: Health check, graceful shutdown, logging estruturado
 - 🚧 **Upload de Personalizações**: Em desenvolvimento
 - 🚧 **Fluxo de Aprovação**: Em desenvolvimento
 - 🚧 **Produção e Rastreamento**: Em desenvolvimento
@@ -244,7 +245,34 @@ Em caso de falha em qualquer passo:
 
 ### Documentação
 - `GET /api-docs` - Swagger UI
-- `GET /health` - Health check
+- `GET /health` - Health check (verifica conexão com banco)
+
+## 🔧 Requisitos Operacionais
+
+O sistema implementa requisitos operacionais definidos em `devops.md`:
+
+### Health Check
+- Endpoint `/health` verifica conexão com banco de dados
+- Retorna status, timestamp, database status e uptime
+- Essencial para monitoramento e alertas
+
+### Graceful Shutdown
+- Implementa shutdown signals (SIGINT, SIGTERM)
+- Desconecta do banco de dados antes de encerrar
+- Timeout de 10 segundos para forced shutdown
+- Previna corrupção de dados em deploys
+
+### Logging Estruturado
+- Logs com Pino (JSON formatado)
+- Request ID em cada requisição para rastreabilidade
+- Contexto de ambiente e usuário
+- Níveis: error, warn, info, debug
+
+### Tratamento de Erros
+- Captura de uncaught exceptions
+- Captura de unhandled rejections
+- Logs de erro com stack traces
+- Respostas HTTP apropriadas
 
 ## 🧪 Testes
 
