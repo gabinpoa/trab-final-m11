@@ -4,11 +4,11 @@
 - **PO**: ✅ Concluído (limpeza de escopo já está no master)
 - **Architect**: ✅ Concluído (alinhou terminologia de segurança, merge local realizado)
 - **DevOps**: ⏳ Pronto para iniciar (se necessário)
-- **Dev**: ✅ Concluído (implementou Fase 9: Fluxo de Aprovação, merge local realizado)
-- **QA**: ✅ Concluído (implementou testes para Fase 9: Fluxo de Aprovação, branch pronta para merge local)
+- **Dev**: ✅ Concluído (implementou Fase 10: Domínio de Produção, merge local realizado)
+- **QA**: ✅ Concluído (implementou testes para Fase 10: Domínio de Produção, branch pronta para merge local)
 
 ## Branches Ativas
-- **test/approvals-flow**: QA implementou testes para fluxo de aprovação (10/10 testes passando)
+- **test/production-domain**: QA implementou testes para domínio de produção (35/35 testes passando)
 
 ## Histórico de Merges Locais Recentes
 - [x] refactor(git): change to sequential local merge strategy for GitHub-less workflow (master)
@@ -21,9 +21,11 @@
 - [x] feat(customizations): implement upload of customizations (Fase 8) (master)
 - [x] test(customizations): add comprehensive tests for upload of customizations (Fase 8) (master)
 - [x] feat(approvals): implement approval flow (Fase 9) (master)
+- [x] test(approvals): add comprehensive tests for approval flow (Fase 9) (master)
+- [x] feat(production): implement production domain (Fase 10) (master)
 
 ## Próximos Passos
-1. QA fazer merge local (test/approvals-flow → master)
+1. QA fazer merge local (test/production-domain → master)
 2. Avaliar necessidade de DevOps (se necessário)
 3. Seguir fluxo de merge local sequencial
 4. Ao completar ciclo SDD, transferir e fazer push
