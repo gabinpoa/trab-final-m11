@@ -17,6 +17,7 @@ Este documento define as diretrizes de Git para colaboração eficiente entre de
 ### Branches Específicas por Agente
 - **spec/nome-da-feature**: Especificações (PO)
 - **arch/nome-da-feature**: Decisões arquiteturais (Arquiteto)
+- **ops/nome-da-infra**: Infraestrutura e operações (DevOps)
 - **test/nome-da-feature**: Testes (QA)
 - **backend/nome-da-feature**: Implementação backend (Dev)
 - **frontend/nome-da-feature**: Implementação frontend (Dev)
@@ -52,6 +53,9 @@ Este documento define as diretrizes de Git para colaboração eficiente entre de
 - `backend`: API e serviços
 - `database`: Schema e migrations
 - `docs`: Documentação
+- `deploy`: Deploy e CI/CD (DevOps)
+- `monitoring`: Monitoramento e alertas (DevOps)
+- `infrastructure`: Infraestrutura e operações (DevOps)
 
 ### Exemplos Globais
 ```
@@ -279,6 +283,7 @@ git reset --hard <commit-hash>
 Cada agente tem convenções específicas detalhadas em seus respectivos arquivos:
 - **PO-agent.md**: Convenções para specs (feat(spec), docs(spec))
 - **Architect-agent.md**: Convenções para arquitetura (feat(arch), perf(arch))
+- **DevOps-agent.md**: Convenções para DevOps (feat(deploy), feat(monitoring), feat(infrastructure))
 - **Dev-agent.md**: Convenções para implementação (feat, fix, refactor)
 - **QA-agent.md**: Convenções para testes (test, fix(test), docs(qa))
 

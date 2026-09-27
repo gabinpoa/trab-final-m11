@@ -64,7 +64,6 @@
 - Fase 11: Geração de QR Code
 - Fases 12-18: Frontend
 - Fase 19: Testes e QA
-- Fase 20: DevOps e Produção
 
 ## Backlog
 
@@ -215,14 +214,6 @@
 - Implementar testes de concorrência no estoque
 - Implementar testes de validação de upload
 - Implementar testes E2E com Cypress
-
-### Fase 20: DevOps e Produção
-- Configurar PM2 para produção
-- Configurar backup do PostgreSQL
-- Configurar rotação de logs
-- Configurar monitoramento básico
-- Configurar pipeline de CI/CD
-- Documentar processo de deploy
 
 ## Tarefas Detalhadas
 
@@ -1091,51 +1082,9 @@
 - **Estimativa**: 8 horas
 - **Dependências**: Tarefa 12.1
 
-### Fase 20: DevOps e Produção
-
-#### Tarefa 20.1: Configurar PM2 para produção
-- Instalar PM2
-- Criar arquivo de configuração
-- Configurar restart automático
-- Configurar logs
-- **Estimativa**: 3 horas
-- **Dependências**: Todas as tarefas de backend
-
-#### Tarefa 20.2: Configurar backup do PostgreSQL
-- Configurar pg_dump
-- Criar script de backup
-- Agendar backup com cron
-- Configurar retenção
-- **Estimativa**: 4 horas
-- **Dependências**: Tarefa 1.2
-
-#### Tarefa 20.3: Configurar rotação de logs
-- Configurar logrotate
-- Configurar rotação de logs do PM2
-- Configurar retenção de logs
-- **Estimativa**: 2 horas
-- **Dependências**: Tarefa 20.1
-
-#### Tarefa 20.4: Configurar monitoramento básico
-- Configurar monitoramento de processo
-- Configurar alertas de erro
-- Configurar monitoramento de disco
-- **Estimativa**: 4 horas
-- **Dependências**: Tarefa 20.1
-
-#### Tarefa 20.5: Configurar pipeline de CI/CD
-- Configurar GitHub Actions ou similar
-- Configurar build automático
-- Configurar testes automáticos
-- Configurar deploy automático
-- **Estimativa**: 6 horas
-- **Dependências**: Tarefa 19.6
-
-#### Tarefa 20.6: Documentar processo de deploy
-- Criar documentação de deploy
-- Documentar variáveis de ambiente
-- Documentar rollback
-- **Estimativa**: 3 horas
+### Nota sobre DevOps
+As tarefas de DevOps e Produção foram movidas para o contexto do agente DevOps.
+Consulte `DevOps-agent.md` e `devops.md` para detalhes de infraestrutura, deploy e operações.
 - **Dependências**: Tarefa 20.5
 
 ## Dependências
@@ -1182,14 +1131,12 @@
 - **Fase 17: Frontend - Rastreamento**: 14 horas (~2 dias)
 - **Fase 18: Frontend - Admin**: 25 horas (~3 dias)
 - **Fase 19: Testes e QA**: 35 horas (~4.5 dias)
-- **Fase 20: DevOps e Produção**: 22 horas (~3 dias)
 
 ### Estimativa Total
 - **Backend (Fases 1-11)**: ~237 horas (~30 dias)
 - **Frontend (Fases 12-18)**: ~127 horas (~16 dias)
 - **Testes (Fase 19)**: ~35 horas (~4.5 dias)
-- **DevOps (Fase 20)**: ~22 horas (~3 dias)
-- **Total**: ~421 horas (~53 dias úteis)
+- **Total**: ~399 horas (~50 dias úteis)
 
 ### Notas sobre Estimativas
 - Estimativas assumem 1 desenvolvedor trabalhando 8 horas/dia
@@ -1197,6 +1144,7 @@
 - Testes podem ser desenvolvidos em paralelo com implementação
 - Estimativas não incluem tempo para reuniões, code review e correção de bugs
 - Perguntas em aberto do plan.md devem ser respondidas para refinar estimativas
+- Tarefas de DevOps foram movidas para o contexto do agente DevOps (consulte DevOps-agent.md)
 
 ## Atualização Recente (Setembro 2026)
 
