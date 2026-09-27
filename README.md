@@ -1,0 +1,378 @@
+# Plataforma de E-commerce para Produtos Personalizados
+
+Plataforma de e-commerce completa para venda de produtos personalizados com fluxo de aprovação, rastreamento de produção e gerenciamento de estoque.
+
+## 📋 Visão Geral
+
+Este projeto é uma aplicação monolítica modular desenvolvida em Node.js com TypeScript, projetada para gerenciar o ciclo completo de vendas de produtos personalizados, desde o catálogo até a entrega.
+
+### Funcionalidades Principais
+
+- ✅ **Autenticação e Autorização**: JWT com RBAC (Role-Based Access Control)
+- ✅ **Gerenciamento de Catálogo**: Produtos, categorias e fotos
+- ✅ **Controle de Estoque**: Materiais com lock otimista para controle de concorrência
+- ✅ **Saga de Pedidos**: Orquestração transacional com compensação automática
+- ✅ **Integrações Externas**: ViaCEP (frete) e BrasilAPI (feriados) com circuit breaker
+- ✅ **Gerenciamento de Fotos**: Upload, validação e serving público
+- 🚧 **Upload de Personalizações**: Em desenvolvimento
+- 🚧 **Fluxo de Aprovação**: Em desenvolvimento
+- 🚧 **Produção e Rastreamento**: Em desenvolvimento
+- 🚧 **Frontend**: Em desenvolvimento
+
+## 🛠️ Tecnologias
+
+### Backend
+- **Runtime**: Node.js 20+
+- **Linguagem**: TypeScript 5.9
+- **Framework**: Express 5.2
+- **ORM**: Prisma 5.22
+- **Banco de Dados**: PostgreSQL 14
+- **Cache**: Redis 7
+- **Autenticação**: JWT (jsonwebtoken)
+- **Hash de Senhas**: bcrypt
+- **Logging**: Pino
+- **Documentação**: Swagger (swagger-jsdoc, swagger-ui-express)
+- **Upload**: Multer
+- **Processamento de Imagens**: Sharp
+- **Testes**: Jest, Supertest
+
+### DevOps
+- **Containerização**: Podman (compatível com Docker)
+- **Orquestração**: docker-compose
+- **Process Manager**: PM2 (produção)
+
+## 🚀 Como Começar
+
+### Pré-requisitos
+
+- Node.js 20+
+- PostgreSQL 14+ (ou Podman/Docker)
+- Redis 7+ (opcional para cache)
+- npm ou yarn
+
+### Instalação
+
+1. **Clone o repositório**
+```bash
+git clone <repository-url>
+cd trab-final
+```
+
+2. **Instale as dependências**
+```bash
+npm install
+```
+
+3. **Configure as variáveis de ambiente**
+```bash
+cp .env.example .env
+```
+
+Edite o arquivo `.env` com suas configurações:
+```env
+DATABASE_URL="postgresql://postgres:postgres@localhost:5432/ecommerce?schema=public"
+REDIS_HOST=localhost
+REDIS_PORT=6379
+JWT_SECRET=your-secret-key
+PORT=3000
+NODE_ENV=development
+```
+
+4. **Inicie o banco de dados**
+```bash
+# Com Podman
+podman-compose up -d
+
+# Ou com Docker
+docker-compose up -d
+```
+
+5. **Sincronize o schema do banco**
+```bash
+npm run prisma:generate
+npx prisma db push
+```
+
+6. **Popule o banco com dados iniciais**
+```bash
+npm run prisma:seed
+```
+
+7. **Inicie o servidor de desenvolvimento**
+```bash
+npm run dev
+```
+
+O servidor estará disponível em `http://localhost:3000`
+
+## 📁 Estrutura do Projeto
+
+```
+trab-final/
+├── src/
+│   ├── domains/              # Domínios de negócio
+│   │   ├── auth/            # Autenticação e autorização
+│   │   │   ├── controllers/
+│   │   │   ├── dto/
+│   │   │   ├── routes.ts
+│   │   │   └── services/
+│   │   ├── catalog/         # Catálogo de produtos
+│   │   │   ├── controllers/
+│   │   │   ├── dto/
+│   │   │   ├── middlewares/ # Upload e validação de fotos
+│   │   │   ├── repositories/
+│   │   │   ├── routes.ts
+│   │   │   └── services/
+│   │   ├── inventory/       # Controle de estoque
+│   │   │   ├── controllers/
+│   │   │   ├── dto/
+│   │   │   ├── repositories/
+│   │   │   ├── routes.ts
+│   │   │   └── services/
+│   │   ├── orders/          # Pedidos e saga
+│   │   │   ├── controllers/
+│   │   │   ├── dto/
+│   │   │   ├── repositories/
+│   │   │   ├── routes.ts
+│   │   │   ├── services/
+│   │   │   └── saga/        # Saga pattern
+│   │   │       ├── steps/
+│   │   │       ├── types.ts
+│   │   │       └── orderSagaCoordinator.ts
+│   │   └── integrations/    # Integrações externas
+│   │       └── clients/
+│   │           ├── viaCep.client.ts
+│   │           └── holidays.client.ts
+│   ├── shared/              # Código compartilhado
+│   │   ├── config/          # Configurações
+│   │   ├── middlewares/     # Middlewares globais
+│   │   ├── types/           # Tipos TypeScript
+│   │   └── utils/           # Utilitários
+│   ├── test/                # Configuração de testes
+│   ├── app.ts               # Configuração do Express
+│   └── index.ts             # Entry point
+├── prisma/
+│   ├── schema.prisma        # Schema do banco
+│   └── seed.ts              # Dados iniciais
+├── uploads/                 # Arquivos uploadados
+│   └── products/            # Fotos do catálogo
+├── .env.example             # Exemplo de variáveis de ambiente
+├── docker-compose.yml       # Orquestração de containers
+├── Dockerfile               # Imagem do backend
+├── package.json             # Dependências
+├── tsconfig.json            # Configuração TypeScript
+└── README.md                # Este arquivo
+```
+
+## 🏗️ Arquitetura
+
+### Padrões Implementados
+
+- **Monolito Modular**: Separação por domínios de negócio
+- **Repository Pattern**: Abstração do acesso a dados
+- **Service Layer**: Lógica de negócio isolada
+- **DTO Pattern**: Transferência de dados com validação
+- **Saga Pattern**: Orquestração de processos distribuídos
+- **Circuit Breaker**: Resiliência em integrações externas
+- **Lock Otimista**: Controle de concorrência no estoque
+- **Middleware Pattern**: Interceptação de requests
+
+### Fluxo de Criação de Pedido (Saga)
+
+```
+1. ReserveMaterialsStep
+   ↓ (sucesso)
+2. CalculateFreightStep
+   ↓ (sucesso)
+3. CreateOrderStep
+   ↓ (sucesso)
+Pedido criado com sucesso
+
+Em caso de falha em qualquer passo:
+→ Compensação em ordem reversa (LIFO)
+→ Rollback de todas as mudanças
+→ Pedido não é criado
+```
+
+## 📊 Status das Fases
+
+| Fase | Descrição | Status |
+|------|-----------|--------|
+| Fase 1 | Configuração e Infraestrutura Base | ✅ Concluída |
+| Fase 2 | Domínio de Autenticação | ✅ Concluída |
+| Fase 3 | Domínio de Estoque | ✅ Concluída |
+| Fase 4 | Domínio de Catálogo | ✅ Concluída |
+| Fase 5 | Integrações Externas | ✅ Concluída |
+| Fase 6 | Domínio de Pedidos - Parte 1 | ✅ Concluída |
+| Fase 7 | Domínio de Pedidos - Parte 2 (Saga) | ✅ Concluída |
+| Fase 8 | Upload de Personalizações | 🚧 Pendente |
+| Fase 9 | Fluxo de Aprovação | 🚧 Pendente |
+| Fase 10 | Domínio de Produção | 🚧 Pendente |
+| Fase 11 | Geração de QR Code | 🚧 Pendente |
+| Fases 12-18 | Frontend | 🚧 Pendente |
+| Fase 19 | Testes e QA | 🚧 Pendente |
+| Fase 20 | DevOps e Produção | 🚧 Pendente |
+
+## 🔌 API Endpoints
+
+### Autenticação
+- `POST /auth/register` - Registrar usuário
+- `POST /auth/login` - Login e obter token JWT
+
+### Catálogo
+- `GET /products` - Listar produtos
+- `GET /products/:id` - Detalhes do produto
+- `POST /products` - Criar produto (admin)
+- `PATCH /products/:id/photo` - Atualizar foto (admin)
+- `DELETE /products/:id/photo` - Remover foto (admin)
+- `GET /uploads/products/:id/foto.{ext}` - Servir foto (público)
+
+### Estoque
+- `GET /materials` - Listar materiais
+- `GET /materials/:id` - Detalhes do material
+- `POST /materials` - Criar material (admin)
+- `PUT /materials/:id` - Atualizar material (admin)
+- `DELETE /materials/:id` - Deletar material (admin)
+- `GET /materials/availability` - Consultar disponibilidade
+
+### Pedidos
+- `POST /orders` - Criar pedido (usa Saga)
+- `GET /orders` - Listar pedidos (admin)
+- `GET /orders/my` - Pedidos do usuário atual
+- `GET /orders/:id` - Detalhes do pedido
+- `PATCH /orders/:id/status` - Atualizar status (admin)
+
+### Documentação
+- `GET /api-docs` - Swagger UI
+- `GET /health` - Health check
+
+## 🧪 Testes
+
+### Executar todos os testes
+```bash
+npm test
+```
+
+### Executar testes em modo watch
+```bash
+npm run test:watch
+```
+
+### Executar testes com coverage
+```bash
+npm run test:coverage
+```
+
+## 📝 Scripts Disponíveis
+
+```bash
+# Desenvolvimento
+npm run dev              # Inicia servidor com ts-node
+npm run build            # Compila TypeScript
+npm start                # Inicia servidor compilado
+
+# Prisma
+npm run prisma:generate  # Gera Prisma Client
+npm run prisma:migrate   # Cria e aplica migrations
+npm run prisma:studio    # Abre Prisma Studio
+npm run prisma:seed      # Popula banco com dados
+
+# Testes
+npm test                 # Executa testes
+npm run test:watch       # Testes em modo watch
+npm run test:coverage    # Testes com coverage
+
+# Linting
+npm run lint             # Verifica código com ESLint
+npm run lint:fix         # Corrige problemas automaticamente
+npm run format           # Formata código com Prettier
+```
+
+## 🔧 Configuração de Banco de Dados
+
+### Usando Podman/Docker
+
+```bash
+# Iniciar containers
+podman-compose up -d
+
+# Verificar status
+podman-compose ps
+
+# Ver logs
+podman-compose logs -f
+
+# Parar containers
+podman-compose down
+```
+
+### Banco de Dados Local
+
+Se preferir usar PostgreSQL localmente:
+
+1. Instale PostgreSQL 14+
+2. Crie o banco `ecommerce`
+3. Configure `DATABASE_URL` no `.env`
+4. Rode `npx prisma db push`
+5. Rode `npm run prisma:seed`
+
+Para mais detalhes, veja [DATABASE_SETUP.md](DATABASE_SETUP.md)
+
+## 🤝 Como Contribuir
+
+1. Fork o repositório
+2. Crie uma branch para sua feature (`git checkout -b feature/nova-feature`)
+3. Commit suas mudanças (`git commit -m 'feat: adiciona nova feature'`)
+4. Push para a branch (`git push origin feature/nova-feature`)
+5. Abra um Pull Request
+
+### Convenção de Commits
+
+Seguimos a convenção de commits:
+
+- `feat:` Nova funcionalidade
+- `fix:` Correção de bug
+- `docs:` Mudanças na documentação
+- `style:` Formatação, ponto e vírgula, etc.
+- `refactor:` Refatoração de código
+- `test:` Adiciona ou modifica testes
+- `chore:` Atualização de ferramentas, configurações, etc.
+
+## 📄 Documentação Adicional
+
+- [Plan.md](plan.md) - Plano arquitetural detalhado
+- [Spec.md](spec.md) - Especificações técnicas
+- [Tasks.md](tasks.md) - Backlog de tarefas
+- [DATABASE_SETUP.md](DATABASE_SETUP.md) - Guia de configuração do banco
+- [AGENTES.md](AGENTES.md) - Documentação dos agentes
+
+## 🐛 Troubleshooting
+
+### Erro: "Cannot connect to database"
+- Verifique se PostgreSQL está rodando
+- Verifique `DATABASE_URL` no `.env`
+- Tente `podman-compose ps` para ver status dos containers
+
+### Erro: "ts-node: command not found"
+- Rode `npm install`
+- Verifique se `node_modules` existe
+
+### Erro: "Module not found"
+- Rode `npm install`
+- Verifique se `tsconfig.json` está configurado corretamente
+
+### Porta 3000 já em uso
+- Matar processo: `taskkill //F //IM node.exe` (Windows)
+- Ou mudar PORT no `.env`
+
+## 📄 Licença
+
+Este projeto é desenvolvido para fins acadêmicos.
+
+## 👥 Equipe
+
+Desenvolvido como projeto final da disciplina M11.
+
+---
+
+**Nota**: Este projeto está em desenvolvimento ativo. Funcionalidades marcadas como "Pendente" ainda não foram implementadas.
