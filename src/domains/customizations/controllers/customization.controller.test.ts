@@ -1,6 +1,5 @@
 import { CustomizationController } from './customization.controller';
 import { CustomizationService } from '../services/customization.service';
-import { Request, Response } from 'express';
 
 describe('CustomizationController Tests', () => {
   let controller: CustomizationController;

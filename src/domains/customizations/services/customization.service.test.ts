@@ -28,7 +28,7 @@ describe('CustomizationService Tests', () => {
   describe('createCustomization', () => {
     it('should create customization successfully', async () => {
       const orderId = 'order-123';
-      const filePath = '/tmp/test.jpg';
+      const filePath = path.join(__dirname, 'test.jpg');
       const filename = 'customization-uuid.jpg';
       const comment = 'Test comment';
 
@@ -97,7 +97,7 @@ describe('CustomizationService Tests', () => {
 
     it('should throw error when order not found', async () => {
       const orderId = 'non-existent-order';
-      const filePath = '/tmp/test.jpg';
+      const filePath = path.join(__dirname, 'test.jpg');
       const filename = 'customization-uuid.jpg';
 
       jest.spyOn(prisma.order, 'findUnique').mockResolvedValue(null);
@@ -113,7 +113,7 @@ describe('CustomizationService Tests', () => {
 
     it('should create directory structure for thumbnails and compressed', async () => {
       const orderId = 'order-123';
-      const filePath = '/tmp/test.jpg';
+      const filePath = path.join(__dirname, 'test.jpg');
       const filename = 'customization-uuid.jpg';
 
       const mockOrder = {
@@ -156,7 +156,7 @@ describe('CustomizationService Tests', () => {
 
     it('should delete temporary file after processing', async () => {
       const orderId = 'order-123';
-      const filePath = '/tmp/test.jpg';
+      const filePath = path.join(__dirname, 'test.jpg');
       const filename = 'customization-uuid.jpg';
 
       const mockOrder = {
@@ -203,7 +203,7 @@ describe('CustomizationService Tests', () => {
 
     it('should clean up files on error', async () => {
       const orderId = 'order-123';
-      const filePath = '/tmp/test.jpg';
+      const filePath = path.join(__dirname, 'test.jpg');
       const filename = 'customization-uuid.jpg';
 
       jest.spyOn(prisma.order, 'findUnique').mockRejectedValue(new Error('Database error'));

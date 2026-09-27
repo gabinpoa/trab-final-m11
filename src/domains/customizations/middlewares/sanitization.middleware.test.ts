@@ -266,7 +266,7 @@ describe('Sanitization Middleware Tests', () => {
 
         expect(mockResponse.status).toHaveBeenCalledWith(400);
         expect(mockResponse.json).toHaveBeenCalledWith({
-          message: 'Invalid order ID.',
+          message: 'Invalid order ID. Path traversal is not allowed.',
         });
         expect(mockNext).not.toHaveBeenCalled();
         jest.clearAllMocks();
@@ -288,7 +288,7 @@ describe('Sanitization Middleware Tests', () => {
 
         expect(mockResponse.status).toHaveBeenCalledWith(400);
         expect(mockResponse.json).toHaveBeenCalledWith({
-          message: 'Invalid order ID.',
+          message: 'Invalid order ID. Dangerous characters are not allowed.',
         });
         expect(mockNext).not.toHaveBeenCalled();
         jest.clearAllMocks();
@@ -311,7 +311,7 @@ describe('Sanitization Middleware Tests', () => {
 
         expect(mockResponse.status).toHaveBeenCalledWith(400);
         expect(mockResponse.json).toHaveBeenCalledWith({
-          message: 'Invalid order ID.',
+          message: 'Invalid order ID. Path traversal is not allowed.',
         });
         expect(mockNext).not.toHaveBeenCalled();
         jest.clearAllMocks();
