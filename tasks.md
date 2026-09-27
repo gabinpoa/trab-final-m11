@@ -107,6 +107,12 @@
 - ✅ Adicionar rota de registro
 - ⏳ Implementar contexto de autenticação
 
+#### Fase 14: Frontend - Catálogo
+- ✅ Implementar listagem de produtos
+- ✅ Implementar filtros e busca
+- ✅ Implementar carrinho de compras
+- ⏳ Implementar detalhes do produto
+
 ### ⏳ Em Progresso
 - Nenhuma fase em progresso
 
