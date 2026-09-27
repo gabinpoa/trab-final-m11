@@ -40,13 +40,14 @@ export const sanitizeFilename = (req: Request, res: Response, next: NextFunction
 };
 
 // Middleware para validar order ID e prevenir path traversal no caminho
-export const validateOrderId = (req: Request, res: Response, next: NextFunction) => {
+export const validateOrderId = (req: Request, res: Response, next: NextFunction): void => {
   const orderId = req.params.orderId || req.body.orderId;
   
   if (!orderId) {
-    return res.status(400).json({
+    res.status(400).json({
       message: 'Order ID is required.',
     });
+    return;
   }
 
   try {
@@ -54,9 +55,10 @@ export const validateOrderId = (req: Request, res: Response, next: NextFunction)
     const normalized = path.normalize(orderId);
     
     if (normalized !== orderId) {
-      return res.status(400).json({
+      res.status(400).json({
         message: 'Invalid order ID. Path traversal is not allowed.',
       });
+      return;
     }
 
     // Verificar se o order ID contém caracteres perigosos
@@ -64,14 +66,15 @@ export const validateOrderId = (req: Request, res: Response, next: NextFunction)
     const hasDangerousChars = dangerousChars.some(char => orderId.includes(char));
     
     if (hasDangerousChars) {
-      return res.status(400).json({
+      res.status(400).json({
         message: 'Invalid order ID. Dangerous characters are not allowed.',
       });
+      return;
     }
 
     next();
   } catch (error) {
-    return res.status(500).json({
+    res.status(500).json({
       message: 'Error validating order ID.',
     });
   }

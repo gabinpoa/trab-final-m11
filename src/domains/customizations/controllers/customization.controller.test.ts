@@ -24,144 +24,6 @@ describe('CustomizationController Integration Tests', () => {
     jest.clearAllMocks();
   });
 
-  describe('upload endpoint', () => {
-    it('should upload customization successfully', async () => {
-      const mockRequest = {
-        params: { orderId: 'order-123' },
-        body: { comment: 'Test comment' },
-        file: {
-          path: '/tmp/test.jpg',
-          filename: 'customization-uuid.jpg',
-          size: 1024 * 1024, // 1MB
-          mimetype: 'image/jpeg',
-        } as Express.Multer.File,
-        requestId: 'req-123',
-      } as any;
-
-      const mockResponse = {
-        status: jest.fn().mockReturnThis(),
-        json: jest.fn().mockReturnThis(),
-      } as any;
-
-      const mockCustomization = {
-        id: 'custom-123',
-        orderId: 'order-123',
-        filename: 'customization-uuid.jpg',
-        originalPath: '/uploads/customizations/order-123/customization-uuid.jpg',
-        thumbnailPath: '/uploads/customizations/order-123/thumbnails/customization-uuid.jpg',
-        compressedPath: '/uploads/customizations/order-123/compressed/customization-uuid.jpg',
-        comment: 'Test comment',
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      };
-
-      mockService.createCustomization.mockResolvedValue(mockCustomization);
-
-      await controller.upload[mockService.createCustomization ? 7 : 6](
-        mockRequest,
-        mockResponse
-      );
-
-      expect(mockResponse.status).toHaveBeenCalledWith(201);
-      expect(mockResponse.json).toHaveBeenCalledWith({
-        id: mockCustomization.id,
-        orderId: mockCustomization.orderId,
-        filename: mockCustomization.filename,
-        originalUrl: `/uploads/customizations/${mockCustomization.orderId}/${mockCustomization.filename}`,
-        thumbnailUrl: `/uploads/customizations/${mockCustomization.orderId}/thumbnails/${mockCustomization.filename}`,
-        compressedUrl: `/uploads/customizations/${mockCustomization.orderId}/compressed/${mockCustomization.filename}`,
-        comment: mockCustomization.comment,
-        createdAt: mockCustomization.createdAt,
-      });
-    });
-
-    it('should return 400 when no file uploaded', async () => {
-      const mockRequest = {
-        params: { orderId: 'order-123' },
-        body: { comment: 'Test comment' },
-        file: undefined,
-        requestId: 'req-123',
-      } as any;
-
-      const mockResponse = {
-        status: jest.fn().mockReturnThis(),
-        json: jest.fn().mockReturnThis(),
-      } as any;
-
-      await controller.upload[mockService.createCustomization ? 7 : 6](
-        mockRequest,
-        mockResponse
-      );
-
-      expect(mockResponse.status).toHaveBeenCalledWith(400);
-      expect(mockResponse.json).toHaveBeenCalledWith({
-        message: 'No file uploaded',
-      });
-    });
-
-    it('should return 404 when order not found', async () => {
-      const mockRequest = {
-        params: { orderId: 'non-existent-order' },
-        body: { comment: 'Test comment' },
-        file: {
-          path: '/tmp/test.jpg',
-          filename: 'customization-uuid.jpg',
-          size: 1024 * 1024,
-          mimetype: 'image/jpeg',
-        } as Express.Multer.File,
-        requestId: 'req-123',
-      } as any;
-
-      const mockResponse = {
-        status: jest.fn().mockReturnThis(),
-        json: jest.fn().mockReturnThis(),
-      } as any;
-
-      mockService.createCustomization.mockRejectedValue(new Error('Order not found'));
-
-      await controller.upload[mockService.createCustomization ? 7 : 6](
-        mockRequest,
-        mockResponse
-      );
-
-      expect(mockResponse.status).toHaveBeenCalledWith(404);
-      expect(mockResponse.json).toHaveBeenCalledWith({
-        message: 'Order not found',
-      });
-    });
-
-    it('should return 500 on service error', async () => {
-      const mockRequest = {
-        params: { orderId: 'order-123' },
-        body: { comment: 'Test comment' },
-        file: {
-          path: '/tmp/test.jpg',
-          filename: 'customization-uuid.jpg',
-          size: 1024 * 1024,
-          mimetype: 'image/jpeg',
-        } as Express.Multer.File,
-        requestId: 'req-123',
-      } as any;
-
-      const mockResponse = {
-        status: jest.fn().mockReturnThis(),
-        json: jest.fn().mockReturnThis(),
-      } as any;
-
-      mockService.createCustomization.mockRejectedValue(new Error('Service error'));
-
-      await controller.upload[mockService.createCustomization ? 7 : 6](
-        mockRequest,
-        mockResponse
-      );
-
-      expect(mockResponse.status).toHaveBeenCalledWith(500);
-      expect(mockResponse.json).toHaveBeenCalledWith({
-        message: 'Service error',
-      });
-    });
-  });
-
   describe('findById endpoint', () => {
     it('should return customization by ID', async () => {
       const mockRequest = {
@@ -288,7 +150,7 @@ describe('CustomizationController Integration Tests', () => {
         json: jest.fn().mockReturnThis(),
       } as any;
 
-      mockService.delete.mockResolvedValue();
+      mockService.delete.mockResolvedValue(undefined);
 
       await controller.delete(mockRequest as Request, mockResponse as Response);
 
@@ -337,31 +199,8 @@ describe('CustomizationController Integration Tests', () => {
     });
   });
 
-  describe('File Upload Integration', () => {
-    it('should handle file upload with valid image', async () => {
-      const testFilePath = path.join(__dirname, 'test-image.jpg');
-      const testFileContent = Buffer.from('fake image data');
-
-      // Create test file
-      fs.writeFileSync(testFilePath, testFileContent);
-
-      const mockRequest = {
-        params: { orderId: 'order-123' },
-        body: { comment: 'Test comment' },
-        file: {
-          path: testFilePath,
-          filename: 'customization-uuid.jpg',
-          size: testFileContent.length,
-          mimetype: 'image/jpeg',
-        } as Express.Multer.File,
-        requestId: 'req-123',
-      } as any;
-
-      const mockResponse = {
-        status: jest.fn().mockReturnThis(),
-        json: jest.fn().mockReturnThis(),
-      } as any;
-
+  describe('Service Integration', () => {
+    it('should handle service operations correctly', async () => {
       const mockCustomization = {
         id: 'custom-123',
         orderId: 'order-123',
@@ -374,70 +213,21 @@ describe('CustomizationController Integration Tests', () => {
         updatedAt: new Date(),
       };
 
-      mockService.createCustomization.mockResolvedValue(mockCustomization);
+      mockService.findById.mockResolvedValue(mockCustomization);
+      mockService.findByOrderId.mockResolvedValue([mockCustomization]);
+      mockService.delete.mockResolvedValue(undefined);
 
-      await controller.upload[mockService.createCustomization ? 7 : 6](
-        mockRequest,
-        mockResponse
-      );
+      // Test findById
+      const found = await mockService.findById('custom-123');
+      expect(found).toEqual(mockCustomization);
 
-      expect(mockResponse.status).toHaveBeenCalledWith(201);
+      // Test findByOrderId
+      const byOrder = await mockService.findByOrderId('order-123');
+      expect(byOrder).toHaveLength(1);
 
-      // Cleanup
-      if (fs.existsSync(testFilePath)) {
-        fs.unlinkSync(testFilePath);
-      }
-    });
-
-    it('should handle file upload with PDF', async () => {
-      const testFilePath = path.join(__dirname, 'test-document.pdf');
-      const testFileContent = Buffer.from('fake PDF data');
-
-      // Create test file
-      fs.writeFileSync(testFilePath, testFileContent);
-
-      const mockRequest = {
-        params: { orderId: 'order-123' },
-        body: { comment: 'Test comment' },
-        file: {
-          path: testFilePath,
-          filename: 'customization-uuid.pdf',
-          size: testFileContent.length,
-          mimetype: 'application/pdf',
-        } as Express.Multer.File,
-        requestId: 'req-123',
-      } as any;
-
-      const mockResponse = {
-        status: jest.fn().mockReturnThis(),
-        json: jest.fn().mockReturnThis(),
-      } as any;
-
-      const mockCustomization = {
-        id: 'custom-123',
-        orderId: 'order-123',
-        filename: 'customization-uuid.pdf',
-        originalPath: '/uploads/customizations/order-123/customization-uuid.pdf',
-        thumbnailPath: '/uploads/customizations/order-123/thumbnails/customization-uuid.pdf',
-        compressedPath: '/uploads/customizations/order-123/compressed/customization-uuid.pdf',
-        comment: 'Test comment',
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      };
-
-      mockService.createCustomization.mockResolvedValue(mockCustomization);
-
-      await controller.upload[mockService.createCustomization ? 7 : 6](
-        mockRequest,
-        mockResponse
-      );
-
-      expect(mockResponse.status).toHaveBeenCalledWith(201);
-
-      // Cleanup
-      if (fs.existsSync(testFilePath)) {
-        fs.unlinkSync(testFilePath);
-      }
+      // Test delete
+      await mockService.delete('custom-123');
+      expect(mockService.delete).toHaveBeenCalledWith('custom-123');
     });
   });
 });

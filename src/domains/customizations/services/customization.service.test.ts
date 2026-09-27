@@ -347,7 +347,7 @@ describe('CustomizationService Tests', () => {
       };
 
       mockRepository.findById.mockResolvedValue(mockCustomization as any);
-      mockRepository.delete.mockResolvedValue();
+      mockRepository.delete.mockResolvedValue(undefined);
 
       await service.delete(customizationId);
 
@@ -384,7 +384,7 @@ describe('CustomizationService Tests', () => {
       };
 
       mockRepository.findById.mockResolvedValue(mockCustomization as any);
-      mockRepository.delete.mockResolvedValue();
+      mockRepository.delete.mockResolvedValue(undefined);
 
       await service.delete(customizationId);
 

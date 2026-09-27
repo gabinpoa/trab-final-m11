@@ -39,7 +39,7 @@ describe('Upload Middleware Tests', () => {
 
       // Cleanup
       if (fs.existsSync(uploadDir)) {
-        fs.rmdirSync(uploadDir, { recursive: true });
+        fs.rmSync(uploadDir, { recursive: true, force: true });
       }
     });
 
