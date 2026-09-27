@@ -19,7 +19,7 @@ Implementar uma plataforma monolítica modular para gestão de pedidos de produt
 - **Domínio de Pedidos**: Gerencia ciclo de vida do pedido, status e aprovações
 - **Domínio de Produção**: Controla fila de produção e etapas de manufatura
 - **Domínio de Estoque**: Gerencia insumos, reservas e alertas de nível mínimo
-- **Domínio de Autenticação**: JWT, RBAC e controle de acesso
+- **Domínio de Autenticação**: Sistema de autenticação e controle de acesso
 - **Domínio de Integrações**: ViaCEP, API de Feriados, geração de QR Code
 
 ### Padrões de Design
@@ -71,18 +71,16 @@ Implementar uma plataforma monolítica modular para gestão de pedidos de produt
 ### Banco de Dados
 - **SGBD**: PostgreSQL 14+ (recomendado sobre MySQL por features avançadas)
 - **Migrations**: Prisma Migrate ou migrations manuais
-- **Backup**: pg_dump com agendamento (cron job)
 - **Schema de Produtos**: Campo `imageUrl` obrigatório (não nullable) para armazenar path da foto
 - **Constraint**: Check constraint para garantir que `imageUrl` não seja nulo ou vazio
 
-### Infraestrutura
+### Infraestrutura de Desenvolvimento
 - **Storage Local**: Sistema de arquivos com pasta `uploads/` organizada por tipo de conteúdo
   - `uploads/products/` - Fotos do catálogo (JPG, PNG, WEBP, máx 5MB)
   - `uploads/customizations/` - Personalizações de clientes (JPG, PNG, WEBP, PDF, máx 10MB)
   - `uploads/qrcodes/` - QR Codes de rastreamento
 - **Cache**: Redis (opcional para idempotência e cache de catálogo)
 - **Containerização**: Docker + Docker Compose para desenvolvimento
-- **Process Manager**: PM2 para produção
 
 ## Integrações
 
@@ -139,7 +137,7 @@ Implementar uma plataforma monolítica modular para gestão de pedidos de produt
 
 ### Alto Impacto
 - **Falha no Storage Local**: Perda de imagens de personalização e fotos do catálogo em caso de falha de disco
-  - *Mitigação*: Backup regular da pasta uploads/, considerar migração para S3 em v2
+  - *Mitigação*: Estratégia de backup (definida pelo DevOps), considerar migração para S3 em v2
 - **Race Condition no Estoque**: Pedidos simultâneos podem reservar o mesmo material
   - *Mitigação*: Lock otimista com versionamento, transações de banco
 - **Exposição de Arquivos**: Acesso não autorizado a imagens de personalização
@@ -169,16 +167,18 @@ Implementar uma plataforma monolítica modular para gestão de pedidos de produt
 
 ## Perguntas em Aberto
 
+### Para o Arquiteto
+- Qual padrão de saga será implementado (orchestration ou choreography)?
+- Como será o controle de concorrência no estoque (lock otimista ou pessimista)?
+- Como será a estrutura do monolito modular (separação por domínio)?
+- Qual estratégia de organização dos arquivos locais de upload?
+
 ### Para o Negócio
-- Qual será a política de retenção das imagens enviadas após entrega do pedido?
-- Por quanto tempo as imagens devem ser armazenadas antes da limpeza automática?
 - Quais serão as regras de frete por estado (valores fixos ou tabela dinâmica)?
 - Qual a complexidade permitida por tipo de produto (critérios objetivos)?
-- Quais insumos são críticos e devem ter estoque mínimo maior que 20 unidades?
 - O cliente poderá editar o design após aprovação inicial?
 - Qual será a política de qualidade das fotos dos produtos (resolução mínima, proporção)?
 - Será permitido múltiplas fotos por produto ou apenas uma principal no MVP?
-- Qual será a política para fotos de produtos descontinuados (retenção ou exclusão)?
 
 ### Para o Desenvolvimento
 - Qual biblioteca específica de geração de QR Code será utilizada (`qrcode` ou `qrcode.react`)?
@@ -191,13 +191,6 @@ Implementar uma plataforma monolítica modular para gestão de pedidos de produt
 - Qual será a estratégia de redimensionamento/thumbnails para fotos de produtos (MVP)?
 - Como será implementada a validação obrigatória de foto no cadastro de produtos?
 - Qual será a estratégia de serving das fotos do catálogo (estático ou via middleware)?
-
-### Para o DevOps
-- Como será o deploy em ambiente de produção (Docker, VM, ou PaaS)?
-- Qual estratégia de monitoramento e alertas (Prometheus, Grafana, ou serviço gerenciado)?
-- Como será o backup do banco de dados (frequência, retenção, local)?
-- Qual será a infraestrutura para alta disponibilidade (load balancer, réplicas)?
-- Como será a rotação de logs para evitar crescimento excessivo?
 
 ### Para o QA
 - Quais cenários de teste específicos para a saga de criação de pedido?
