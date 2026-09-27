@@ -91,11 +91,18 @@
 - ✅ Implementar página de rastreamento (endpoint público)
 - ✅ Adicionar campo trackingCode ao schema Order
 
+#### Fase 12: Frontend - Configuração
+- ✅ Configurar projeto React com TypeScript e Vite
+- ✅ Configurar Zustand para state management
+- ✅ Configurar Axios para HTTP client
+- ⏳ Configurar React Hook Form + Zod
+- ⏳ Configurar biblioteca de UI (shadcn/ui)
+- ⏳ Configurar rotas com React Router
+
 ### ⏳ Em Progresso
 - Nenhuma fase em progresso
 
 ### 📋 Pendente
-- Fase 11: Geração de QR Code
 - Fases 12-18: Frontend
 - Fase 19: Testes e QA
 - Fase 20: DevOps e Produção
