@@ -2,25 +2,28 @@
 
 ## Progresso Atual do Ciclo SDD
 - **PO**: ✅ Concluído (limpeza de escopo já está no master)
-- **Architect**: ⏳ Pronto para iniciar (se necessário)
+- **Architect**: ✅ Concluído (alinhou terminologia de segurança, merge local realizado)
 - **DevOps**: ⏳ Pronto para iniciar (se necessário)
-- **Dev**: ⏳ Pronto para iniciar (se necessário)
-- **QA**: ⏳ Pronto para iniciar (se necessário)
+- **Dev**: ✅ Concluído (implementou Fase 7: Saga de Criação de Pedido, merge local realizado)
+- **QA**: 🔄 Em progresso (implementando testes para Fase 7: Saga)
 
 ## Branches Ativas
-- Nenhuma branch ativa no momento
+- **test/saga-order-creation**: QA implementando testes unitários e integração para saga
 
 ## Histórico de Merges Locais Recentes
-- [x] feat(agents): add DevOps agent and refine agent scopes (master)
-- [x] chore(project): remove duplicate IDE folders (master)
-- [x] chore(git): update .gitignore to exclude duplicate IDE folders (master)
+- [x] refactor(git): change to sequential local merge strategy for GitHub-less workflow (master)
+- [x] refactor(arch): align security terminology with updated spec (master)
+- [x] docs(git): add manual merge process and adapt agent workflows for GitHub-less environment (master)
 - [x] docs(spec): remove technical content outside PO scope per updated SDD cycle (master)
 - [x] refactor(arch): remove DevOps scope from architectural plan (master)
+- [x] feat(saga): implement order creation saga with orchestration pattern (master)
 
 ## Próximos Passos
-1. Iniciar trabalho do próximo agente (se necessário)
-2. Seguir fluxo de merge local sequencial
-3. Ao completar ciclo SDD, transferir e fazer push
+1. QA completar testes para Fase 7
+2. QA fazer merge local (test/saga-order-creation → master)
+3. Avaliar necessidade de DevOps (se necessário)
+4. Seguir fluxo de merge local sequencial
+5. Ao completar ciclo SDD, transferir e fazer push
 
 ## Notas
 - Sistema configurado para merge local sequencial
