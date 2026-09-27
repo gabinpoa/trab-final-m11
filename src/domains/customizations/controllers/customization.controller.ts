@@ -42,17 +42,18 @@ export class CustomizationController {
         }
 
         const { orderId } = req.params;
+        const orderIdStr = Array.isArray(orderId) ? orderId[0] : orderId;
         const { comment } = req.body;
 
         logger.info({
           requestId: req.requestId,
-          orderId,
+          orderId: orderIdStr,
           filename: file.filename,
           size: file.size,
         }, 'Processing customization upload');
 
         const customization = await this.service.createCustomization(
-          orderId,
+          orderIdStr,
           file.path,
           file.filename,
           comment
@@ -67,9 +68,9 @@ export class CustomizationController {
           id: customization.id,
           orderId: customization.orderId,
           filename: customization.filename,
-          originalUrl: `/uploads/customizations/${orderId}/${customization.filename}`,
-          thumbnailUrl: `/uploads/customizations/${orderId}/thumbnails/${customization.filename}`,
-          compressedUrl: `/uploads/customizations/${orderId}/compressed/${customization.filename}`,
+          originalUrl: `/uploads/customizations/${orderIdStr}/${customization.filename}`,
+          thumbnailUrl: `/uploads/customizations/${orderIdStr}/thumbnails/${customization.filename}`,
+          compressedUrl: `/uploads/customizations/${orderIdStr}/compressed/${customization.filename}`,
           comment: customization.comment,
           createdAt: customization.createdAt,
         });
@@ -102,8 +103,9 @@ export class CustomizationController {
   findById = async (req: CustomRequest, res: Response): Promise<void> => {
     try {
       const { id } = req.params;
+      const idStr = Array.isArray(id) ? id[0] : id;
 
-      const customization = await this.service.findById(id);
+      const customization = await this.service.findById(idStr);
 
       if (!customization) {
         res.status(404).json({
@@ -131,8 +133,9 @@ export class CustomizationController {
   findByOrderId = async (req: CustomRequest, res: Response): Promise<void> => {
     try {
       const { orderId } = req.params;
+      const orderIdStr = Array.isArray(orderId) ? orderId[0] : orderId;
 
-      const customizations = await this.service.findByOrderId(orderId);
+      const customizations = await this.service.findByOrderId(orderIdStr);
 
       res.json(customizations);
     } catch (error) {
@@ -153,8 +156,9 @@ export class CustomizationController {
   delete = async (req: CustomRequest, res: Response): Promise<void> => {
     try {
       const { id } = req.params;
+      const idStr = Array.isArray(id) ? id[0] : id;
 
-      await this.service.delete(id);
+      await this.service.delete(idStr);
 
       res.status(204).send();
     } catch (error) {
