@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import Header from '../components/Header';
 import { adminService } from '../services/adminService';
 import { orderService } from '../services/orderService';
-import { Order } from '../types';
+import type { Order } from '../types';
 
 export default function AdminPage() {
   const [orders, setOrders] = useState<Order[]>([]);

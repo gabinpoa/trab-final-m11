@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import Header from '../components/Header';
 import { orderService } from '../services/orderService';
-import { Order } from '../types';
+import type { Order } from '../types';
 
 export default function OrdersPage() {
   const [orders, setOrders] = useState<Order[]>([]);

@@ -1,5 +1,5 @@
 import api from './api';
-import { Customization } from '../types';
+import type { Customization } from '../types';
 
 export const customizationService = {
   async upload(orderId: string, file: File, comment?: string): Promise<Customization> {

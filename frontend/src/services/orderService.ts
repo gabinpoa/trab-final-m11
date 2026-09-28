@@ -1,5 +1,5 @@
 import api from './api';
-import { Order, OrderItem } from '../types';
+import type { Order, OrderItem } from '../types';
 
 export const orderService = {
   async getAll(): Promise<Order[]> {
