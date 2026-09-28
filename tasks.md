@@ -145,6 +145,18 @@
 ### ⏳ Em Progresso
 - Nenhuma fase em progresso
 
+## Atualizações Recentes
+
+### QA - Testes de Frontend (2025-01-XX)
+- ✅ Configurado ambiente de testes com Vitest e React Testing Library
+- ✅ Criados testes unitários para authStore (6 testes)
+- ✅ Criados testes unitários para cartStore (11 testes)
+- ✅ Criados testes unitários para services (api, productService, orderService - 24 testes)
+- ✅ Criados testes de componentes (LoginPage, ProductsPage, CustomizationPage - 11 testes)
+- ✅ Atualizado qa.md com plano de testes de frontend
+- **Total**: 52 testes automatizados para frontend
+- **Branch**: test/frontend-tests → merge local para master
+
 ### 📋 Pendente
 - Fases 12-18: Frontend
 - Fase 19: Testes e QA
