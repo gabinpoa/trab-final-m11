@@ -1,23 +1,5 @@
 import api from './api';
-
-export interface OrderItem {
-  productId: string;
-  productName: string;
-  quantity: number;
-  price: number;
-}
-
-export interface Order {
-  id: string;
-  userId: string;
-  status: string;
-  total: number;
-  freight?: number;
-  deliveryDate?: Date;
-  trackingCode?: string;
-  createdAt: Date;
-  items: OrderItem[];
-}
+import { Order, OrderItem } from '../types';
 
 export const orderService = {
   async getAll(): Promise<Order[]> {

@@ -1,14 +1,5 @@
 import api from './api';
-
-export interface Customization {
-  id: string;
-  orderId: string;
-  filename: string;
-  comment?: string;
-  thumbnailUrl?: string;
-  originalUrl?: string;
-  createdAt: Date;
-}
+import { Customization } from '../types';
 
 export const customizationService = {
   async upload(orderId: string, file: File, comment?: string): Promise<Customization> {

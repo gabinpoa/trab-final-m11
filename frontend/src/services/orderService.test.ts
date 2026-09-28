@@ -1,5 +1,6 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { orderService, Order } from './orderService';
+import { orderService } from './orderService';
+import { Order } from '../types';
 import api from './api';
 
 // Mock do api

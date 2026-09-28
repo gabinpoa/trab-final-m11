@@ -1,15 +1,5 @@
 import api from './api';
-
-export interface Product {
-  id: string;
-  name: string;
-  description: string;
-  price: number;
-  complexity: number;
-  category: string;
-  imageUrl?: string;
-  stock: number;
-}
+import { Product } from '../types';
 
 export const productService = {
   async getAll(): Promise<Product[]> {
