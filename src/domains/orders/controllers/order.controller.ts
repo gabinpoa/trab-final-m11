@@ -191,8 +191,6 @@ export const create = async (req: any, res: Response, next: NextFunction): Promi
       };
     });
 
-    const itemsTotal = itemsWithPrices.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-
     // Criar contexto da saga
     const context: SagaContext = {
       userId,
