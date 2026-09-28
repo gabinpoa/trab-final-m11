@@ -22,7 +22,7 @@ export class DatabaseHelper {
     await prisma.product.deleteMany();
     await prisma.category.deleteMany();
     await prisma.user.deleteMany();
-    // Don't delete roles as they are referenced by users
+    await prisma.role.deleteMany();
   }
 
   /**
@@ -32,13 +32,17 @@ export class DatabaseHelper {
     // Clean existing data first to avoid conflicts
     await this.cleanDatabase();
 
-    // Create roles using create (clean database)
-    const adminRole = await prisma.role.create({
-      data: { name: 'admin', permissions: ['all'] },
+    // Create roles using upsert to handle existing data
+    const adminRole = await prisma.role.upsert({
+      where: { name: 'admin' },
+      update: {},
+      create: { name: 'admin', permissions: ['all'] },
     });
 
-    const userRole = await prisma.role.create({
-      data: { name: 'user', permissions: ['create_orders', 'view_orders'] },
+    const userRole = await prisma.role.upsert({
+      where: { name: 'user' },
+      update: {},
+      create: { name: 'user', permissions: ['create_orders', 'view_orders'] },
     });
 
     // Create users using create
