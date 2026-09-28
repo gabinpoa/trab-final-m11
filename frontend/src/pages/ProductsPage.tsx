@@ -124,7 +124,7 @@ export default function ProductsPage() {
               )}
               <h3 style={{ margin: '0 0 10px 0' }}>{product.name}</h3>
               <p style={{ color: '#666', fontSize: '14px', marginBottom: '10px', flex: 1 }}>{product.description}</p>
-              <p style={{ fontWeight: 'bold', fontSize: '18px', marginBottom: '5px' }}>R$ {product.price.toFixed(2)}</p>
+              <p style={{ fontWeight: 'bold', fontSize: '18px', marginBottom: '5px' }}>R$ {Number(product.price).toFixed(2)}</p>
               <p style={{ fontSize: '12px', color: '#999', marginBottom: '10px' }}>Complexidade: {product.complexity}</p>
               <p style={{ fontSize: '12px', color: product.stock > 0 ? 'green' : 'red', marginBottom: '10px' }}>
                 Estoque: {product.stock}

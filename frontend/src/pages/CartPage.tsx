@@ -44,7 +44,7 @@ export default function CartPage() {
               )}
               <div style={{ flex: 1 }}>
                 <h3 style={{ margin: '0 0 5px 0' }}>{item.name}</h3>
-                <p style={{ margin: '0', color: '#666' }}>R$ {item.price.toFixed(2)}</p>
+                <p style={{ margin: '0', color: '#666' }}>R$ {Number(item.price).toFixed(2)}</p>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                 <button
@@ -63,7 +63,7 @@ export default function CartPage() {
               </div>
               <div style={{ textAlign: 'right', minWidth: '100px' }}>
                 <p style={{ margin: '0', fontWeight: 'bold', fontSize: '18px' }}>
-                  R$ {(item.price * item.quantity).toFixed(2)}
+                  R$ {Number(item.price * item.quantity).toFixed(2)}
                 </p>
               </div>
               <button
@@ -80,7 +80,7 @@ export default function CartPage() {
         <div style={{ border: '1px solid #ddd', borderRadius: '8px', padding: '20px', backgroundColor: '#f8f9fa' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
             <span>Subtotal:</span>
-            <span>R$ {getTotal().toFixed(2)}</span>
+            <span>R$ {Number(getTotal()).toFixed(2)}</span>
           </div>
           <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
             <span>Frete:</span>
@@ -88,7 +88,7 @@ export default function CartPage() {
           </div>
           <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight: 'bold', fontSize: '20px', marginBottom: '20px', borderTop: '1px solid #ddd', paddingTop: '10px' }}>
             <span>Total:</span>
-            <span>R$ {getTotal().toFixed(2)}</span>
+            <span>R$ {Number(getTotal()).toFixed(2)}</span>
           </div>
           <div style={{ display: 'flex', gap: '10px' }}>
             <button

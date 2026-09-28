@@ -84,8 +84,8 @@ export default function OrdersPage() {
               <h2>Detalhes do Pedido</h2>
               <p><strong>ID:</strong> {selectedOrder.id}</p>
               <p><strong>Status:</strong> <span style={{ backgroundColor: getStatusColor(selectedOrder.status), color: 'white', padding: '4px 8px', borderRadius: '4px' }}>{selectedOrder.status}</span></p>
-              <p><strong>Total:</strong> R$ {selectedOrder.total.toFixed(2)}</p>
-              {selectedOrder.freight && <p><strong>Frete:</strong> R$ {selectedOrder.freight.toFixed(2)}</p>}
+              <p><strong>Total:</strong> R$ {Number(selectedOrder.total).toFixed(2)}</p>
+              {selectedOrder.freight && <p><strong>Frete:</strong> R$ {Number(selectedOrder.freight).toFixed(2)}</p>}
               {selectedOrder.deliveryDate && <p><strong>Data de Entrega:</strong> {new Date(selectedOrder.deliveryDate).toLocaleDateString()}</p>}
               {selectedOrder.trackingCode && <p><strong>Código de Rastreamento:</strong> {selectedOrder.trackingCode}</p>}
               <p><strong>Data do Pedido:</strong> {new Date(selectedOrder.createdAt).toLocaleString()}</p>
@@ -94,7 +94,7 @@ export default function OrdersPage() {
               <ul>
                 {selectedOrder.items.map((item, index) => (
                   <li key={index}>
-                    {item.productName} - {item.quantity}x - R$ {item.price.toFixed(2)}
+                    {item.productName} - {item.quantity}x - R$ {Number(item.price).toFixed(2)}
                   </li>
                 ))}
               </ul>
@@ -122,7 +122,7 @@ export default function OrdersPage() {
                       <p style={{ margin: '0', color: '#666' }}>
                         Status: <span style={{ backgroundColor: getStatusColor(order.status), color: 'white', padding: '4px 8px', borderRadius: '4px', fontSize: '12px' }}>{order.status}</span>
                       </p>
-                      <p style={{ margin: '5px 0 0 0', fontWeight: 'bold' }}>R$ {order.total.toFixed(2)}</p>
+                      <p style={{ margin: '5px 0 0 0', fontWeight: 'bold' }}>R$ {Number(order.total).toFixed(2)}</p>
                       <p style={{ margin: '0', fontSize: '12px', color: '#999' }}>{new Date(order.createdAt).toLocaleString()}</p>
                     </div>
                     <div style={{ display: 'flex', gap: '10px' }}>

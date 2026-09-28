@@ -138,7 +138,7 @@ export default function AdminPage() {
                 {orders.filter(o => o.status === 'pending').map((order) => (
                   <div key={order.id} style={{ border: '1px solid #ddd', borderRadius: '8px', padding: '15px' }}>
                     <h3>Pedido #{order.id.substring(0, 8)}</h3>
-                    <p><strong>Total:</strong> R$ {order.total.toFixed(2)}</p>
+                    <p><strong>Total:</strong> R$ {Number(order.total).toFixed(2)}</p>
                     <p><strong>Data:</strong> {new Date(order.createdAt).toLocaleString()}</p>
                     <div style={{ marginTop: '10px', display: 'flex', gap: '10px' }}>
                       <button
