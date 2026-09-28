@@ -134,6 +134,14 @@
 - ✅ Mostrar histórico de alterações
 - ✅ Adicionar rota pública de rastreamento
 
+#### Fase 18: Frontend - Admin
+- ✅ Implementar painel admin
+- ✅ Implementar aprovação de pedidos
+- ✅ Implementar rejeição de pedidos
+- ✅ Implementar gestão de fila de produção
+- ✅ Implementar atualização de etapas
+- ✅ Adicionar link admin no Header (apenas para admin)
+
 ### ⏳ Em Progresso
 - Nenhuma fase em progresso
 

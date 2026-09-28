@@ -21,6 +21,7 @@ export default function Header() {
           <li><a href="/customization" style={{ textDecoration: 'none', color: '#333' }}>Personalização</a></li>
           <li><a href="/cart" style={{ textDecoration: 'none', color: '#333' }}>Carrinho</a></li>
           <li><a href="/orders" style={{ textDecoration: 'none', color: '#333' }}>Pedidos</a></li>
+          {user?.role === 'admin' && <li><a href="/admin" style={{ textDecoration: 'none', color: '#dc3545', fontWeight: 'bold' }}>Admin</a></li>}
         </ul>
       </nav>
       <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
