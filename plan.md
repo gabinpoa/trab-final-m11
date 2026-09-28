@@ -67,6 +67,7 @@ Implementar uma plataforma monolítica modular para gestão de pedidos de produt
 - **Formulários**: React Hook Form + Zod
 - **UI Components**: Material UI, Chakra UI ou shadcn/ui
 - **QR Code Scanner**: react-qr-reader ou html5-qrcode
+- **Testes**: Vitest + React Testing Library + MSW
 
 ### Banco de Dados
 - **SGBD**: PostgreSQL 14+ (recomendado sobre MySQL por features avançadas)
@@ -133,6 +134,25 @@ Implementar uma plataforma monolítica modular para gestão de pedidos de produt
 - `GET /uploads/products/:produto_id/foto.{ext}` - Servir foto do produto (público)
 - `DELETE /produtos/:id/foto` - Remover foto do produto (admin apenas)
 
+## Estratégia de Testes
+
+### Backend
+- **Framework**: Jest + Supertest
+- **Tipos de Testes**: Unitários, Integração, E2E
+- **Cobertura**: Threshold de 70-75% configurado
+- **Mocking**: Jest mocks para serviços externos
+
+### Frontend
+- **Framework**: Vitest (nativo para Vite, mais rápido que Jest)
+- **Component Testing**: React Testing Library (padrão da indústria)
+- **API Mocking**: MSW (Mock Service Worker) para consistência
+- **Tipos de Testes**:
+  - Unitários: Stores (Zustand), Services, Utilitários
+  - Componentes: Páginas e componentes reutilizáveis
+  - Integração: Fluxos de usuário completos
+- **Cobertura**: Target inicial de 60% (realista para MVP)
+- **Ambiente**: jsdom para simulação de browser
+
 ## Riscos Técnicos
 
 ### Alto Impacto
@@ -191,6 +211,7 @@ Implementar uma plataforma monolítica modular para gestão de pedidos de produt
 - Qual será a estratégia de redimensionamento/thumbnails para fotos de produtos (MVP)?
 - Como será implementada a validação obrigatória de foto no cadastro de produtos?
 - Qual será a estratégia de serving das fotos do catálogo (estático ou via middleware)?
+- Como será a estrutura de organização dos testes do frontend (unitários, componentes, integração)?
 
 ### Para o QA
 - Quais cenários de teste específicos para a saga de criação de pedido?
@@ -203,3 +224,5 @@ Implementar uma plataforma monolítica modular para gestão de pedidos de produt
 - Como testar exibição correta das fotos no catálogo?
 - Como validar que fotos de produtos são servidas corretamente no frontend?
 - Como testar atualização/substituição de fotos de produtos existentes?
+- Como criar testes de integração para fluxos de usuário no frontend?
+- Qual estratégia de mocking de APIs para testes do frontend?
