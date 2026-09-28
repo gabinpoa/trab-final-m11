@@ -5,7 +5,7 @@ import { generateId } from '../../../shared/utils/idGenerator';
 
 // Configuração de storage para personalizações
 const customizationStorage = multer.diskStorage({
-  destination: (req, file, cb) => {
+  destination: (req, cb) => {
     // Extrair order ID dos parâmetros
     const orderId = req.params.orderId || req.body.orderId;
     
