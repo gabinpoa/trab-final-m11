@@ -174,6 +174,16 @@ export const create = async (req: any, res: Response, next: NextFunction): Promi
       return;
     }
 
+    // Verificar se o usuário existe
+    const user = await prisma.user.findUnique({
+      where: { id: userId }
+    });
+
+    if (!user) {
+      res.status(404).json({ message: 'User not found' });
+      return;
+    }
+
     // Buscar produtos para obter preços
     const products = await prisma.product.findMany({
       where: {
