@@ -11,6 +11,7 @@ import customizationRoutes from './domains/customizations/routes';
 import approvalRoutes from './domains/approvals/routes';
 import productionRoutes from './domains/production/routes';
 import qrcodeRoutes from './domains/qrcode/routes';
+import { swaggerRouter } from './shared/middlewares/swagger';
 import path from 'path';
 
 const app: Application = express();
@@ -41,6 +42,9 @@ app.use('/customizations', customizationRoutes);
 app.use('/approvals', approvalRoutes);
 app.use('/production', productionRoutes);
 app.use('/qrcode', qrcodeRoutes);
+
+// Swagger documentation
+app.use('/api-docs', swaggerRouter);
 
 // Health check (requisito do DevOps para monitoramento)
 app.get('/health', async (_req, res) => {
