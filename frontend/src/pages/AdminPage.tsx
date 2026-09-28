@@ -201,7 +201,7 @@ export default function AdminPage() {
               </div>
             )}
           </div>
-        ) : (
+        ) : activeTab === 'production' ? (
           <div>
             <h2>Fila de Produção</h2>
             {productionQueue.length === 0 ? (
