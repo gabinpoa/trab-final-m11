@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { orderService } from './orderService';
-import { Order } from '../types';
+import type { Order } from '../types';
 import api from './api';
 
 // Mock do api
@@ -18,11 +18,14 @@ describe('orderService', () => {
       status: 'pending',
       total: 100,
       freight: 20,
-      deliveryDate: new Date('2024-01-01'),
+      deliveryDate: '2024-01-01T00:00:00.000Z',
       trackingCode: 'TRACK123',
-      createdAt: new Date('2024-01-01'),
+      createdAt: '2024-01-01T00:00:00.000Z',
+      updatedAt: '2024-01-01T00:00:00.000Z',
       items: [
         {
+          id: 'item1',
+          orderId: '1',
           productId: 'prod1',
           productName: 'Product 1',
           quantity: 1,
@@ -36,11 +39,14 @@ describe('orderService', () => {
       status: 'approved',
       total: 200,
       freight: 30,
-      deliveryDate: new Date('2024-01-02'),
+      deliveryDate: '2024-01-02T00:00:00.000Z',
       trackingCode: 'TRACK456',
-      createdAt: new Date('2024-01-02'),
+      createdAt: '2024-01-02T00:00:00.000Z',
+      updatedAt: '2024-01-02T00:00:00.000Z',
       items: [
         {
+          id: 'item2',
+          orderId: '2',
           productId: 'prod2',
           productName: 'Product 2',
           quantity: 2,

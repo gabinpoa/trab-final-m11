@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import Header from '../components/Header';
 import { productService } from '../services/productService';
-import { Product } from '../types';
+import type { Product } from '../types';
 import { useCartStore } from '../stores/cartStore';
 
 export default function ProductsPage() {
