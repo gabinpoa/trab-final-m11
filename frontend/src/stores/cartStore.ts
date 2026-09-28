@@ -17,30 +17,43 @@ interface CartState {
   getTotal: () => number;
 }
 
+// Carregar carrinho do localStorage ao inicializar
+const cartFromStorage = localStorage.getItem('cart');
+const initialItems = cartFromStorage ? JSON.parse(cartFromStorage) : [];
+
 export const useCartStore = create<CartState>((set, get) => ({
-  items: [],
+  items: initialItems,
   addItem: (item) => set((state) => {
     const existingItem = state.items.find((i) => i.productId === item.productId);
+    let newItems;
     if (existingItem) {
-      return {
-        items: state.items.map((i) =>
-          i.productId === item.productId
-            ? { ...i, quantity: i.quantity + item.quantity }
-            : i
-        ),
-      };
+      newItems = state.items.map((i) =>
+        i.productId === item.productId
+          ? { ...i, quantity: i.quantity + item.quantity }
+          : i
+      );
+    } else {
+      newItems = [...state.items, item];
     }
-    return { items: [...state.items, item] };
+    localStorage.setItem('cart', JSON.stringify(newItems));
+    return { items: newItems };
   }),
-  removeItem: (productId) => set((state) => ({
-    items: state.items.filter((i) => i.productId !== productId),
-  })),
-  updateQuantity: (productId, quantity) => set((state) => ({
-    items: state.items.map((i) =>
+  removeItem: (productId) => set((state) => {
+    const newItems = state.items.filter((i) => i.productId !== productId);
+    localStorage.setItem('cart', JSON.stringify(newItems));
+    return { items: newItems };
+  }),
+  updateQuantity: (productId, quantity) => set((state) => {
+    const newItems = state.items.map((i) =>
       i.productId === productId ? { ...i, quantity } : i
-    ),
-  })),
-  clearCart: () => set({ items: [] }),
+    );
+    localStorage.setItem('cart', JSON.stringify(newItems));
+    return { items: newItems };
+  }),
+  clearCart: () => {
+    localStorage.removeItem('cart');
+    return set({ items: [] });
+  },
   getTotal: () => {
     const state = get();
     return state.items.reduce((total, item) => total + item.price * item.quantity, 0);
