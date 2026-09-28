@@ -44,13 +44,16 @@ stages:
 
 ### Pipeline Detalhado
 1. **Test Stage** (on push to any branch)
-   - Run unit tests: `npm test`
+   - Run backend unit tests: `npm test`
+   - Run frontend tests: `npm run test:frontend`
    - Run integration tests: `npm run test:integration`
    - Lint: `npm run lint`
    - Type check: `npm run type-check`
+   - Frontend type check: `npm run type-check:frontend`
 
 2. **Build Stage** (on push to main/develop)
    - Build Docker image
+   - Build frontend: `npm run build:frontend`
    - Security scan básico (npm audit)
    - Push para GitHub Container Registry (gratuito)
 
@@ -90,6 +93,31 @@ jobs:
         run: curl -f $APP_URL/health || exit 1
 ```
 
+### Workflow de Testes Frontend (GitHub Actions)
+```yaml
+# .github/workflows/test-frontend.yml
+on:
+  push:
+    paths:
+      - 'frontend/**'
+      - 'package.json'
+  pull_request:
+    paths:
+      - 'frontend/**'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      - run: npm ci
+      - run: npm run test:frontend
+      - run: npm run test:coverage:frontend
+```
+
 ## Monitoramento
 
 ### Métricas Coletadas
@@ -118,6 +146,10 @@ jobs:
   - 50 monitors, check a cada 5 minutos
   - Alerta por email
   - **Uso adicional**: Ping endpoint `/health` a cada 10 minutos para evitar app sleep
+- **Test Coverage**: Codecov ou Coveralls (gratuito)
+  - Integração com Jest (backend) e Vitest (frontend)
+  - Badge no README com cobertura
+  - Alerta se cobertura cair abaixo do threshold (60% frontend, 70% backend)
 - **Custom Metrics**: Não implementado no MVP (opcional para v2)
 
 ### Alertas
@@ -370,6 +402,19 @@ jobs:
 - **Fallback**: Implementar comportamento degradado
 - **Retry**: Com exponential backoff
 
+### Testes
+- **Backend**: Implementar testes com Jest + Supertest
+  - Cobertura mínima: 70-75%
+  - Tipos: Unitários, integração e E2E
+  - Mocking: Jest mocks para serviços externos
+- **Frontend**: Implementar testes com Vitest + React Testing Library
+  - Cobertura mínima: 60%
+  - Tipos: Unitários (stores, services), componentes, integração
+  - MSW para mocking de APIs
+  - Ambiente: jsdom para simulação de browser
+- **CI/CD**: Testes devem passar antes de deploy
+- **Coverage**: Thresholds configurados para falhar se cobertura cair abaixo do mínimo
+
 ## Custos Estimados (MVP)
 
 ### Mensal (100% Gratuito)
@@ -379,6 +424,7 @@ jobs:
 - **Storage**: $0 (Render Free - 100MB)
 - **CDN**: $0 (Cloudflare Free)
 - **Monitoring**: $0 (Sentry Free + UptimeRobot Free)
+- **Test Coverage**: $0 (Codecov ou Coveralls Free)
 - **CI/CD**: $0 (GitHub Actions Free)
 - **Total**: $0/mês
 
