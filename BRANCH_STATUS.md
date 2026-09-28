@@ -8,7 +8,10 @@
 - **QA**: ⏳ Pronto para iniciar (se necessário)
 
 ## Branches Ativas
-- Nenhuma branch ativa no momento
+- **fix/test-ci-cd**: ✅ Pronta para merge local (correções de testes para CI/CD)
+  - 164/164 testes passando (100%)
+  - Corrigido database-helper.ts para resolver constraints
+  - Commit: 0d2d008
 
 ## Histórico de Merges Locais Recentes
 - [x] feat(agents): add DevOps agent and refine agent scopes (master)
