@@ -3,7 +3,6 @@ import { ProductionService } from '../services/production.service';
 import { UpdateStageDto } from '../dto/production.dto';
 import logger from '../../../shared/utils/logger';
 import { AuthRequest } from '../../../shared/types/express';
-import { roleMiddleware } from '../../../shared/middlewares/auth';
 
 export class ProductionController {
   private service: ProductionService;
