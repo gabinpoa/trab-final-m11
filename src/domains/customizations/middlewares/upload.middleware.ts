@@ -5,12 +5,12 @@ import { generateId } from '../../../shared/utils/idGenerator';
 
 // Configuração de storage para personalizações
 const customizationStorage = multer.diskStorage({
-  destination: (req, cb) => {
+  destination: (req: any, callback: any) => {
     // Extrair order ID dos parâmetros
     const orderId = req.params.orderId || req.body.orderId;
     
     if (!orderId) {
-      return cb(new Error('Order ID is required'), '');
+      return callback(new Error('Order ID is required'), '');
     }
 
     // Criar estrutura hierárquica: uploads/customizations/{orderId}/
@@ -21,13 +21,13 @@ const customizationStorage = multer.diskStorage({
       fs.mkdirSync(uploadDir, { recursive: true });
     }
 
-    cb(null, uploadDir);
+    callback(null, uploadDir);
   },
-  filename: (_req, file, cb) => {
+  filename: (_req: any, file: any, callback: any) => {
     // Nome único com ID gerado para evitar conflitos
     const uniqueName = generateId();
     const ext = path.extname(file.originalname);
-    cb(null, `customization-${uniqueName}${ext}`);
+    callback(null, `customization-${uniqueName}${ext}`);
   },
 });
 
