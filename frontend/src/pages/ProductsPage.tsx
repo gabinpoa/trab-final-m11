@@ -112,9 +112,9 @@ export default function ProductsPage() {
         {error && <p style={{ color: 'red', marginBottom: '20px' }}>{error}</p>}
 
         {/* Lista de produtos */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: '20px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '20px' }}>
           {products.map((product) => (
-            <div key={product.id} style={{ border: '1px solid #ddd', borderRadius: '8px', padding: '15px', display: 'flex', flexDirection: 'column' }}>
+            <div key={product.id} style={{ border: '1px solid #ddd', borderRadius: '8px', padding: '15px', display: 'flex', flexDirection: 'column', wordWrap: 'break-word', overflow: 'hidden' }}>
               {product.imageUrl && (
                 <img 
                   src={product.imageUrl} 
@@ -122,8 +122,8 @@ export default function ProductsPage() {
                   style={{ width: '100%', height: '200px', objectFit: 'cover', borderRadius: '4px', marginBottom: '10px' }}
                 />
               )}
-              <h3 style={{ margin: '0 0 10px 0' }}>{product.name}</h3>
-              <p style={{ color: '#666', fontSize: '14px', marginBottom: '10px', flex: 1 }}>{product.description}</p>
+              <h3 style={{ margin: '0 0 10px 0', wordWrap: 'break-word', overflow: 'hidden' }}>{product.name}</h3>
+              <p style={{ color: '#666', fontSize: '14px', marginBottom: '10px', flex: 1, wordWrap: 'break-word', overflow: 'hidden' }}>{product.description}</p>
               <p style={{ fontWeight: 'bold', fontSize: '18px', marginBottom: '5px' }}>R$ {Number(product.price).toFixed(2)}</p>
               <p style={{ fontSize: '12px', color: '#999', marginBottom: '10px' }}>Complexidade: {product.complexity}</p>
               <p style={{ fontSize: '12px', color: product.stock > 0 ? 'green' : 'red', marginBottom: '10px' }}>
