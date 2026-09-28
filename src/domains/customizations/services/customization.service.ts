@@ -3,7 +3,7 @@ import { ImageProcessingService } from './imageProcessing.service';
 import path from 'path';
 import fs from 'fs';
 import prisma from '../../../shared/config/database';
-import { CreateCustomizationDto, CustomizationResponseDto } from '../dto/customization.dto';
+import { CustomizationResponseDto } from '../dto/customization.dto';
 
 export class CustomizationService {
   private repository: CustomizationRepository;
