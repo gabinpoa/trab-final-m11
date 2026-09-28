@@ -142,6 +142,17 @@
 - ✅ Implementar atualização de etapas
 - ✅ Adicionar link admin no Header (apenas para admin)
 
+#### Fase 19: Testes e QA
+- ✅ Configurar ambiente de testes backend (Jest + Supertest)
+- ✅ Configurar ambiente de testes frontend (Vitest + React Testing Library)
+- ✅ Implementar testes unitários de serviços backend
+- ✅ Implementar testes de integração de APIs
+- ✅ Implementar testes de saga de criação de pedido
+- ✅ Implementar testes de componentes frontend
+- ✅ Implementar testes de stores frontend
+- ✅ Configurar MSW para mocking de APIs
+- ⏳ Implementar testes E2E com Cypress (opcional para MVP)
+
 ### ⏳ Em Progresso
 - Nenhuma fase em progresso
 
@@ -158,8 +169,6 @@
 - **Branch**: test/frontend-tests → merge local para master
 
 ### 📋 Pendente
-- Fases 12-18: Frontend
-- Fase 19: Testes e QA
 - Fase 20: DevOps e Produção
 
 ## Notas sobre o Ciclo SDD
@@ -1151,6 +1160,147 @@ Para detalhes completos do ciclo SDD e responsabilidades, consulte `SDD_CYCLE.md
 - **Estimativa**: 5 horas
 - **Dependências**: Tarefa 18.1
 
+### Fase 20: DevOps e Produção
+
+#### Tarefa 20.1: Configurar GitHub Actions para CI/CD
+- Criar workflow `.github/workflows/ci-cd.yml`
+- Configurar stages: test, build, deploy
+- Configurar test stage para backend (Jest) e frontend (Vitest)
+- Configurar build stage para Docker image
+- Configurar deploy stage para Render
+- Adicionar notificações de sucesso/falha
+- **Estimativa**: 6 horas
+- **Dependências**: Fase 19 (testes configurados)
+
+#### Tarefa 20.2: Configurar workflow de backup de banco
+- Criar workflow `.github/workflows/backup-db.yml`
+- Configurar agendamento semanal (domingo 2AM)
+- Implementar pg_dump via GitHub Actions
+- Configurar upload para GitHub Releases
+- Testar restore manual
+- **Estimativa**: 4 horas
+- **Dependências**: Tarefa 20.1
+
+#### Tarefa 20.3: Configurar workflow de keep-alive
+- Criar workflow `.github/workflows/keep-alive.yml`
+- Configurar ping a cada 10 minutos
+- Implementar health check endpoint
+- Testar prevenção de app sleep
+- **Estimativa**: 2 horas
+- **Dependências**: Tarefa 20.1
+
+#### Tarefa 20.4: Configurar workflow de testes frontend
+- Criar workflow `.github/workflows/test-frontend.yml`
+- Configurar trigger para mudanças em frontend/
+- Implementar testes com Vitest
+- Configurar coverage com Codecov/Coveralls
+- Adicionar thresholds (60% frontend, 70% backend)
+- **Estimativa**: 4 horas
+- **Dependências**: Tarefa 20.1, Fase 19 (testes frontend)
+
+#### Tarefa 20.5: Configurar monitoramento com Sentry
+- Criar conta no Sentry (free tier)
+- Configurar SDK no backend
+- Configurar captura de erros não tratados
+- Configurar context (user, request)
+- Testar captura de erros
+- **Estimativa**: 3 horas
+- **Dependências**: Tarefa 20.1
+
+#### Tarefa 20.6: Configurar uptime monitoring com UptimeRobot
+- Criar conta no UptimeRobot (free)
+- Configurar monitor para endpoint /health
+- Configurar alertas por email
+- Configurar ping a cada 5 minutos
+- Testar alertas
+- **Estimativa**: 1 hora
+- **Dependências**: Tarefa 20.3
+
+#### Tarefa 20.7: Configurar test coverage com Codecov/Coveralls
+- Criar conta no Codecov ou Coveralls (free)
+- Configurar integração com GitHub
+- Configurar badges no README
+- Configurar thresholds de cobertura
+- Testar reports
+- **Estimativa**: 2 horas
+- **Dependências**: Tarefa 20.4
+
+#### Tarefa 20.8: Configurar deploy no Render
+- Criar conta no Render (free tier)
+- Conectar repositório GitHub
+- Configurar build settings
+- Configurar variáveis de ambiente
+- Configurar PostgreSQL free tier
+- Configurar disk persistente (100MB)
+- Testar deploy automático
+- **Estimativa**: 4 horas
+- **Dependências**: Tarefa 20.1
+
+#### Tarefa 20.9: Implementar health check endpoint
+- Implementar endpoint GET /health
+- Verificar conexão com banco de dados
+- Verificar conexão com Redis (se usado)
+- Retornar status, timestamp, uptime
+- Adicionar documentação Swagger
+- **Estimativa**: 2 horas
+- **Dependências**: Fase 1 (infraestrutura base)
+
+#### Tarefa 20.10: Implementar graceful shutdown
+- Implementar shutdown signals (SIGTERM, SIGINT)
+- Desconectar do banco antes de encerrar
+- Implementar timeout de 10 segundos
+- Testar shutdown graceful
+- **Estimativa**: 3 horas
+- **Dependências**: Fase 1
+
+#### Tarefa 20.11: Configurar Cloudflare CDN
+- Criar conta no Cloudflare (free)
+- Configurar domínio ou subdomínio
+- Configurar CDN para assets estáticos
+- Configurar cache de fotos do catálogo
+- Configurar SSL/TLS automático
+- Configurar WAF básico
+- **Estimativa**: 3 horas
+- **Dependências**: Tarefa 20.8
+
+#### Tarefa 20.12: Documentar procedimentos operacionais
+- Criar `docs/runbooks/deploy.md`
+- Criar `docs/runbooks/rollback.md`
+- Criar `docs/runbooks/backup-recovery.md`
+- Criar `docs/runbooks/troubleshooting.md`
+- Criar `docs/onboarding.md`
+- Documentar janelas de manutenção
+- Documentar procedimentos de escalation
+- **Estimativa**: 6 horas
+- **Dependências**: Tarefa 20.8
+
+#### Tarefa 20.13: Configurar limpeza automática de storage
+- Implementar job para limpar arquivos antigos
+- Configurar limpeza de personalizações após 30 dias
+- Configurar limpeza de fotos de produtos descontinuados
+- Implementar compressão agressiva de imagens
+- Monitorar uso de storage
+- **Estimativa**: 4 horas
+- **Dependências**: Tarefa 20.8
+
+#### Tarefa 20.14: Testar disaster recovery
+- Simular falha de banco
+- Testar restore de backup
+- Testar recovery de storage
+- Documentar RTO e RPO
+- Ajustar procedimentos se necessário
+- **Estimativa**: 4 horas
+- **Dependências**: Tarefa 20.2, Tarefa 20.12
+
+#### Tarefa 20.15: Preparar migração para Supabase (opcional)
+- Avaliar migração do PostgreSQL Render para Supabase
+- Preparar script de migração
+- Testar migração em staging
+- Documentar procedimento
+- Planejar timing (antes de 90 dias do Render)
+- **Estimativa**: 6 horas
+- **Dependências**: Tarefa 20.8
+
 ### Fase 19: Testes e QA
 
 #### Tarefa 19.1: Implementar testes unitários de serviços
@@ -1223,7 +1373,7 @@ Consulte `DevOps-agent.md` e `devops.md` para detalhes de infraestrutura, deploy
 - Fase 8 (Upload) deve ser completada antes da Fase 9 (Aprovação)
 - Fase 12 (Frontend Config) deve ser completada antes das fases 13-18 (Frontend)
 - Fase 19 (Testes) pode ser desenvolvida em paralelo com as fases de implementação
-- Fase 20 (DevOps) deve ser a última fase
+- Fase 20 (DevOps) deve ser a última fase, após conclusão de todas as outras
 
 ## Estimativas
 
@@ -1247,12 +1397,14 @@ Consulte `DevOps-agent.md` e `devops.md` para detalhes de infraestrutura, deploy
 - **Fase 17: Frontend - Rastreamento**: 14 horas (~2 dias)
 - **Fase 18: Frontend - Admin**: 25 horas (~3 dias)
 - **Fase 19: Testes e QA**: 35 horas (~4.5 dias)
+- **Fase 20: DevOps e Produção**: 54 horas (~7 dias)
 
 ### Estimativa Total
 - **Backend (Fases 1-11)**: ~237 horas (~30 dias)
 - **Frontend (Fases 12-18)**: ~127 horas (~16 dias)
 - **Testes (Fase 19)**: ~35 horas (~4.5 dias)
-- **Total**: ~399 horas (~50 dias úteis)
+- **DevOps (Fase 20)**: ~54 horas (~7 dias)
+- **Total**: ~453 horas (~57 dias úteis)
 
 ### Notas sobre Estimativas
 - Estimativas assumem 1 desenvolvedor trabalhando 8 horas/dia
