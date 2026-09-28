@@ -70,6 +70,7 @@ model Product {
   description String?
   price       Decimal
   complexity  Int       @default(1)
+  stock       Int       @default(0)
   imageUrl    String    @db.VarChar(500)
   categoryId  String
   category    Category  @relation(fields: [categoryId], references: [id])
