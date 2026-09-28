@@ -16,7 +16,7 @@ export default function OrdersPage() {
   const loadOrders = async () => {
     try {
       setLoading(true);
-      const data = await orderService.getAll();
+      const data = await orderService.getMyOrders();
       setOrders(data);
     } catch (err: any) {
       setError('Failed to load orders');
