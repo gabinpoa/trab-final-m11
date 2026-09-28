@@ -153,6 +153,15 @@
 - ✅ Configurar MSW para mocking de APIs
 - ⏳ Implementar testes E2E com Cypress (opcional para MVP)
 
+#### Fase 20: Requisitos Operacionais
+- ✅ Implementar health check endpoint
+- ✅ Implementar graceful shutdown
+- ✅ Implementar logging estruturado com contexto
+- ✅ Implementar error handling global
+- ✅ Implementar cache em memória local (sem Redis)
+- ✅ Implementar compressão de imagens
+- ✅ Implementar limpeza automática de storage
+
 ### ⏳ Em Progresso
 - Nenhuma fase em progresso
 
@@ -169,7 +178,7 @@
 - **Branch**: test/frontend-tests → merge local para master
 
 ### 📋 Pendente
-- Fase 20: DevOps e Produção
+- Nenhuma fase pendente
 
 ## Notas sobre o Ciclo SDD
 

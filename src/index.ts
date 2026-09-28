@@ -1,10 +1,14 @@
 import { startServer } from './app';
+import { StorageCleanupService } from './shared/services/storageCleanup.service';
 
 console.log('Starting server...');
 
 const server = startServer();
 
 console.log('Server started, keeping process alive...');
+
+// Iniciar serviço de limpeza automática de storage
+StorageCleanupService.startScheduledCleanup();
 
 // Keep the process alive indefinitely
 setInterval(() => {
