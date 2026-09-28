@@ -1,5 +1,6 @@
 import { startServer } from './app';
 import { StorageCleanupService } from './shared/services/storageCleanup.service';
+import prisma from './shared/config/database';
 
 console.log('Starting server...');
 
