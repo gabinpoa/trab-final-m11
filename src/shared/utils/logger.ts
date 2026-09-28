@@ -18,7 +18,7 @@ export const logger = pino({
     err: pino.stdSerializers.err,
   },
   // Base context para logs estruturados (requisito do DevOps)
-  baseData: {
+  base: {
     env: process.env.NODE_ENV || 'development',
   },
 });
@@ -37,7 +37,7 @@ export const requestLogger = (req: any, res: any, next: any) => {
   
   // Log de resposta
   const originalSend = res.send;
-  res.send = function (data) {
+  res.send = function (data: any) {
     res.send = originalSend;
     logger.info({
       requestId,
