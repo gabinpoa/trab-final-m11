@@ -2,6 +2,7 @@ import { Response, NextFunction } from 'express';
 import orderService from '../services/order.service';
 import logger from '../../../shared/utils/logger';
 import { OrderSagaCoordinator, ReserveMaterialsStep, CalculateFreightStep, CreateOrderStep, SagaContext } from '../saga';
+import prisma from '../../../shared/config/database';
 
 /**
  * @swagger
@@ -173,10 +174,29 @@ export const create = async (req: any, res: Response, next: NextFunction): Promi
       return;
     }
 
+    // Buscar produtos para obter preços
+    const products = await prisma.product.findMany({
+      where: {
+        id: { in: items.map((item: any) => item.productId) }
+      }
+    });
+
+    // Calcular total dos itens
+    const itemsWithPrices = items.map((item: any) => {
+      const product = products.find(p => p.id === item.productId);
+      return {
+        productId: item.productId,
+        quantity: item.quantity,
+        price: product ? Number(product.price) : 0,
+      };
+    });
+
+    const itemsTotal = itemsWithPrices.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+
     // Criar contexto da saga
     const context: SagaContext = {
       userId,
-      items,
+      items: itemsWithPrices,
       cep,
       status: 'pending',
       completedSteps: [],
