@@ -4,7 +4,11 @@ import axios from 'axios';
 // Mock dependencies
 jest.mock('axios');
 jest.mock('../../../shared/config/env');
-jest.mock('../../../shared/utils/logger');
+jest.mock('../../../shared/utils/logger', () => ({
+  error: jest.fn(),
+  info: jest.fn(),
+  warn: jest.fn(),
+}));
 
 describe('HolidaysAPIClient', () => {
   let holidaysClient: any;

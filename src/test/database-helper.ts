@@ -22,31 +22,28 @@ export class DatabaseHelper {
     await prisma.product.deleteMany();
     await prisma.category.deleteMany();
     await prisma.user.deleteMany();
-    await prisma.role.deleteMany();
+    // Don't delete roles as they are referenced by users
   }
 
   /**
    * Seed the database with test data
    */
   static async seedDatabase() {
-    // Create roles using upsert to handle existing data
-    const adminRole = await prisma.role.upsert({
-      where: { name: 'admin' },
-      update: {},
-      create: { name: 'admin', permissions: ['all'] },
+    // Clean existing data first to avoid conflicts
+    await this.cleanDatabase();
+
+    // Create roles using create (clean database)
+    const adminRole = await prisma.role.create({
+      data: { name: 'admin', permissions: ['all'] },
     });
 
-    const userRole = await prisma.role.upsert({
-      where: { name: 'user' },
-      update: {},
-      create: { name: 'user', permissions: ['create_orders', 'view_orders'] },
+    const userRole = await prisma.role.create({
+      data: { name: 'user', permissions: ['create_orders', 'view_orders'] },
     });
 
-    // Create users using upsert
-    const adminUser = await prisma.user.upsert({
-      where: { email: 'admin@test.com' },
-      update: {},
-      create: {
+    // Create users using create
+    const adminUser = await prisma.user.create({
+      data: {
         email: 'admin@test.com',
         password: '$2b$10$test', // hashed password
         name: 'Test Admin',
@@ -54,10 +51,8 @@ export class DatabaseHelper {
       },
     });
 
-    const regularUser = await prisma.user.upsert({
-      where: { email: 'user@test.com' },
-      update: {},
-      create: {
+    const regularUser = await prisma.user.create({
+      data: {
         email: 'user@test.com',
         password: '$2b$10$test', // hashed password
         name: 'Test User',
@@ -65,11 +60,9 @@ export class DatabaseHelper {
       },
     });
 
-    // Create categories using upsert
-    const category = await prisma.category.upsert({
-      where: { name: 'Test Category' },
-      update: {},
-      create: { name: 'Test Category' },
+    // Create categories using create
+    const category = await prisma.category.create({
+      data: { name: 'Test Category' },
     });
 
     // Create products using create with random data to avoid conflicts

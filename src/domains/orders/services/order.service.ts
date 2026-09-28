@@ -1,6 +1,7 @@
 import orderRepository from '../repositories/order.repository';
 import logger from '../../../shared/utils/logger';
 import prisma from '../../../shared/config/database';
+import { OrderStatus } from '@prisma/client';
 
 export interface CreateOrderDto {
   userId: string;
@@ -15,7 +16,7 @@ export interface CreateOrderDto {
 }
 
 export interface UpdateOrderDto {
-  status?: string;
+  status?: OrderStatus;
   freight?: number;
   deliveryDate?: Date;
 }
@@ -104,7 +105,7 @@ export class OrderService {
         await prisma.orderHistory.create({
           data: {
             orderId: id,
-            status: dto.status as any,
+            status: dto.status,
             changedBy: order.userId,
           },
         });
@@ -134,7 +135,7 @@ export class OrderService {
     }
   }
 
-  async updateStatus(id: string, status: string) {
+  async updateStatus(id: string, status: OrderStatus) {
     try {
       const order = await orderRepository.findById(id);
       if (!order) {
@@ -147,7 +148,7 @@ export class OrderService {
       await prisma.orderHistory.create({
         data: {
           orderId: id,
-          status: status as any,
+          status,
           changedBy: order.userId,
         },
       });

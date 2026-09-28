@@ -1,7 +1,7 @@
 import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
-import { v4 as uuidv4 } from 'uuid';
+import { generateId } from '../../../shared/utils/idGenerator';
 
 // Configuração de storage para personalizações
 const customizationStorage = multer.diskStorage({
@@ -24,8 +24,8 @@ const customizationStorage = multer.diskStorage({
     cb(null, uploadDir);
   },
   filename: (_req, file, cb) => {
-    // Nome único com UUID para evitar conflitos
-    const uniqueName = uuidv4();
+    // Nome único com ID gerado para evitar conflitos
+    const uniqueName = generateId();
     const ext = path.extname(file.originalname);
     cb(null, `customization-${uniqueName}${ext}`);
   },

@@ -1,10 +1,10 @@
 import prisma from '../../../shared/config/database';
-import { OrderHistory } from '@prisma/client';
+import { OrderHistory, OrderStatus } from '@prisma/client';
 
 export class OrderHistoryRepository {
   async create(data: {
     orderId: string;
-    status: string;
+    status: OrderStatus;
     changedBy?: string;
   }): Promise<OrderHistory> {
     return prisma.orderHistory.create({

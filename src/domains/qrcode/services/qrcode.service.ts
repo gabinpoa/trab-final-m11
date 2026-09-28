@@ -1,7 +1,7 @@
 import QRCode from 'qrcode';
 import path from 'path';
 import fs from 'fs';
-import { v4 as uuidv4 } from 'uuid';
+import { generateShortId } from '../../../shared/utils/idGenerator';
 import prisma from '../../../shared/config/database';
 import { QRCodeResponseDto } from '../dto/qrcode.dto';
 
@@ -88,8 +88,8 @@ export class QRCodeService {
    * Gerar código único de rastreamento
    */
   private generateTrackingCode(orderId: string): string {
-    // Usar UUID como base para garantir unicidade
-    return uuidv4().substring(0, 8).toUpperCase();
+    // Usar gerador de ID curto para garantir unicidade
+    return generateShortId();
   }
 
   /**
