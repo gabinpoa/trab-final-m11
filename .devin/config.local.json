@@ -6,7 +6,8 @@
       "Exec(npm test)",
       "Exec(podman logs)",
       "Exec(git log)",
-      "Exec(cat)"
+      "Exec(cat)",
+      "Exec(taskkill)"
     ]
   }
 }

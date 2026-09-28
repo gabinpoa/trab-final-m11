@@ -1,4 +1,5 @@
 import express, { Application } from 'express';
+import cors from 'cors';
 import { config } from './shared/config/env';
 import logger from './shared/utils/logger';
 import prisma from './shared/config/database';
@@ -13,6 +14,12 @@ import qrcodeRoutes from './domains/qrcode/routes';
 import path from 'path';
 
 const app: Application = express();
+
+// CORS middleware
+app.use(cors({
+  origin: ['http://localhost:5173', 'http://localhost:5174', 'http://localhost:5175'],
+  credentials: true,
+}));
 
 // Middleware
 app.use(express.json());
