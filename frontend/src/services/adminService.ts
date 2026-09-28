@@ -20,4 +20,19 @@ export const adminService = {
     const response = await api.put(`/production/queue/${queueId}/stage`, { stage });
     return response.data;
   },
+
+  async getMaterials(): Promise<any[]> {
+    const response = await api.get('/materials');
+    return response.data;
+  },
+
+  async createMaterial(data: { name: string; quantity: number; minLevel: number }): Promise<any> {
+    const response = await api.post('/materials', data);
+    return response.data;
+  },
+
+  async updateMaterial(id: string, data: { quantity?: number; minLevel?: number }): Promise<any> {
+    const response = await api.put(`/materials/${id}`, data);
+    return response.data;
+  },
 };

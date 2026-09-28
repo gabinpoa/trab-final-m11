@@ -7,9 +7,12 @@ import type { Order } from '../types';
 export default function AdminPage() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [productionQueue, setProductionQueue] = useState<any[]>([]);
+  const [materials, setMaterials] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const [activeTab, setActiveTab] = useState<'orders' | 'production'>('orders');
+  const [activeTab, setActiveTab] = useState<'orders' | 'production' | 'inventory'>('orders');
+  const [showAddMaterial, setShowAddMaterial] = useState(false);
+  const [newMaterial, setNewMaterial] = useState({ name: '', quantity: 0, minLevel: 0 });
 
   useEffect(() => {
     loadData();
@@ -21,9 +24,12 @@ export default function AdminPage() {
       if (activeTab === 'orders') {
         const data = await orderService.getAll();
         setOrders(data);
-      } else {
+      } else if (activeTab === 'production') {
         const data = await adminService.getProductionQueue();
         setProductionQueue(data);
+      } else if (activeTab === 'inventory') {
+        const data = await adminService.getMaterials();
+        setMaterials(data);
       }
     } catch (err: any) {
       setError('Failed to load data');
@@ -67,6 +73,28 @@ export default function AdminPage() {
       } catch (err: any) {
         setError('Failed to update stage');
       }
+    }
+  };
+
+  const handleAddMaterial = async () => {
+    try {
+      await adminService.createMaterial(newMaterial);
+      alert('Material adicionado com sucesso!');
+      setShowAddMaterial(false);
+      setNewMaterial({ name: '', quantity: 0, minLevel: 0 });
+      loadData();
+    } catch (err: any) {
+      setError('Failed to add material');
+    }
+  };
+
+  const handleUpdateMaterial = async (id: string, quantity: number) => {
+    try {
+      await adminService.updateMaterial(id, { quantity });
+      alert('Estoque atualizado com sucesso!');
+      loadData();
+    } catch (err: any) {
+      setError('Failed to update material');
     }
   };
 
@@ -122,9 +150,23 @@ export default function AdminPage() {
               border: 'none',
               borderRadius: '4px',
               cursor: 'pointer',
+              marginRight: '10px',
             }}
           >
             Fila de Produção
+          </button>
+          <button
+            onClick={() => setActiveTab('inventory')}
+            style={{
+              padding: '10px 20px',
+              backgroundColor: activeTab === 'inventory' ? '#007bff' : '#6c757d',
+              color: 'white',
+              border: 'none',
+              borderRadius: '4px',
+              cursor: 'pointer',
+            }}
+          >
+            Estoque
           </button>
         </div>
 
@@ -185,7 +227,96 @@ export default function AdminPage() {
               </div>
             )}
           </div>
-        )}
+        ) : activeTab === 'inventory' ? (
+          <div>
+            <h2>Gerenciamento de Estoque</h2>
+            <button
+              onClick={() => setShowAddMaterial(true)}
+              style={{ padding: '10px 20px', backgroundColor: '#28a745', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', marginBottom: '20px' }}
+            >
+              Adicionar Material
+            </button>
+            
+            {showAddMaterial && (
+              <div style={{ border: '1px solid #ddd', borderRadius: '8px', padding: '20px', marginBottom: '20px', backgroundColor: '#f8f9fa' }}>
+                <h3>Novo Material</h3>
+                <div style={{ marginBottom: '10px' }}>
+                  <label style={{ display: 'block', marginBottom: '5px' }}>Nome:</label>
+                  <input
+                    type="text"
+                    value={newMaterial.name}
+                    onChange={(e) => setNewMaterial({ ...newMaterial, name: e.target.value })}
+                    style={{ padding: '8px', width: '100%', maxWidth: '300px', borderRadius: '4px', border: '1px solid #ddd' }}
+                  />
+                </div>
+                <div style={{ marginBottom: '10px' }}>
+                  <label style={{ display: 'block', marginBottom: '5px' }}>Quantidade:</label>
+                  <input
+                    type="number"
+                    value={newMaterial.quantity}
+                    onChange={(e) => setNewMaterial({ ...newMaterial, quantity: parseInt(e.target.value) || 0 })}
+                    style={{ padding: '8px', width: '100%', maxWidth: '300px', borderRadius: '4px', border: '1px solid #ddd' }}
+                  />
+                </div>
+                <div style={{ marginBottom: '10px' }}>
+                  <label style={{ display: 'block', marginBottom: '5px' }}>Nível Mínimo:</label>
+                  <input
+                    type="number"
+                    value={newMaterial.minLevel}
+                    onChange={(e) => setNewMaterial({ ...newMaterial, minLevel: parseInt(e.target.value) || 0 })}
+                    style={{ padding: '8px', width: '100%', maxWidth: '300px', borderRadius: '4px', border: '1px solid #ddd' }}
+                  />
+                </div>
+                <div style={{ display: 'flex', gap: '10px' }}>
+                  <button
+                    onClick={handleAddMaterial}
+                    style={{ padding: '8px 16px', backgroundColor: '#28a745', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
+                  >
+                    Salvar
+                  </button>
+                  <button
+                    onClick={() => setShowAddMaterial(false)}
+                    style={{ padding: '8px 16px', backgroundColor: '#6c757d', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
+                  >
+                    Cancelar
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {materials.length === 0 ? (
+              <p>Nenhum material cadastrado.</p>
+            ) : (
+              <div style={{ display: 'grid', gap: '15px' }}>
+                {materials.map((material) => (
+                  <div key={material.id} style={{ border: '1px solid #ddd', borderRadius: '8px', padding: '15px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <div>
+                      <h3>{material.name}</h3>
+                      <p><strong>Quantidade:</strong> {material.quantity}</p>
+                      <p><strong>Nível Mínimo:</strong> {material.minLevel}</p>
+                      <p style={{ color: material.quantity < material.minLevel ? 'red' : 'green' }}>
+                        {material.quantity < material.minLevel ? '⚠️ Estoque baixo' : '✅ Estoque OK'}
+                      </p>
+                    </div>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
+                      <input
+                        type="number"
+                        placeholder="Nova quantidade"
+                        style={{ padding: '8px', borderRadius: '4px', border: '1px solid #ddd', width: '150px' }}
+                        onChange={(e) => {
+                          const newValue = parseInt(e.target.value);
+                          if (newValue && newValue > 0) {
+                            handleUpdateMaterial(material.id, newValue);
+                          }
+                        }}
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        ) : null}
       </div>
     </div>
   );
