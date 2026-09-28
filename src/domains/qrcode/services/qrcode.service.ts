@@ -32,7 +32,7 @@ export class QRCodeService {
       // Gerar ou usar trackingCode existente
       let trackingCode = order.trackingCode;
       if (!trackingCode) {
-        trackingCode = this.generateTrackingCode(orderId);
+        trackingCode = this.generateTrackingCode();
         
         // Atualizar pedido com trackingCode
         await prisma.order.update({
@@ -87,7 +87,7 @@ export class QRCodeService {
   /**
    * Gerar código único de rastreamento
    */
-  private generateTrackingCode(orderId: string): string {
+  private generateTrackingCode(): string {
     // Usar gerador de ID curto para garantir unicidade
     return generateShortId();
   }
