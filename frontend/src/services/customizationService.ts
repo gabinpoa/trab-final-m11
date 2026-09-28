@@ -4,7 +4,7 @@ import type { Customization } from '../types';
 export const customizationService = {
   async upload(orderId: string, file: File, comment?: string): Promise<Customization> {
     const formData = new FormData();
-    formData.append('file', file);
+    formData.append('customization', file);
     if (comment) {
       formData.append('comment', comment);
     }

@@ -11,10 +11,10 @@ router.use(authMiddleware);
 router.get('/my', getMyOrders);
 router.post('/', create);
 router.put('/:id', update);
+router.get('/:id', getById); // Allow users to view their own orders
 
 // Admin routes
 router.get('/', roleMiddleware(['admin']), getAll);
-router.get('/:id', roleMiddleware(['admin']), getById);
 router.delete('/:id', roleMiddleware(['admin']), deleteOrder);
 router.patch('/:id/status', roleMiddleware(['admin']), updateStatus);
 
