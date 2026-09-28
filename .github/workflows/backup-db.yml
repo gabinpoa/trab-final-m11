@@ -1,0 +1,52 @@
+name: Database Backup
+
+on:
+  schedule:
+    - cron: '0 2 * * 0' # Domingo 2AM
+  workflow_dispatch:
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Backup database
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: |
+          npx prisma db pull
+          pg_dump $DATABASE_URL > backup.sql
+      
+      - name: Create release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: backup.sql
+          tag_name: backup-$(date +%Y%m%d)
+          name: Database Backup $(date +%Y%m%d)
+          body: Automated database backup
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Cleanup
+        run: rm backup.sql
+      
+      - name: Notify success
+        if: success()
+        run: echo "Database backup completed successfully"
+      
+      - name: Notify failure
+        if: failure()
+        run: echo "Database backup failed"
