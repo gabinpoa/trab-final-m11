@@ -32,7 +32,7 @@ const customizationStorage = multer.diskStorage({
 });
 
 // Filtro para validar tipo de arquivo (MIME type real será validado no middleware de validação)
-const customizationFileFilter = (_req: any, file: Express.Multer.File, cb: multer.FileFilterCallback) => {
+const customizationFileFilter = (_req: any, file: any, cb: any) => {
   const allowedMimes = ['image/jpeg', 'image/png', 'image/webp', 'application/pdf'];
   const allowedExts = ['.jpg', '.jpeg', '.png', '.webp', '.pdf'];
 
