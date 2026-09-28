@@ -259,6 +259,190 @@ Este plano de testes abrange a plataforma de e-commerce para produtos personaliz
 - Admin aprova personalizações
 - Admin visualiza relatórios básicos
 
+## Testes de Frontend
+
+### Cenários de Teste de Frontend
+
+#### Autenticação (authStore)
+- Store inicializa com estado vazio
+- setUser atualiza estado do usuário e isAuthenticated
+- setToken armazena token no localStorage
+- logout limpa estado e localStorage
+- Token é recuperado do localStorage ao inicializar
+
+#### Carrinho (cartStore)
+- Store inicializa com array vazio
+- addItem adiciona novo item ao carrinho
+- addItem incrementa quantidade se item já existe
+- removeItem remove item do carrinho
+- updateQuantity atualiza quantidade de item
+- clearCart limpa todos os itens
+- getTotal calcula total corretamente
+
+#### API Service
+- Interceptor adiciona token JWT aos requests
+- Interceptor redireciona para login em 401
+- Interceptor remove token em 401
+- baseURL é configurada corretamente
+- Headers padrão são aplicados
+
+#### LoginPage
+- Formulário é renderizado corretamente
+- Validação de email funciona
+- Validação de senha funciona
+- Submit com credenciais válidas redireciona
+- Submit com credenciais inválidas mostra erro
+- Loading state é exibido durante request
+- Link de registro funciona
+
+#### ProductsPage
+- Lista de produtos é carregada
+- Loading state é exibido durante carregamento
+- Erro é exibido em caso de falha
+- Busca por nome funciona
+- Filtro por categoria funciona
+- Adicionar ao carrinho funciona
+- Botão é desabilitado sem estoque
+- Imagem do produto é exibida
+
+#### CustomizationPage
+- Formulário de personalização é renderizado
+- Upload de imagem funciona
+- Preview de imagem é exibido
+- Validação de formato funciona
+- Validação de tamanho funciona
+- Progresso de upload é exibido
+- Erro é exibido em caso de falha
+
+#### OrdersPage
+- Lista de pedidos é carregada
+- Detalhes do pedido são exibidos
+- Status do pedido é atualizado
+- QR Code é gerado
+- Link de rastreamento funciona
+
+#### AdminPage
+- Dashboard é renderizado apenas para admin
+- Lista de aprovações é carregada
+- Aprovação de pedido funciona
+- Rejeição de pedido funciona
+- Fila de produção é exibida
+- Atualização de etapa funciona
+
+#### Header Component
+- Links de navegação são exibidos
+- Link de admin é exibido apenas para admin
+- Logout funciona
+- Carrinho mostra quantidade correta
+
+### Testes Automatizados de Frontend
+
+#### Testes Unitários de Stores
+- `authStore.test.ts` - Testes do authStore
+  - Estado inicial
+  - setUser
+  - setToken
+  - logout
+  - Persistência no localStorage
+
+- `cartStore.test.ts` - Testes do cartStore
+  - Estado inicial
+  - addItem
+  - removeItem
+  - updateQuantity
+  - clearCart
+  - getTotal
+
+#### Testes Unitários de Services
+- `api.test.ts` - Testes do API service
+  - Configuração de baseURL
+  - Interceptor de request
+  - Interceptor de response
+  - Tratamento de erro 401
+
+- `productService.test.ts` - Testes do productService
+  - getAll
+  - getById
+  - search
+  - getByCategory
+
+- `orderService.test.ts` - Testes do orderService
+  - create
+  - getAll
+  - getById
+  - getTracking
+
+#### Testes de Componentes
+- `LoginPage.test.tsx` - Testes da página de login
+  - Renderização do formulário
+  - Validação de campos
+  - Submit com sucesso
+  - Submit com erro
+  - Loading state
+
+- `ProductsPage.test.tsx` - Testes da página de produtos
+  - Carregamento de produtos
+  - Exibição de lista
+  - Filtros e busca
+  - Adicionar ao carrinho
+  - Estado de estoque
+
+- `CustomizationPage.test.tsx` - Testes da página de personalização
+  - Renderização do formulário
+  - Upload de imagem
+  - Preview
+  - Validações
+
+- `OrdersPage.test.tsx` - Testes da página de pedidos
+  - Carregamento de pedidos
+  - Exibição de detalhes
+  - Geração de QR Code
+
+- `AdminPage.test.tsx` - Testes da página admin
+  - Renderização condicional
+  - Aprovação/rejeição
+  - Gestão de produção
+
+#### Testes de Integração de Frontend
+- Fluxo completo: Login → Catálogo → Carrinho → Pedido
+- Fluxo de personalização: Produto → Personalização → Upload → Pedido
+- Fluxo de rastreamento: Pedido → QR Code → Rastreamento
+- Fluxo de admin: Login admin → Aprovação → Produção
+
+### Ferramentas de Teste de Frontend
+
+#### Testes Unitários e de Componentes
+- **Vitest**: Framework de testes (compatível com Vite)
+- **React Testing Library**: Testes de componentes React
+- **@testing-library/jest-dom**: Matchers customizados para DOM
+- **@testing-library/user-event**: Simulação de interações do usuário
+
+#### Mocking
+- **vitest.mock**: Mock de módulos
+- **msw**: Mock Service Worker para APIs
+
+#### Cobertura
+- **vitest --coverage**: Cobertura de código
+- **c8**: Ferramenta de cobertura integrada ao Vitest
+
+### Métricas de Qualidade de Frontend
+
+#### Cobertura de Testes
+- Cobertura de componentes: > 80%
+- Cobertura de stores: > 90%
+- Cobertura de services: > 85%
+- Cobertura de páginas: > 75%
+
+#### Performance
+- Time to Interactive: < 3s
+- First Contentful Paint: < 1.5s
+- Largest Contentful Paint: < 2.5s
+
+#### Acessibilidade
+- Score Lighthouse: > 90
+- Contraste de cores: WCAG AA
+- Navegação por teclado: Funcional
+
 ## Critérios de Aceitação
 
 ### Autenticação
@@ -334,6 +518,10 @@ Este plano de testes abrange a plataforma de e-commerce para produtos personaliz
 - [ ] Pedidos podem ser criados
 - [ ] Rastreamento funciona
 - [ ] Admin dashboard funciona
+- [ ] Testes unitários de stores implementados
+- [ ] Testes unitários de services implementados
+- [ ] Testes de componentes implementados
+- [ ] Cobertura de testes > 80%
 
 ## Testes Automatizados
 
