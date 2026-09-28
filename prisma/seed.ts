@@ -95,7 +95,7 @@ async function main() {
       price: 49.90,
       complexity: 1,
       categoryId: category1.id,
-      imageUrl: '/uploads/products/prod-1/foto.jpg',
+      imageUrl: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=400&fit=crop',
     },
   });
 
@@ -109,7 +109,7 @@ async function main() {
       price: 79.90,
       complexity: 3,
       categoryId: category1.id,
-      imageUrl: '/uploads/products/prod-2/foto.jpg',
+      imageUrl: 'https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=400&h=400&fit=crop',
     },
   });
 
@@ -123,7 +123,7 @@ async function main() {
       price: 29.90,
       complexity: 1,
       categoryId: category2.id,
-      imageUrl: '/uploads/products/prod-3/foto.jpg',
+      imageUrl: 'https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?w=400&h=400&fit=crop',
     },
   });
 
@@ -137,7 +137,63 @@ async function main() {
       price: 15.90,
       complexity: 1,
       categoryId: category3.id,
-      imageUrl: '/uploads/products/prod-4/foto.jpg',
+      imageUrl: 'https://images.unsplash.com/photo-1550989460-0adf9ea622e2?w=400&h=400&fit=crop',
+    },
+  });
+
+  await prisma.product.upsert({
+    where: { id: 'prod-5' },
+    update: {},
+    create: {
+      id: 'prod-5',
+      name: 'Camiseta Estampada',
+      description: 'Camiseta com estampa de alta qualidade',
+      price: 59.90,
+      complexity: 2,
+      categoryId: category1.id,
+      imageUrl: 'https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=400&h=400&fit=crop',
+    },
+  });
+
+  await prisma.product.upsert({
+    where: { id: 'prod-6' },
+    update: {},
+    create: {
+      id: 'prod-6',
+      name: 'Caneca de Vidro',
+      description: 'Caneca de vidro resistente com personalização',
+      price: 34.90,
+      complexity: 2,
+      categoryId: category2.id,
+      imageUrl: 'https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?w=400&h=400&fit=crop',
+    },
+  });
+
+  await prisma.product.upsert({
+    where: { id: 'prod-7' },
+    update: {},
+    create: {
+      id: 'prod-7',
+      name: 'Chaveiro de Acrílico',
+      description: 'Chaveiro de acrílico transparente',
+      price: 12.90,
+      complexity: 1,
+      categoryId: category3.id,
+      imageUrl: 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=400&h=400&fit=crop',
+    },
+  });
+
+  await prisma.product.upsert({
+    where: { id: 'prod-8' },
+    update: {},
+    create: {
+      id: 'prod-8',
+      name: 'Camiseta Polo',
+      description: 'Camiseta polo elegante com personalização',
+      price: 89.90,
+      complexity: 3,
+      categoryId: category1.id,
+      imageUrl: 'https://images.unsplash.com/photo-1625910513413-5fc5b5c7a754?w=400&h=400&fit=crop',
     },
   });
 
