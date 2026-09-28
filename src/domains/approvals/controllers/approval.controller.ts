@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { Response } from 'express';
 import { ApprovalService } from '../services/approval.service';
 import { ApproveOrderDto, RejectOrderDto } from '../dto/approval.dto';
 import logger from '../../../shared/utils/logger';
