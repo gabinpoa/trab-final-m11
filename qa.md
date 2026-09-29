@@ -662,59 +662,59 @@ Este plano de testes abrange a plataforma de e-commerce para produtos personaliz
 - Teste de XSS em campos de texto
 - Teste de XSS em upload de arquivos
 
-### Testes E2E (Cypress)
+### Testes E2E (Playwright)
 
 #### Configuração
-- **Framework**: Cypress 16.1.0
-- **Base URL**: http://localhost:5173 (Vite dev server)
+- **Framework**: Playwright (@playwright/test)
+- **Base URL**: http://localhost:5176 (Vite dev server)
+- **Browsers**: Chromium (Chrome), Firefox, WebKit
 - **Viewport**: 1280x720
-- **Video**: Habilitado para debugging
+- **Video**: Habilitado em caso de falha
 - **Screenshots**: Habilitado em caso de falha
-- **Timeout**: 10s para comandos, requests e responses
+- **Timeout**: 30s para testes, 5s para comandos
 
-#### Custom Commands
-- `cy.login(email, password)` - Comando customizado para login
-- `cy.logout()` - Comando customizado para logout
+#### Pré-requisitos para Execução
+Antes de executar os testes E2E, é necessário:
+1. Iniciar o servidor de desenvolvimento do frontend: `npm run dev`
+2. Opcionalmente, iniciar o backend para integração real
+3. Executar os testes em outro terminal: `npm run test:e2e`
 
-#### Testes Implementados
+#### Testes Implementados (8 testes)
 
-##### Login Flow (login.cy.ts)
+##### Login Flow (login.spec.ts) - 4 testes
 - Renderização da página de login
 - Erro ao tentar login com credenciais inválidas
 - Redirecionamento para home após login bem-sucedido
 - Link para página de registro
 
-##### Catalog and Cart Flow (catalog.cy.ts)
-- Renderização da página de catálogo
-- Exibição de lista de produtos
-- Busca de produtos por nome
-- Adição de produto ao carrinho
-- Filtro por categoria
+##### Catalog and Cart Flow (catalog.spec.ts) - 2 testes
+- Renderização da página de catálogo (com mock de autenticação)
+- Exibição de lista de produtos (com mock de autenticação)
 
-##### Customization Flow (customization.cy.ts)
-- Renderização da página de personalização
-- Erro ao tentar enviar sem arquivo
-- Erro ao tentar enviar sem ID do pedido
-- Upload de arquivo
-- Envio de personalização com sucesso
-- Exibição de instruções de upload
+##### Customization Flow (customization.spec.ts) - 2 testes
+- Renderização da página de personalização (com mock de autenticação)
+- Exibição de instruções de upload (com mock de autenticação)
 
-##### Orders Flow (orders.cy.ts)
-- Renderização da página de pedidos
-- Exibição de lista de pedidos
-- Detalhes do pedido ao clicar
-- Geração e exibição de QR Code para rastreamento
+##### Orders Flow (orders.spec.ts) - 1 teste
+- Renderização da página de pedidos (com mock de autenticação)
 
 #### Scripts de Execução
 - `npm run test:e2e` - Executa testes E2E em modo headless
-- `npm run test:e2e:open` - Abre Cypress Test Runner interativo
+- `npm run test:e2e:ui` - Abre Playwright Test Runner interativo
+- `npx playwright install` - Instala navegadores do Playwright
 
-#### Fluxo de Usuário
+#### Limitações Atuais
+- Testes E2E simplificados devido a dependência de autenticação real
+- Rotas protegidas requerem mock de autenticação no localStorage
+- Testes completos de integração requerem backend funcionando
+- Para testes E2E completos, é necessário implementar fluxo de login real nos testes
+
+#### Fluxo de Usuário (Futuro)
 - Cenário: Usuário se registra, faz login, cria pedido
 - Cenário: Usuário busca produto, adiciona ao carrinho, finaliza
 - Cenário: Usuário faz upload de personalização, aprovação, rastreamento
 
-#### Fluxo de Admin
+#### Fluxo de Admin (Futuro)
 - Cenário: Admin faz login, gerencia estoque
 - Cenário: Admin aprova personalização, gerencia produção
 - Cenário: Admin visualiza relatórios
@@ -839,8 +839,8 @@ Este plano de testes abrange a plataforma de e-commerce para produtos personaliz
 - **ts-jest**: Suporte a TypeScript
 
 ### Testes E2E
-- **Cypress**: Testes end-to-end (16.1.0)
-- **Playwright**: Alternativa ao Cypress (não implementado no MVP)
+- **Playwright**: Testes end-to-end (@playwright/test)
+- **Cypress**: Não utilizado (problemas de compatibilidade com Windows 11)
 
 ### Testes de Performance
 - **k6**: Load testing
