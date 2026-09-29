@@ -122,7 +122,8 @@ export default function OrdersPage() {
                       <p style={{ margin: '0', color: '#666' }}>
                         Status: <span style={{ backgroundColor: getStatusColor(order.status), color: 'white', padding: '4px 8px', borderRadius: '4px', fontSize: '12px' }}>{order.status}</span>
                       </p>
-                      <p style={{ margin: '5px 0 0 0', fontWeight: 'bold' }}>R$ {Number(order.total).toFixed(2)}</p>
+                      <p style={{ margin: '5px 0 0 0', fontWeight: 'bold' }}>Total: R$ {Number(order.total).toFixed(2)}</p>
+                      {order.freight && <p style={{ margin: '0', fontSize: '12px', color: '#666' }}>Frete: R$ {Number(order.freight).toFixed(2)}</p>}
                       <p style={{ margin: '0', fontSize: '12px', color: '#999' }}>{new Date(order.createdAt).toLocaleString()}</p>
                     </div>
                     <div style={{ display: 'flex', gap: '10px' }}>

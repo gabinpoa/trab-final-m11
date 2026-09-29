@@ -1,0 +1,124 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: catalog.spec.ts >> Catalog and Cart Flow >> deve renderizar página de catálogo
+- Location: e2e\catalog.spec.ts:36:3
+
+# Error details
+
+```
+Error: expect(locator).toBeVisible() failed
+
+Locator: getByText('Catálogo de Produtos')
+Expected: visible
+Timeout: 5000ms
+Error: element(s) not found
+
+Call log:
+  - Expect "toBeVisible" getByText('Catálogo de Produtos') with timeout 5000ms
+  - waiting for getByText('Catálogo de Produtos')
+
+```
+
+```yaml
+- heading "Login" [level=1]
+- text: "Email:"
+- textbox
+- text: "Password:"
+- textbox
+- button "Login"
+- paragraph:
+  - text: Não tem conta?
+  - link "Registre-se":
+    - /url: /register
+```
+
+# Test source
+
+```ts
+  1  | import { test, expect } from '@playwright/test';
+  2  | 
+  3  | test.describe('Catalog and Cart Flow', () => {
+  4  |   test.beforeEach(async ({ page }) => {
+  5  |     // Mock de API para produtos
+  6  |     await page.route('**/api/products', route => {
+  7  |       route.fulfill({
+  8  |         status: 200,
+  9  |         contentType: 'application/json',
+  10 |         body: JSON.stringify([
+  11 |           {
+  12 |             id: '1',
+  13 |             name: 'Camiseta Personalizada',
+  14 |             description: 'Camiseta de algodão com personalização',
+  15 |             price: 49.90,
+  16 |             complexity: 1,
+  17 |             category: 'camisetas',
+  18 |             imageUrl: 'http://localhost:3000/uploads/products/1/foto.jpg',
+  19 |             stock: 10
+  20 |           },
+  21 |           {
+  22 |             id: '2',
+  23 |             name: 'Caneca Personalizada',
+  24 |             description: 'Caneca de cerâmica com personalização',
+  25 |             price: 29.90,
+  26 |             complexity: 1,
+  27 |             category: 'canecas',
+  28 |             imageUrl: 'http://localhost:3000/uploads/products/2/foto.jpg',
+  29 |             stock: 15
+  30 |           }
+  31 |         ])
+  32 |       });
+  33 |     });
+  34 |   });
+  35 | 
+  36 |   test('deve renderizar página de catálogo', async ({ page }) => {
+  37 |     await page.goto('/products');
+> 38 |     await expect(page.getByText('Catálogo de Produtos')).toBeVisible();
+     |                                                          ^ Error: expect(locator).toBeVisible() failed
+  39 |   });
+  40 | 
+  41 |   test('deve mostrar lista de produtos', async ({ page }) => {
+  42 |     await page.goto('/products');
+  43 |     await expect(page.getByText('Camiseta Personalizada')).toBeVisible();
+  44 |     await expect(page.getByText('Caneca Personalizada')).toBeVisible();
+  45 |   });
+  46 | 
+  47 |   test('deve permitir buscar produtos', async ({ page }) => {
+  48 |     await page.goto('/products');
+  49 |     
+  50 |     await page.getByPlaceholder(/buscar/i).fill('Camiseta');
+  51 |     await page.getByRole('button', { name: /buscar/i }).click();
+  52 |     
+  53 |     await expect(page.getByText('Camiseta Personalizada')).toBeVisible();
+  54 |     await expect(page.getByText('Caneca Personalizada')).not.toBeVisible();
+  55 |   });
+  56 | 
+  57 |   test('deve adicionar produto ao carrinho', async ({ page }) => {
+  58 |     await page.goto('/products');
+  59 |     
+  60 |     await page.getByText('Camiseta Personalizada')
+  61 |       .locator('..')
+  62 |       .getByRole('button', { name: /adicionar/i })
+  63 |       .click();
+  64 |     
+  65 |     // Verifica se o carrinho foi atualizado (ajustar conforme implementação)
+  66 |     await page.getByText('Carrinho').click();
+  67 |     await expect(page.getByText('Camiseta Personalizada')).toBeVisible();
+  68 |   });
+  69 | 
+  70 |   test('deve filtrar por categoria', async ({ page }) => {
+  71 |     await page.goto('/products');
+  72 |     
+  73 |     await page.getByRole('combobox').selectOption('camisetas');
+  74 |     
+  75 |     await expect(page.getByText('Camiseta Personalizada')).toBeVisible();
+  76 |     await expect(page.getByText('Caneca Personalizada')).not.toBeVisible();
+  77 |   });
+  78 | });
+  79 | 
+```
