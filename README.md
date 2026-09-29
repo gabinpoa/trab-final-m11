@@ -220,7 +220,7 @@ Em caso de falha em qualquer passo:
 | Fase 16 | Frontend - Pedidos | ✅ Concluída |
 | Fase 17 | Frontend - Rastreamento | ✅ Concluída |
 | Fase 18 | Frontend - Admin | ✅ Concluída |
-| Fase 19 | Testes e QA | ✅ Concluída (Frontend: 71 testes, Backend: configurado) |
+| Fase 19 | Testes e QA | ✅ Concluída (Frontend: 60 testes, Backend: configurado) |
 | Fase 20 | Requisitos Operacionais | ✅ Concluída |
 | DevOps | Infraestrutura e Operações | ✅ Concluída |
 
