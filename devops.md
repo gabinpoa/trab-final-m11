@@ -45,19 +45,24 @@ stages:
 ### Pipeline Detalhado
 1. **Test Stage** (on push to any branch)
    - Run backend unit tests: `npm test`
-   - Run frontend tests: `npm run test:frontend`
+   - Run frontend unit tests: `npm run test:frontend`
    - Run integration tests: `npm run test:integration`
    - Lint: `npm run lint`
    - Type check: `npm run type-check`
    - Frontend type check: `npm run type-check:frontend`
 
-2. **Build Stage** (on push to main/develop)
+2. **E2E Test Stage** (on push to main/develop)
+   - Run Cypress E2E tests: `npm run test:e2e`
+   - Testar fluxos críticos em navegador real
+   - Gerar screenshots e vídeos em caso de falha
+
+3. **Build Stage** (on push to main/develop)
    - Build Docker image
    - Build frontend: `npm run build:frontend`
    - Security scan básico (npm audit)
    - Push para GitHub Container Registry (gratuito)
 
-3. **Deploy Stage** (on push to main)
+4. **Deploy Stage** (on push to main)
    - Deploy para Render (via webhook ou render CLI)
    - Run database migrations
    - Health check verification
@@ -116,6 +121,39 @@ jobs:
       - run: npm ci
       - run: npm run test:frontend
       - run: npm run test:coverage:frontend
+```
+
+### Workflow de Testes E2E (Cypress)
+```yaml
+# .github/workflows/test-e2e.yml
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run build
+      - run: npm run test:e2e
+      - uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: cypress-screenshots
+          path: cypress/screenshots
+      - uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: cypress-videos
+          path: cypress/videos
 ```
 
 ## Monitoramento
@@ -407,11 +445,16 @@ jobs:
   - Cobertura mínima: 70-75%
   - Tipos: Unitários, integração e E2E
   - Mocking: Jest mocks para serviços externos
-- **Frontend**: Implementar testes com Vitest + React Testing Library
+- **Frontend Unitários**: Implementar testes com Vitest + React Testing Library
   - Cobertura mínima: 60%
   - Tipos: Unitários (stores, services), componentes, integração
   - MSW para mocking de APIs
   - Ambiente: jsdom para simulação de browser
+- **Frontend E2E**: Implementar testes com Cypress
+  - Tipos: Fluxos de usuário completos em navegador real
+  - Cenários: Login, carrinho, pedidos, upload de arquivos
+  - Ambiente: Navegador real (Chrome/Firefox) via headless mode
+  - Artifacts: Screenshots e vídeos em caso de falha
 - **CI/CD**: Testes devem passar antes de deploy
 - **Coverage**: Thresholds configurados para falhar se cobertura cair abaixo do mínimo
 
