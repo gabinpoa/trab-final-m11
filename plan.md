@@ -67,7 +67,8 @@ Implementar uma plataforma monolítica modular para gestão de pedidos de produt
 - **Formulários**: React Hook Form + Zod
 - **UI Components**: Material UI, Chakra UI ou shadcn/ui
 - **QR Code Scanner**: react-qr-reader ou html5-qrcode
-- **Testes**: Vitest + React Testing Library + MSW
+- **Testes Unitários**: Vitest + React Testing Library + MSW
+- **Testes E2E**: Cypress (integração real frontend-backend em navegador)
 
 ### Banco de Dados
 - **SGBD**: PostgreSQL 14+ (recomendado sobre MySQL por features avançadas)
@@ -143,15 +144,16 @@ Implementar uma plataforma monolítica modular para gestão de pedidos de produt
 - **Mocking**: Jest mocks para serviços externos
 
 ### Frontend
-- **Framework**: Vitest (nativo para Vite, mais rápido que Jest)
+- **Framework Unitários**: Vitest (nativo para Vite, mais rápido que Jest)
 - **Component Testing**: React Testing Library (padrão da indústria)
-- **API Mocking**: MSW (Mock Service Worker) para consistência
+- **E2E Testing**: Cypress (testes reais em navegador para integração frontend-backend)
+- **API Mocking**: MSW (Mock Service Worker) para consistência em testes unitários
 - **Tipos de Testes**:
   - Unitários: Stores (Zustand), Services, Utilitários
   - Componentes: Páginas e componentes reutilizáveis
-  - Integração: Fluxos de usuário completos
-- **Cobertura**: Target inicial de 60% (realista para MVP)
-- **Ambiente**: jsdom para simulação de browser
+  - E2E: Fluxos de usuário completos em navegador real (login, carrinho, pedidos)
+- **Cobertura**: Target inicial de 60% para unitários/componentes (realista para MVP)
+- **Ambiente**: jsdom para unitários, navegador real (Chrome/Firefox) para E2E
 
 ## Riscos Técnicos
 
