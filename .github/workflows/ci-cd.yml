@@ -65,26 +65,31 @@ jobs:
       - name: Install dependencies
         run: npm ci
       
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+      
       - name: Build application
         run: npm run build
       
-      - name: Run Cypress E2E tests
+      - name: Run Playwright E2E tests
         run: npm run test:e2e
         continue-on-error: true
       
-      - name: Upload Cypress screenshots
+      - name: Upload Playwright report
         uses: actions/upload-artifact@v3
-        if: failure()
+        if: always()
         with:
-          name: cypress-screenshots
-          path: cypress/screenshots
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 7
       
-      - name: Upload Cypress videos
+      - name: Upload Playwright screenshots
         uses: actions/upload-artifact@v3
         if: failure()
         with:
-          name: cypress-videos
-          path: cypress/videos
+          name: playwright-screenshots
+          path: test-results/
+          retention-days: 7
 
   build:
     runs-on: ubuntu-latest

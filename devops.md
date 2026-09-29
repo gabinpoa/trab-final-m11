@@ -52,9 +52,10 @@ stages:
    - Frontend type check: `npm run type-check:frontend`
 
 2. **E2E Test Stage** (on push to main/develop)
-   - Run Cypress E2E tests: `npm run test:e2e`
-   - Testar fluxos críticos em navegador real
+   - Run Playwright E2E tests: `npm run test:e2e`
+   - Testar fluxos críticos em navegadores reais (Chrome, Firefox, WebKit)
    - Gerar screenshots e vídeos em caso de falha
+   - Gerar relatório HTML de testes
 
 3. **Build Stage** (on push to main/develop)
    - Build Docker image
@@ -123,7 +124,7 @@ jobs:
       - run: npm run test:coverage:frontend
 ```
 
-### Workflow de Testes E2E (Cypress)
+### Workflow de Testes E2E (Playwright)
 ```yaml
 # .github/workflows/test-e2e.yml
 on:
@@ -142,18 +143,21 @@ jobs:
           node-version: '18'
           cache: 'npm'
       - run: npm ci
+      - run: npx playwright install --with-deps
       - run: npm run build
       - run: npm run test:e2e
       - uses: actions/upload-artifact@v3
-        if: failure()
+        if: always()
         with:
-          name: cypress-screenshots
-          path: cypress/screenshots
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 7
       - uses: actions/upload-artifact@v3
         if: failure()
         with:
-          name: cypress-videos
-          path: cypress/videos
+          name: playwright-screenshots
+          path: test-results/
+          retention-days: 7
 ```
 
 ## Monitoramento
@@ -450,11 +454,12 @@ jobs:
   - Tipos: Unitários (stores, services), componentes, integração
   - MSW para mocking de APIs
   - Ambiente: jsdom para simulação de browser
-- **Frontend E2E**: Implementar testes com Cypress
-  - Tipos: Fluxos de usuário completos em navegador real
+- **Frontend E2E**: Implementar testes com Playwright
+  - Tipos: Fluxos de usuário completos em navegadores reais
   - Cenários: Login, carrinho, pedidos, upload de arquivos
-  - Ambiente: Navegador real (Chrome/Firefox) via headless mode
-  - Artifacts: Screenshots e vídeos em caso de falha
+  - Ambiente: Navegadores reais (Chrome, Firefox, WebKit) via headless mode
+  - Artifacts: Screenshots, vídeos e relatório HTML em caso de falha
+  - Compatibilidade: Funciona melhor em Windows 11 que Cypress
 - **CI/CD**: Testes devem passar antes de deploy
 - **Coverage**: Thresholds configurados para falhar se cobertura cair abaixo do mínimo
 
