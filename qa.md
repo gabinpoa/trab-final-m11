@@ -664,6 +664,51 @@ Este plano de testes abrange a plataforma de e-commerce para produtos personaliz
 
 ### Testes E2E (Cypress)
 
+#### Configuração
+- **Framework**: Cypress 16.1.0
+- **Base URL**: http://localhost:5173 (Vite dev server)
+- **Viewport**: 1280x720
+- **Video**: Habilitado para debugging
+- **Screenshots**: Habilitado em caso de falha
+- **Timeout**: 10s para comandos, requests e responses
+
+#### Custom Commands
+- `cy.login(email, password)` - Comando customizado para login
+- `cy.logout()` - Comando customizado para logout
+
+#### Testes Implementados
+
+##### Login Flow (login.cy.ts)
+- Renderização da página de login
+- Erro ao tentar login com credenciais inválidas
+- Redirecionamento para home após login bem-sucedido
+- Link para página de registro
+
+##### Catalog and Cart Flow (catalog.cy.ts)
+- Renderização da página de catálogo
+- Exibição de lista de produtos
+- Busca de produtos por nome
+- Adição de produto ao carrinho
+- Filtro por categoria
+
+##### Customization Flow (customization.cy.ts)
+- Renderização da página de personalização
+- Erro ao tentar enviar sem arquivo
+- Erro ao tentar enviar sem ID do pedido
+- Upload de arquivo
+- Envio de personalização com sucesso
+- Exibição de instruções de upload
+
+##### Orders Flow (orders.cy.ts)
+- Renderização da página de pedidos
+- Exibição de lista de pedidos
+- Detalhes do pedido ao clicar
+- Geração e exibição de QR Code para rastreamento
+
+#### Scripts de Execução
+- `npm run test:e2e` - Executa testes E2E em modo headless
+- `npm run test:e2e:open` - Abre Cypress Test Runner interativo
+
 #### Fluxo de Usuário
 - Cenário: Usuário se registra, faz login, cria pedido
 - Cenário: Usuário busca produto, adiciona ao carrinho, finaliza
@@ -794,8 +839,8 @@ Este plano de testes abrange a plataforma de e-commerce para produtos personaliz
 - **ts-jest**: Suporte a TypeScript
 
 ### Testes E2E
-- **Cypress**: Testes end-to-end
-- **Playwright**: Alternativa ao Cypress
+- **Cypress**: Testes end-to-end (16.1.0)
+- **Playwright**: Alternativa ao Cypress (não implementado no MVP)
 
 ### Testes de Performance
 - **k6**: Load testing
