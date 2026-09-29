@@ -6,19 +6,27 @@ test.describe('Login Flow', () => {
   });
 
   test('deve renderizar a página de login', async ({ page }) => {
-    await expect(page.getByText('Login')).toBeVisible();
-    await expect(page.getByRole('textbox', { type: 'email' })).toBeVisible();
-    await expect(page.getByRole('textbox', { type: 'password' })).toBeVisible();
-    await expect(page.getByRole('button', { type: 'submit' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Login' })).toBeVisible();
+    await expect(page.getByLabel('Email:')).toBeVisible();
+    await expect(page.getByLabel('Password:')).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Login' })).toBeVisible();
   });
 
   test('deve mostrar erro ao tentar login com credenciais inválidas', async ({ page }) => {
-    await page.getByRole('textbox', { type: 'email' }).fill('invalid@test.com');
-    await page.getByRole('textbox', { type: 'password' }).fill('wrongpassword');
-    await page.getByRole('button', { type: 'submit' }).click();
+    // Mock de API response para erro
+    await page.route('**/api/auth/login', route => {
+      route.fulfill({
+        status: 401,
+        contentType: 'application/json',
+        body: JSON.stringify({ message: 'Invalid credentials' })
+      });
+    });
+
+    await page.getByLabel('Email:').fill('invalid@test.com');
+    await page.getByLabel('Password:').fill('wrongpassword');
+    await page.getByRole('button', { name: 'Login' }).click();
     
-    // Verifica se há mensagem de erro (ajustar seletor conforme implementação)
-    await expect(page.getByText(/erro/i)).toBeVisible();
+    await expect(page.getByText(/Login failed/i)).toBeVisible();
   });
 
   test('deve redirecionar para home após login bem-sucedido', async ({ page }) => {
@@ -34,16 +42,16 @@ test.describe('Login Flow', () => {
       });
     });
 
-    await page.getByRole('textbox', { type: 'email' }).fill('test@test.com');
-    await page.getByRole('textbox', { type: 'password' }).fill('password123');
-    await page.getByRole('button', { type: 'submit' }).click();
+    await page.getByLabel('Email:').fill('test@test.com');
+    await page.getByLabel('Password:').fill('password123');
+    await page.getByRole('button', { name: 'Login' }).click();
 
     await expect(page).not.toHaveURL(/\/login/);
   });
 
   test('deve ter link para página de registro', async ({ page }) => {
-    await expect(page.getByText('Registrar')).toBeVisible();
-    await page.getByText('Registrar').click();
+    await expect(page.getByText('Registre-se')).toBeVisible();
+    await page.getByRole('link', { name: 'Registre-se' }).click();
     await expect(page).toHaveURL(/\/register/);
   });
 });
