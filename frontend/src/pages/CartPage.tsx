@@ -57,14 +57,63 @@ export default function CartPage() {
       setLoading(true);
       setError('');
       
-      // Simulação de cálculo de frete (em produção, isso viria da API)
-      const freightValue = getTotal() * 0.1; // 10% do total
+      // Calcular frete baseado na UF (mesma tabela do backend)
+      const cleanCep = cep.replace(/\D/g, '');
+      const uf = await getUFFromCEP(cleanCep);
+      const freightValue = calculateFreightByUF(uf);
       setFreight(freightValue);
     } catch (err: any) {
       setError('Erro ao calcular frete');
     } finally {
       setLoading(false);
     }
+  };
+
+  const getUFFromCEP = async (cep: string): Promise<string> => {
+    try {
+      const response = await fetch(`https://viacep.com.br/ws/${cep}/json`);
+      const data = await response.json();
+      if (data.erro) {
+        throw new Error('CEP não encontrado');
+      }
+      return data.uf;
+    } catch (error) {
+      // Se falhar, retorna valor padrão
+      return 'SP';
+    }
+  };
+
+  const calculateFreightByUF = (uf: string): number => {
+    const freightTable: Record<string, number> = {
+      'SP': 15.00,
+      'RJ': 20.00,
+      'MG': 18.00,
+      'RS': 25.00,
+      'PR': 22.00,
+      'SC': 23.00,
+      'BA': 28.00,
+      'PE': 30.00,
+      'CE': 32.00,
+      'MA': 35.00,
+      'PI': 38.00,
+      'RN': 40.00,
+      'PB': 42.00,
+      'AL': 45.00,
+      'SE': 48.00,
+      'TO': 50.00,
+      'GO': 35.00,
+      'DF': 20.00,
+      'ES': 25.00,
+      'MT': 40.00,
+      'MS': 45.00,
+      'AM': 60.00,
+      'RR': 70.00,
+      'AP': 80.00,
+      'AC': 90.00,
+      'RO': 85.00,
+    };
+
+    return freightTable[uf.toUpperCase()] || 30.00; // Valor padrão
   };
 
   const handleCepChange = (e: React.ChangeEvent<HTMLInputElement>) => {
