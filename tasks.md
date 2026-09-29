@@ -174,8 +174,15 @@
 - ✅ Criados testes unitários para services (api, productService, orderService - 24 testes)
 - ✅ Criados testes de componentes (LoginPage, ProductsPage, CustomizationPage - 11 testes)
 - ✅ Atualizado qa.md com plano de testes de frontend
-- **Total**: 52 testes automatizados para frontend
+- ✅ Configurado Cypress 16.1.0 para testes E2E
+- ✅ Criados testes E2E para login (4 testes)
+- ✅ Criados testes E2E para catálogo e carrinho (5 testes)
+- ✅ Criados testes E2E para personalização (6 testes)
+- ✅ Criados testes E2E para pedidos (4 testes)
+- ✅ Atualizado qa.md com plano de testes E2E
+- **Total**: 52 testes unitários/componentes + 19 testes E2E = 71 testes automatizados para frontend
 - **Branch**: test/frontend-tests → merge local para master
+- **Branch**: test/frontend-e2e-cypress → merge local para master
 
 ### 📋 Pendente
 - Nenhuma fase pendente
