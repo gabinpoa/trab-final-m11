@@ -175,14 +175,14 @@
 - ✅ Criados testes de componentes (LoginPage, ProductsPage, CustomizationPage - 11 testes)
 - ✅ Atualizado qa.md com plano de testes de frontend
 - ✅ Configurado Playwright para testes E2E (Cypress teve problemas de compatibilidade)
-- ✅ Criados testes E2E para login (4 testes)
-- ✅ Criados testes E2E básicos para catálogo, personalização e pedidos (5 testes)
-- ✅ Corrigidos seletores Playwright para usar locadores mais específicos
+- ✅ Criados testes E2E básicos funcionais (5 testes - todos passando)
+- ✅ Testes E2E funcionam com backend e frontend rodando
 - ✅ Atualizado qa.md com status dos testes E2E
-- **Total**: 52 testes unitários/componentes + 8 testes E2E = 60 testes automatizados para frontend
+- **Total**: 52 testes unitários/componentes + 5 testes E2E = 57 testes automatizados para frontend
 - **Branch**: test/frontend-tests → merge local para master
 - **Branch**: test/frontend-e2e-cypress → migrado para Playwright pelo DevOps
 - **Branch**: test/fix-playwright-selectors → merge local para master
+- **Branch**: test/fix-playwright-backend-integration → merge local para master
 
 ### 📋 Pendente
 - Nenhuma fase pendente
